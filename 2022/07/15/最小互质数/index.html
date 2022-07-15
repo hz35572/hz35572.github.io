@@ -1,0 +1,476 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="HHH's Blog" href="http://example.com/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="HHH's Blog" href="http://example.com/atom.xml" />
+<link rel="alternate" type="application/json" title="HHH's Blog" href="http://example.com/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="/css/app.css?v=0.2.5">
+
+  
+  <meta name="keywords" content="数论" />
+
+
+<link rel="canonical" href="http://example.com/2022/07/15/%E6%9C%80%E5%B0%8F%E4%BA%92%E8%B4%A8%E6%95%B0/">
+
+
+
+  <title>
+最小互质数(欧拉筛) - 题解 |
+Yume Shoka = HHH's Blog = hhhhhhhhh</title>
+<meta name="generator" content="Hexo 6.2.0"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">最小互质数(欧拉筛)
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2022-07-15 20:55:28">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-07-15T20:55:28+08:00">2022-07-15</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Yume Shoka</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipevo9j1jj20zk0m8e81.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giph4wqtg4j20zk0m8x6p.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclize41wj20zk0m87gk.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicm0n457cj20zk0m8e81.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipeu1usa7j20zk0m8b29.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipewkhf1zj20zk0m81kx.jpg"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/categories/%E9%A2%98%E8%A7%A3/" itemprop="item" rel="index" title="In 题解"><span itemprop="name">题解</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="en">
+  <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/15/%E6%9C%80%E5%B0%8F%E4%BA%92%E8%B4%A8%E6%95%B0/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/head.jpg">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="hhhhhhhhh, ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="HHH's Blog">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>我们定义两个数的互质数当且仅当gcd(a, b) &#x3D; 1。<br>现在L手里有n个数，分别为a1，a2，a3 ……an-1，an  。<br>问，没有在这n个数中出现过并且与这n个数都互质的最小的数是多少。<br>LL觉得这个问题太简单了，于是她把这个问题交给你来解决<br><strong>输入</strong><br>第一行一个数n (1 ≤ n, ai ≤ 10^5)<br>接下来n行，每行一个数，分别代表a1，a2，a3 ……an-1，an  。<br><strong>输出</strong><br>输出一行代表答案<br><strong>样例输入</strong><br>5<br>1<br>2<br>3<br>4<br>5<br><strong>样例输出</strong><br>7</p>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>   这道题如果用暴力破解肯定会TLE，所以我是先用欧拉筛法标记好10^6以内的素数。然后再用sort函数给输入的数据排好序，从1开始按顺序一一往后查找，只要一出现数组中没有的数，就判断是否是质数（利用前面欧拉筛法标记好的的素数数组），如果是质数，就判断其是不是数组中出现过的数的约数，如果不是那么这个数就是答案，如果是，就继续往后找。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> N 1000005</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> prim[N],a[N],i,j,k,n,cnt=<span class="number">0</span>;</span><br><span class="line"><span class="type">bool</span> isp[N]=&#123;<span class="literal">false</span>&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//欧拉筛法求2~N之间的素数</span></span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">2</span>;i&lt;=N;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!isp[i]) prim[++cnt]=i;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=cnt;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i*prim[j]&gt;N) <span class="keyword">break</span>;</span><br><span class="line">            isp[i*prim[j]]=<span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">if</span>(i%prim[j]==<span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a[i]);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">sort</span>(a+<span class="number">1</span>,a+<span class="number">1</span>+n);</span><br><span class="line">    <span class="keyword">if</span>(a[<span class="number">1</span>]!=<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;1&quot;</span>);<span class="comment">//如果数组中最小的数不是1，则这n个数的最小互质数肯定为1</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">2</span>,k=<span class="number">2</span>;;i++,k++)&#123;</span><br><span class="line">        <span class="type">bool</span> f=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(a[i+<span class="number">1</span>]!=k+<span class="number">1</span>)&#123;<span class="comment">//如果a[i+1]!=k+1,则k+1是这个有序数组没有出现过的数</span></span><br><span class="line">            <span class="keyword">if</span>(!isp[k+<span class="number">1</span>])&#123;<span class="comment">//判断是否为素数</span></span><br><span class="line">                <span class="keyword">if</span>(k+<span class="number">1</span>&gt;a[n])&#123;<span class="comment">//如果k+1大于数组里最大的数，那么它肯定不可能是数组里任何一个数的约数</span></span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,k+<span class="number">1</span>);</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">for</span>(j=i+<span class="number">1</span>;j&lt;=n;j++)&#123;<span class="comment">//判断数组里有没有数能被k+1整除</span></span><br><span class="line">                    <span class="keyword">if</span>(a[j]%(k+<span class="number">1</span>)==<span class="number">0</span>)&#123;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(j&gt;n)&#123;<span class="comment">//数组内没有数能被k+1整除，输出k+1</span></span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,k+<span class="number">1</span>);</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            k++;<span class="comment">//若不符合最小互质数条件，则继续往后查找</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      <div class="tags">
+          <a href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag"><i class="ic i-tag"></i> 数论</a>
+      </div>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2022-07-15 21:06:45" itemprop="dateModified" datetime="2022-07-15T21:06:45+08:00">2022-07-15</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="/images/wechatpay.png" alt="John Doe WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/alipay.jpg" alt="John Doe Alipay">
+        <p>Alipay</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>John Doe <i class="ic i-at"><em>@</em></i>HHH's Blog
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="http://example.com/2022/07/15/%E6%9C%80%E5%B0%8F%E4%BA%92%E8%B4%A8%E6%95%B0/" title="最小互质数(欧拉筛)">http://example.com/2022/07/15/最小互质数/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="/2022/07/13/hello-world/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclxxcb6rj20zk0m8b29.jpg" title="Hello World">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> </span>
+  <h3>Hello World</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="/2022/07/15/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclgrvbd6j20zk0m8qv5.jpg" title="二叉树基本操作">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 数据结构与算法</span>
+  <h3>二叉树基本操作</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">代码</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li class="active"><a href="/2022/07/15/%E6%9C%80%E5%B0%8F%E4%BA%92%E8%B4%A8%E6%95%B0/" rel="bookmark" title="最小互质数(欧拉筛)">最小互质数(欧拉筛)</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="John Doe"
+      data-src="/images/head.jpg">
+  <p class="name" itemprop="name">John Doe</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">6</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">2</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">3</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL2h6MzU1NzI=" title="https:&#x2F;&#x2F;github.com&#x2F;hz35572"><i class="ic i-github"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+        
+  <li class="item dropdown">
+      <a href="javascript:void(0);"><i class="ic i-feather"></i>Posts</a>
+    <ul class="submenu">
+
+        
+  <li class="item">
+    <a href="/archives/" rel="section"><i class="ic i-list-alt"></i>Archives</a>
+  </li>
+
+        
+  <li class="item">
+    <a href="/categories/" rel="section"><i class="ic i-th"></i>Categories</a>
+  </li>
+
+        
+  <li class="item">
+    <a href="/tags/" rel="section"><i class="ic i-tags"></i>Tags</a>
+  </li>
+
+  </ul>
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="/2022/07/13/hello-world/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="/2022/07/15/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2022/07/13/hello-world/" title="Hello World">Hello World</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
+</div>
+
+    <span><a href="/2022/07/15/%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" title="顺序表实现归并排序">顺序表实现归并排序</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
+</div>
+
+    <span><a href="/2022/07/15/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93/" title="树状数组总结">树状数组总结</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E9%A2%98%E8%A7%A3/" title="In 题解">题解</a>
+</div>
+
+    <span><a href="/2022/07/15/%E6%9C%80%E5%B0%8F%E4%BA%92%E8%B4%A8%E6%95%B0/" title="最小互质数(欧拉筛)">最小互质数(欧拉筛)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
+</div>
+
+    <span><a href="/2022/07/15/Acwing4310-%E6%A0%91%E7%9A%84DFS/" title="Acwing4310.树的DFS(dfs序列)">Acwing4310.树的DFS(dfs序列)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
+</div>
+
+    <span><a href="/2022/07/15/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="二叉树基本操作">二叉树基本操作</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2022</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe @ Yume Shoka</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/07/15/最小互质数/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="/js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>
