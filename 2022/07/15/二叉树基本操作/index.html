@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="/css/app.css?v=0.2.5">
 
   
-  <meta name="keywords" content="数据结构" />
+  <meta name="keywords" content="二叉树" />
 
 
 <link rel="canonical" href="http://example.com/2022/07/15/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
@@ -102,12 +102,12 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipesng5oej20zk0m87d4.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipeyonbf9j20zk0m8e81.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipeu1usa7j20zk0m8b29.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gicm07ih54j20zk0m84qp.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipexe4oykj20zk0m87ji.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giclfdu6exj20zk0m87hw.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gicitspjpbj20zk0m81ky.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclffsa1cj20zk0m811l.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipewf5l51j20zk0m8b29.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gicmnywqgpj20zk0m8dwx.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipeyhsblkj20zk0m81kx.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipexj2jgzj20zk0m8b09.jpg"></li>
         </ul>
       </div>
     </header>
@@ -156,7 +156,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
     <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//二叉树的创建和基本操作</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> OK       1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ERROR    0</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> TRUE     1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FALSE    0</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> OVERFLOW  -1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">int</span> Status;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">char</span> TElemType;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">BitNode</span>&#123;</span><br><span class="line">      TElemType data;</span><br><span class="line">	  <span class="keyword">struct</span> <span class="title class_">BitNode</span> *lchild,*rchild;</span><br><span class="line">&#125;BitNode,*BitTree;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">CreateBitTree</span><span class="params">(BitTree &amp;T)</span></span>&#123;</span><br><span class="line">	<span class="comment">//创建一颗二叉树T，按先序遍历的方式创建</span></span><br><span class="line">	<span class="type">char</span> ch;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%c&quot;</span>,&amp;ch);</span><br><span class="line">	<span class="keyword">if</span>(ch==<span class="string">&#x27;#&#x27;</span>) T=<span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(!(T=(BitNode *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(BitNode))))  <span class="keyword">return</span> OVERFLOW;</span><br><span class="line">		T-&gt;data=ch;</span><br><span class="line">        <span class="built_in">CreateBitTree</span>(T-&gt;lchild);</span><br><span class="line">		<span class="built_in">CreateBitTree</span>(T-&gt;rchild);</span><br><span class="line">	&#125;<span class="comment">//if</span></span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;<span class="comment">//CreateBitTree</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">PreOrderTraverse</span><span class="params">(BitTree T)</span></span>&#123;</span><br><span class="line">	<span class="comment">//先序遍历二叉树T</span></span><br><span class="line">	<span class="keyword">if</span>(!T) <span class="keyword">return</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%c &quot;</span>,T-&gt;data);</span><br><span class="line">	<span class="built_in">PreOrderTraverse</span>(T-&gt;lchild);</span><br><span class="line">    <span class="built_in">PreOrderTraverse</span>(T-&gt;rchild);</span><br><span class="line">&#125;<span class="comment">//PreOrderTraverse</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">InOrderTraverse</span><span class="params">(BitTree T)</span></span>&#123;</span><br><span class="line">	<span class="comment">//中序遍历二叉树T</span></span><br><span class="line">	<span class="keyword">if</span>(!T) <span class="keyword">return</span>;</span><br><span class="line">	<span class="built_in">InOrderTraverse</span>(T-&gt;lchild);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%c &quot;</span>,T-&gt;data);	</span><br><span class="line">    <span class="built_in">InOrderTraverse</span>(T-&gt;rchild);</span><br><span class="line">&#125;<span class="comment">//InOrderTraverse</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">PostOrderTraverse</span><span class="params">(BitTree T)</span></span>&#123;</span><br><span class="line">	<span class="comment">//后序遍历二叉树T</span></span><br><span class="line">	<span class="keyword">if</span>(!T) <span class="keyword">return</span>;</span><br><span class="line">	<span class="built_in">PostOrderTraverse</span>(T-&gt;lchild);		</span><br><span class="line">    <span class="built_in">PostOrderTraverse</span>(T-&gt;rchild);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%c &quot;</span>,T-&gt;data);</span><br><span class="line">&#125;<span class="comment">//InOrderTraverse</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">CountNode</span><span class="params">(BitTree T)</span></span>&#123;</span><br><span class="line">	<span class="comment">//求二叉树T的结点总数</span></span><br><span class="line">	<span class="keyword">if</span>(!T) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">CountNode</span>(T-&gt;lchild)+<span class="built_in">CountNode</span>(T-&gt;rchild)+<span class="number">1</span>;</span><br><span class="line">&#125;<span class="comment">//CountNode</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">MyMax</span><span class="params">(<span class="type">int</span> a,<span class="type">int</span> b)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(a&gt;=b) <span class="keyword">return</span> a;</span><br><span class="line">	<span class="keyword">return</span> b;</span><br><span class="line">&#125;<span class="comment">//MyMax</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">GetHigh</span><span class="params">(BitTree T)</span></span>&#123;</span><br><span class="line">	<span class="comment">//求二叉树T的高度</span></span><br><span class="line">	<span class="keyword">if</span>(!T) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">MyMax</span>(<span class="built_in">GetHigh</span>(T-&gt;lchild),<span class="built_in">GetHigh</span>(T-&gt;rchild))+<span class="number">1</span>;</span><br><span class="line">&#125;<span class="comment">//GetHigh</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">CountLeafNode</span><span class="params">(BitTree T)</span></span>&#123;</span><br><span class="line">	<span class="comment">//求二叉树T的叶子结点总数</span></span><br><span class="line">	<span class="keyword">if</span>(!T) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(!T-&gt;lchild&amp;&amp;!T-&gt;rchild) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">CountLeafNode</span>(T-&gt;lchild)+<span class="built_in">CountLeafNode</span>(T-&gt;rchild);</span><br><span class="line">&#125;<span class="comment">//CountNode</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">main</span>()</span><br><span class="line">&#123;</span><br><span class="line">   BitTree T;</span><br><span class="line">   <span class="built_in">CreateBitTree</span>(T);</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;\n先序遍历:&quot;</span>);</span><br><span class="line">   <span class="built_in">PreOrderTraverse</span>(T);</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;\n中序遍历:&quot;</span>);</span><br><span class="line">   <span class="built_in">InOrderTraverse</span>(T);</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;\n后序遍历:&quot;</span>);</span><br><span class="line">   <span class="built_in">PostOrderTraverse</span>(T);</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;\n二叉树的结点数为:%d&quot;</span>,<span class="built_in">CountNode</span>(T));</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;\n二叉树的高度为:%d&quot;</span>,<span class="built_in">GetHigh</span>(T));</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;\n二叉树的叶子结点数为:%d&quot;</span>,<span class="built_in">CountLeafNode</span>(T));</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       <div class="tags">
-          <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"><i class="ic i-tag"></i> 数据结构</a>
+          <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag"><i class="ic i-tag"></i> 二叉树</a>
       </div>
   </div>
 
@@ -168,7 +168,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">Edited on</span>
-    <time title="Modified: 2022-07-15 21:12:16" itemprop="dateModified" datetime="2022-07-15T21:12:16+08:00">2022-07-15</time>
+    <time title="Modified: 2022-07-17 12:07:26" itemprop="dateModified" datetime="2022-07-17T12:07:26+08:00">2022-07-17</time>
   </span>
 </div>
 
@@ -218,7 +218,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
     <div class="item left">
       
 
-  <a href="/2022/07/15/%E6%9C%80%E5%B0%8F%E4%BA%92%E8%B4%A8%E6%95%B0/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva4.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giciusoyjnj219g0u0x56.jpg" title="最小互质数(欧拉筛)">
+  <a href="/2022/07/15/%E6%9C%80%E5%B0%8F%E4%BA%92%E8%B4%A8%E6%95%B0/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giph4baakhj20zk0m8h5q.jpg" title="最小互质数(欧拉筛)">
   <span class="type">Previous Post</span>
   <span class="category"><i class="ic i-flag"></i> 题解</span>
   <h3>最小互质数(欧拉筛)</h3>
@@ -228,7 +228,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
     <div class="item right">
       
 
-  <a href="/2022/07/15/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva4.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipet4bz0yj20zk0m8e81.jpg" title="树状数组总结">
+  <a href="/2022/07/15/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipevarprfj20zk0m8npd.jpg" title="树状数组总结">
   <span class="type">Next Post</span>
   <span class="category"><i class="ic i-flag"></i> 数据结构与算法</span>
   <h3>树状数组总结</h3>
@@ -253,7 +253,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
       </div>
       <div class="related panel pjax" data-title="Related">
         <ul>
-          <li class="active"><a href="/2022/07/15/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" rel="bookmark" title="二叉树基本操作">二叉树基本操作</a></li><li><a href="/2022/07/15/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93/" rel="bookmark" title="树状数组总结">树状数组总结</a></li><li><a href="/2022/07/15/Acwing4310-%E6%A0%91%E7%9A%84DFS/" rel="bookmark" title="Acwing4310.树的DFS(dfs序列)">Acwing4310.树的DFS(dfs序列)</a></li><li><a href="/2022/07/15/%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" rel="bookmark" title="顺序表实现归并排序">顺序表实现归并排序</a></li><li><a href="/2022/07/16/Dijkstra/" rel="bookmark" title="最短路--Dijkstra算法+堆优化">最短路--Dijkstra算法+堆优化</a></li><li><a href="/2022/07/16/Kruskal/" rel="bookmark" title="并查集+最小生成树（Kruskal算法）">并查集+最小生成树（Kruskal算法）</a></li>
+          <li class="active"><a href="/2022/07/15/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" rel="bookmark" title="二叉树基本操作">二叉树基本操作</a></li><li><a href="/2022/07/15/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93/" rel="bookmark" title="树状数组总结">树状数组总结</a></li><li><a href="/2022/07/15/%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" rel="bookmark" title="顺序表实现归并排序">顺序表实现归并排序</a></li><li><a href="/2022/07/16/Dijkstra/" rel="bookmark" title="最短路--Dijkstra算法+堆优化">最短路--Dijkstra算法+堆优化</a></li><li><a href="/2022/07/16/Kruskal/" rel="bookmark" title="并查集+最小生成树（Kruskal算法）">并查集+最小生成树（Kruskal算法）</a></li>
         </ul>
       </div>
       <div class="overview panel" data-title="Overview">
@@ -267,19 +267,19 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
 <nav class="state">
     <div class="item posts">
       <a href="/archives/">
-        <span class="count">8</span>
+        <span class="count">11</span>
         <span class="name">posts</span>
       </a>
     </div>
     <div class="item categories">
       <a href="/categories/">
-        <span class="count">2</span>
+        <span class="count">3</span>
         <span class="name">categories</span>
       </a>
     </div>
     <div class="item tags">
       <a href="/tags/">
-        <span class="count">3</span>
+        <span class="count">7</span>
         <span class="name">tags</span>
       </a>
     </div>
@@ -356,7 +356,27 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
 <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
 </div>
 
-    <span><a href="/2022/07/15/Acwing4310-%E6%A0%91%E7%9A%84DFS/" title="Acwing4310.树的DFS(dfs序列)">Acwing4310.树的DFS(dfs序列)</a></span>
+    <span><a href="/2022/07/15/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="二叉树基本操作">二叉树基本操作</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E9%A2%98%E8%A7%A3/" title="In 题解">题解</a>
+</div>
+
+    <span><a href="/2022/07/17/AcWing4313/" title="AcWing4313. 满二叉树等长路径(递归+贪心）">AcWing4313. 满二叉树等长路径(递归+贪心）</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E9%A2%98%E8%A7%A3/" title="In 题解">题解</a>
+</div>
+
+    <span><a href="/2022/07/17/CF915C/" title="CF915C Permute Digits（搜索+剪枝）">CF915C Permute Digits（搜索+剪枝）</a></span>
   </li>
 
       
@@ -382,10 +402,10 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
+<a href="/categories/C-%E7%AC%94%E8%AE%B0/" title="In C++笔记">C++笔记</a>
 </div>
 
-    <span><a href="/2022/07/15/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93/" title="树状数组总结">树状数组总结</a></span>
+    <span><a href="/2022/07/17/C-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" title="C++右值引用">C++右值引用</a></span>
   </li>
 
       
@@ -395,7 +415,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
 <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
 </div>
 
-    <span><a href="/2022/07/16/Dijkstra/" title="最短路--Dijkstra算法+堆优化">最短路--Dijkstra算法+堆优化</a></span>
+    <span><a href="/2022/07/15/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93/" title="树状数组总结">树状数组总结</a></span>
   </li>
 
       
@@ -415,7 +435,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
 <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
 </div>
 
-    <span><a href="/2022/07/15/%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" title="顺序表实现归并排序">顺序表实现归并排序</a></span>
+    <span><a href="/2022/07/16/Dijkstra/" title="最短路--Dijkstra算法+堆优化">最短路--Dijkstra算法+堆优化</a></span>
   </li>
 
       
@@ -425,7 +445,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
 <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
 </div>
 
-    <span><a href="/2022/07/15/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="二叉树基本操作">二叉树基本操作</a></span>
+    <span><a href="/2022/07/15/%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" title="顺序表实现归并排序">顺序表实现归并排序</a></span>
   </li>
 
   </ul>

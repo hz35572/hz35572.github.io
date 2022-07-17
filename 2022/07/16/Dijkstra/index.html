@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="/css/app.css?v=0.2.5">
 
   
-  <meta name="keywords" content="算法" />
+  <meta name="keywords" content="图论" />
 
 
 <link rel="canonical" href="http://example.com/2022/07/16/Dijkstra/">
@@ -102,12 +102,12 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giclg5ms2rj20zk0m8u0x.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giclfw2t96j20zk0m8x6p.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giclwrdwyaj20zk0m8are.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipeun65urj20zk0m81ii.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipewr8iypj20zk0m8b29.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipexe4oykj20zk0m87ji.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclg5ms2rj20zk0m8u0x.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclh3brzpj20zk0m8ann.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclh5u05ej20zk0m87df.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipexbei4hj20zk0m8npd.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gicit4jrvuj20zk0m8785.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giciryrr3rj20zk0m8nhk.jpg"></li>
         </ul>
       </div>
     </header>
@@ -164,7 +164,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> N 1010</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> inf 0x3f3f3f3f</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt; P;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">edge</span>&#123; <span class="type">int</span> to,cost; &#125;;</span><br><span class="line"><span class="type">int</span> n,m,u,d[N&lt;&lt;<span class="number">1</span>];</span><br><span class="line">vector&lt;edge&gt; G[N&lt;&lt;<span class="number">1</span>];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dijkstra</span><span class="params">(<span class="type">int</span> s)</span></span>&#123;</span><br><span class="line">    <span class="built_in">fill</span>(d,d+n*<span class="number">2</span>+<span class="number">1</span>,inf);</span><br><span class="line">    priority_queue&lt;P,vector&lt;P&gt;,greater&lt;P&gt; &gt; que;</span><br><span class="line">    d[s]=<span class="number">0</span>;</span><br><span class="line">    que.<span class="built_in">push</span>(<span class="built_in">P</span>(<span class="number">0</span>,s));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!que.<span class="built_in">empty</span>())&#123;</span><br><span class="line">        P q=que.<span class="built_in">top</span>();que.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="type">int</span> w=q.first,v=q.second;</span><br><span class="line">        <span class="keyword">if</span>(d[v]&lt;q.first) <span class="keyword">continue</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;G[v].<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            edge e=G[v][i];</span><br><span class="line">            <span class="keyword">if</span>(d[v]+e.cost&lt;d[e.to])&#123;</span><br><span class="line">                d[e.to]=d[v]+e.cost;</span><br><span class="line">                que.<span class="built_in">push</span>(<span class="built_in">P</span>(d[e.to],e.to));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    cout.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">        edge e;</span><br><span class="line">        cin&gt;&gt;u&gt;&gt;e.to&gt;&gt;e.cost;</span><br><span class="line">        G[u].<span class="built_in">push_back</span>(e);</span><br><span class="line">        edge e2;</span><br><span class="line">        e2.to=u+n,e2.cost=e.cost;</span><br><span class="line">        G[e.to+n].<span class="built_in">push_back</span>(e2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">dijkstra</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="type">int</span> ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        ans+=d[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">dijkstra</span>(n+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        ans+=d[n+i];</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       <div class="tags">
-          <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"><i class="ic i-tag"></i> 算法</a>
+          <a href="/tags/%E5%9B%BE%E8%AE%BA/" rel="tag"><i class="ic i-tag"></i> 图论</a>
       </div>
   </div>
 
@@ -176,7 +176,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">Edited on</span>
-    <time title="Modified: 2022-07-16 10:38:09" itemprop="dateModified" datetime="2022-07-16T10:38:09+08:00">2022-07-16</time>
+    <time title="Modified: 2022-07-17 12:06:51" itemprop="dateModified" datetime="2022-07-17T12:06:51+08:00">2022-07-17</time>
   </span>
 </div>
 
@@ -226,7 +226,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
     <div class="item left">
       
 
-  <a href="/2022/07/15/%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva4.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipetfk5zwj20zk0m8e81.jpg" title="顺序表实现归并排序">
+  <a href="/2022/07/15/%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gicm0n457cj20zk0m8e81.jpg" title="顺序表实现归并排序">
   <span class="type">Previous Post</span>
   <span class="category"><i class="ic i-flag"></i> 数据结构与算法</span>
   <h3>顺序表实现归并排序</h3>
@@ -236,7 +236,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
     <div class="item right">
       
 
-  <a href="/2022/07/16/Kruskal/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva4.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclhtuo6nj20zk0m8ttm.jpg" title="并查集+最小生成树（Kruskal算法）">
+  <a href="/2022/07/16/Kruskal/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipesx5fdwj20zk0m81kx.jpg" title="并查集+最小生成树（Kruskal算法）">
   <span class="type">Next Post</span>
   <span class="category"><i class="ic i-flag"></i> 数据结构与算法</span>
   <h3>并查集+最小生成树（Kruskal算法）</h3>
@@ -262,7 +262,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
       </div>
       <div class="related panel pjax" data-title="Related">
         <ul>
-          <li><a href="/2022/07/15/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" rel="bookmark" title="二叉树基本操作">二叉树基本操作</a></li><li><a href="/2022/07/15/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93/" rel="bookmark" title="树状数组总结">树状数组总结</a></li><li><a href="/2022/07/15/Acwing4310-%E6%A0%91%E7%9A%84DFS/" rel="bookmark" title="Acwing4310.树的DFS(dfs序列)">Acwing4310.树的DFS(dfs序列)</a></li><li><a href="/2022/07/15/%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" rel="bookmark" title="顺序表实现归并排序">顺序表实现归并排序</a></li><li class="active"><a href="/2022/07/16/Dijkstra/" rel="bookmark" title="最短路--Dijkstra算法+堆优化">最短路--Dijkstra算法+堆优化</a></li><li><a href="/2022/07/16/Kruskal/" rel="bookmark" title="并查集+最小生成树（Kruskal算法）">并查集+最小生成树（Kruskal算法）</a></li>
+          <li><a href="/2022/07/15/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" rel="bookmark" title="二叉树基本操作">二叉树基本操作</a></li><li><a href="/2022/07/15/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93/" rel="bookmark" title="树状数组总结">树状数组总结</a></li><li><a href="/2022/07/15/%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" rel="bookmark" title="顺序表实现归并排序">顺序表实现归并排序</a></li><li class="active"><a href="/2022/07/16/Dijkstra/" rel="bookmark" title="最短路--Dijkstra算法+堆优化">最短路--Dijkstra算法+堆优化</a></li><li><a href="/2022/07/16/Kruskal/" rel="bookmark" title="并查集+最小生成树（Kruskal算法）">并查集+最小生成树（Kruskal算法）</a></li>
         </ul>
       </div>
       <div class="overview panel" data-title="Overview">
@@ -276,19 +276,19 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
 <nav class="state">
     <div class="item posts">
       <a href="/archives/">
-        <span class="count">8</span>
+        <span class="count">11</span>
         <span class="name">posts</span>
       </a>
     </div>
     <div class="item categories">
       <a href="/categories/">
-        <span class="count">2</span>
+        <span class="count">3</span>
         <span class="name">categories</span>
       </a>
     </div>
     <div class="item tags">
       <a href="/tags/">
-        <span class="count">3</span>
+        <span class="count">7</span>
         <span class="name">tags</span>
       </a>
     </div>
@@ -362,19 +362,10 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
+<a href="/categories/%E9%A2%98%E8%A7%A3/" title="In 题解">题解</a>
 </div>
 
-    <span><a href="/2022/07/16/Dijkstra/" title="最短路--Dijkstra算法+堆优化">最短路--Dijkstra算法+堆优化</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2022/07/13/hello-world/" title="Hello World">Hello World</a></span>
+    <span><a href="/2022/07/15/%E6%9C%80%E5%B0%8F%E4%BA%92%E8%B4%A8%E6%95%B0/" title="最小互质数(欧拉筛)">最小互质数(欧拉筛)</a></span>
   </li>
 
       
@@ -385,26 +376,6 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
 </div>
 
     <span><a href="/2022/07/15/%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" title="顺序表实现归并排序">顺序表实现归并排序</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
-</div>
-
-    <span><a href="/2022/07/15/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93/" title="树状数组总结">树状数组总结</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
-</div>
-
-    <span><a href="/2022/07/15/Acwing4310-%E6%A0%91%E7%9A%84DFS/" title="Acwing4310.树的DFS(dfs序列)">Acwing4310.树的DFS(dfs序列)</a></span>
   </li>
 
       
@@ -434,7 +405,56 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
 <a href="/categories/%E9%A2%98%E8%A7%A3/" title="In 题解">题解</a>
 </div>
 
-    <span><a href="/2022/07/15/%E6%9C%80%E5%B0%8F%E4%BA%92%E8%B4%A8%E6%95%B0/" title="最小互质数(欧拉筛)">最小互质数(欧拉筛)</a></span>
+    <span><a href="/2022/07/15/Acwing4310-%E6%A0%91%E7%9A%84DFS/" title="Acwing4310.树的DFS(dfs序列)">Acwing4310.树的DFS(dfs序列)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E9%A2%98%E8%A7%A3/" title="In 题解">题解</a>
+</div>
+
+    <span><a href="/2022/07/17/CF915C/" title="CF915C Permute Digits（搜索+剪枝）">CF915C Permute Digits（搜索+剪枝）</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
+</div>
+
+    <span><a href="/2022/07/15/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93/" title="树状数组总结">树状数组总结</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/C-%E7%AC%94%E8%AE%B0/" title="In C++笔记">C++笔记</a>
+</div>
+
+    <span><a href="/2022/07/17/C-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" title="C++右值引用">C++右值引用</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E9%A2%98%E8%A7%A3/" title="In 题解">题解</a>
+</div>
+
+    <span><a href="/2022/07/17/AcWing4313/" title="AcWing4313. 满二叉树等长路径(递归+贪心）">AcWing4313. 满二叉树等长路径(递归+贪心）</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2022/07/13/hello-world/" title="Hello World">Hello World</a></span>
   </li>
 
   </ul>
