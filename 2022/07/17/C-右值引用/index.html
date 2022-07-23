@@ -102,12 +102,12 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclflwv2aj20zk0m84qp.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicmnywqgpj20zk0m8dwx.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclh0m9pdj20zk0m8hdt.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclimtf7dj20zk0m8qav.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giciuv0socj20zk0m8qes.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipeu7txpzj20zk0m81kx.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipeybxm1pj20zk0m8niv.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipex2cdtbj20zk0m8x6p.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giph4wqtg4j20zk0m8x6p.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipeyvx1d4j20zk0m8hdt.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giclhtuo6nj20zk0m8ttm.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipet4bz0yj20zk0m8e81.jpg"></li>
         </ul>
       </div>
     </header>
@@ -173,7 +173,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">int</span> &amp;&amp; a = <span class="number">10</span>;</span><br><span class="line">a = <span class="number">100</span>;</span><br><span class="line">cout &lt;&lt; a &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span>&amp;&amp; a = <span class="number">10</span>; <span class="comment">//c++也可以定义常右值引用,但无实际用途</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>右值引用的作用</strong>:如下程序,通过使用move函数将左值转化为右值,然后调用移动构造函数,直接占用临时对象的空间,可以不用开辟新的空间,起到节省空间的作用</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="type">char</span>* name;</span><br><span class="line">	<span class="type">int</span> size;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">Student</span>(<span class="type">int</span> size = <span class="number">0</span>) :<span class="built_in">size</span>(size), <span class="built_in">name</span>(<span class="literal">nullptr</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span> (size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			name = <span class="keyword">new</span> <span class="type">char</span>[size];</span><br><span class="line">			<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">				name[i] = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;constructor&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 深拷贝,将形参的所有内容复制一遍</span></span><br><span class="line">	<span class="built_in">Student</span>(<span class="type">const</span> Student&amp; stu) &#123;</span><br><span class="line">		size = stu.size;</span><br><span class="line">		name = <span class="keyword">new</span> <span class="type">char</span>[size];</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">			name[i] = stu.name[i];</span><br><span class="line">		&#125;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;copy constructor&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 移动构造,直接把别人的东西占为己有</span></span><br><span class="line">	<span class="built_in">Student</span>(Student&amp;&amp; stu) &#123;</span><br><span class="line">		size = stu.size;</span><br><span class="line">		name = stu.name;</span><br><span class="line">		stu.name = <span class="literal">nullptr</span>; <span class="comment">// stu为右值,使用后即将要消亡,所以要将指针赋为空</span></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;move constructor&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	~<span class="built_in">Student</span>() &#123;</span><br><span class="line">		<span class="keyword">delete</span> name;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;delect&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	vector&lt;Student&gt; school;</span><br><span class="line">	<span class="function">Student <span class="title">stu</span><span class="params">(<span class="number">5</span>)</span></span>;</span><br><span class="line">	<span class="comment">// 使用move将左值转化为右值,调用移动构造函数</span></span><br><span class="line">	school.<span class="built_in">push_back</span>(<span class="built_in">move</span>(stu));</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">char</span>* name;</span><br><span class="line">    <span class="type">int</span> size;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Student</span>(<span class="type">int</span> size = <span class="number">0</span>) :<span class="built_in">size</span>(size), <span class="built_in">name</span>(<span class="literal">nullptr</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            name = <span class="keyword">new</span> <span class="type">char</span>[size];</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">                name[i] = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;constructor&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 深拷贝,将形参的所有内容复制一遍</span></span><br><span class="line">    <span class="built_in">Student</span>(<span class="type">const</span> Student&amp; stu) &#123;</span><br><span class="line">        size = stu.size;</span><br><span class="line">        name = <span class="keyword">new</span> <span class="type">char</span>[size];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">            name[i] = stu.name[i];</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;copy constructor&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 移动构造,直接把别人的东西占为己有</span></span><br><span class="line">    <span class="built_in">Student</span>(Student&amp;&amp; stu) &#123;</span><br><span class="line">        size = stu.size;</span><br><span class="line">        name = stu.name;</span><br><span class="line">        stu.name = <span class="literal">nullptr</span>; <span class="comment">// stu为右值,使用后即将要消亡,所以要将指针赋为空</span></span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;move constructor&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ~<span class="built_in">Student</span>() &#123;</span><br><span class="line">        <span class="keyword">delete</span> name;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;delect&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    vector&lt;Student&gt; school;</span><br><span class="line">    <span class="function">Student <span class="title">stu</span><span class="params">(<span class="number">5</span>)</span></span>;</span><br><span class="line">    <span class="comment">// 使用move将左值转化为右值,调用移动构造函数</span></span><br><span class="line">    school.<span class="built_in">push_back</span>(<span class="built_in">move</span>(stu));</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       <div class="tags">
           <a href="/tags/C/" rel="tag"><i class="ic i-tag"></i> C++</a>
@@ -188,7 +188,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">Edited on</span>
-    <time title="Modified: 2022-07-17 17:05:26" itemprop="dateModified" datetime="2022-07-17T17:05:26+08:00">2022-07-17</time>
+    <time title="Modified: 2022-07-23 19:56:03" itemprop="dateModified" datetime="2022-07-23T19:56:03+08:00">2022-07-23</time>
   </span>
 </div>
 
@@ -238,7 +238,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
     <div class="item left">
       
 
-  <a href="/2022/07/17/CF915C/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipew28b65j20zk0m8hdt.jpg" title="CF915C Permute Digits（搜索+剪枝）">
+  <a href="/2022/07/17/CF915C/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva4.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipeuibk9fj20zk0m8ay2.jpg" title="CF915C Permute Digits（搜索+剪枝）">
   <span class="type">Previous Post</span>
   <span class="category"><i class="ic i-flag"></i> 题解</span>
   <h3>CF915C Permute Digits（搜索+剪枝）</h3>
@@ -248,7 +248,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
     <div class="item right">
       
 
-  <a href="/2022/07/18/Cpp%E8%99%9A%E5%87%BD%E6%95%B0%E4%B8%8E%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gicljgocqbj20zk0m8e81.jpg" title="C++虚函数与纯虚函数">
+  <a href="/2022/07/18/Cpp%E8%99%9A%E5%87%BD%E6%95%B0%E4%B8%8E%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva4.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclflwv2aj20zk0m84qp.jpg" title="C++虚函数与纯虚函数">
   <span class="type">Next Post</span>
   <span class="category"><i class="ic i-flag"></i> C++笔记</span>
   <h3>C++虚函数与纯虚函数</h3>
@@ -274,7 +274,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
       </div>
       <div class="related panel pjax" data-title="Related">
         <ul>
-          <li class="active"><a href="/2022/07/17/C-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" rel="bookmark" title="C++右值引用">C++右值引用</a></li><li><a href="/2022/07/18/Cpp%E8%99%9A%E5%87%BD%E6%95%B0%E4%B8%8E%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0/" rel="bookmark" title="C++虚函数与纯虚函数">C++虚函数与纯虚函数</a></li><li><a href="/2022/07/20/Cpp-const%E5%85%B3%E9%94%AE%E5%AD%97/" rel="bookmark" title="C++const关键字">C++const关键字</a></li>
+          <li class="active"><a href="/2022/07/17/C-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" rel="bookmark" title="C++右值引用">C++右值引用</a></li><li><a href="/2022/07/18/Cpp%E8%99%9A%E5%87%BD%E6%95%B0%E4%B8%8E%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0/" rel="bookmark" title="C++虚函数与纯虚函数">C++虚函数与纯虚函数</a></li><li><a href="/2022/07/20/Cpp-const%E5%85%B3%E9%94%AE%E5%AD%97/" rel="bookmark" title="C++const关键字">C++const关键字</a></li><li><a href="/2022/07/23/Cpp-static/" rel="bookmark" title="C++static关键字">C++static关键字</a></li>
         </ul>
       </div>
       <div class="overview panel" data-title="Overview">
@@ -288,7 +288,7 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
 <nav class="state">
     <div class="item posts">
       <a href="/archives/">
-        <span class="count">13</span>
+        <span class="count">14</span>
         <span class="name">posts</span>
       </a>
     </div>
@@ -374,49 +374,10 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/%E9%A2%98%E8%A7%A3/" title="In 题解">题解</a>
-</div>
-
-    <span><a href="/2022/07/15/%E6%9C%80%E5%B0%8F%E4%BA%92%E8%B4%A8%E6%95%B0/" title="最小互质数(欧拉筛)">最小互质数(欧拉筛)</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/%E9%A2%98%E8%A7%A3/" title="In 题解">题解</a>
-</div>
-
-    <span><a href="/2022/07/17/AcWing4313/" title="AcWing4313. 满二叉树等长路径(递归+贪心）">AcWing4313. 满二叉树等长路径(递归+贪心）</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
 <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
 </div>
 
-    <span><a href="/2022/07/15/%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" title="顺序表实现归并排序">顺序表实现归并排序</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2022/07/13/hello-world/" title="Hello World">Hello World</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
-</div>
-
-    <span><a href="/2022/07/16/Dijkstra/" title="最短路--Dijkstra算法+堆优化">最短路--Dijkstra算法+堆优化</a></span>
+    <span><a href="/2022/07/15/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93/" title="树状数组总结">树状数组总结</a></span>
   </li>
 
       
@@ -433,20 +394,30 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/C-%E7%AC%94%E8%AE%B0/" title="In C++笔记">C++笔记</a>
+<a href="/categories/%E9%A2%98%E8%A7%A3/" title="In 题解">题解</a>
 </div>
 
-    <span><a href="/2022/07/18/Cpp%E8%99%9A%E5%87%BD%E6%95%B0%E4%B8%8E%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0/" title="C++虚函数与纯虚函数">C++虚函数与纯虚函数</a></span>
+    <span><a href="/2022/07/15/%E6%9C%80%E5%B0%8F%E4%BA%92%E8%B4%A8%E6%95%B0/" title="最小互质数(欧拉筛)">最小互质数(欧拉筛)</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/%E9%A2%98%E8%A7%A3/" title="In 题解">题解</a>
+<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
 </div>
 
-    <span><a href="/2022/07/17/CF915C/" title="CF915C Permute Digits（搜索+剪枝）">CF915C Permute Digits（搜索+剪枝）</a></span>
+    <span><a href="/2022/07/15/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="二叉树基本操作">二叉树基本操作</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
+</div>
+
+    <span><a href="/2022/07/16/Dijkstra/" title="最短路--Dijkstra算法+堆优化">最短路--Dijkstra算法+堆优化</a></span>
   </li>
 
       
@@ -463,10 +434,39 @@ Yume Shoka = HHH's Blog = hhhhhhhhh</title>
   <li class="item">
     
 <div class="breadcrumb">
+<a href="/categories/C-%E7%AC%94%E8%AE%B0/" title="In C++笔记">C++笔记</a>
+</div>
+
+    <span><a href="/2022/07/18/Cpp%E8%99%9A%E5%87%BD%E6%95%B0%E4%B8%8E%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0/" title="C++虚函数与纯虚函数">C++虚函数与纯虚函数</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2022/07/13/hello-world/" title="Hello World">Hello World</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
 <a href="/categories/%E9%A2%98%E8%A7%A3/" title="In 题解">题解</a>
 </div>
 
-    <span><a href="/2022/07/15/Acwing4310-%E6%A0%91%E7%9A%84DFS/" title="Acwing4310.树的DFS(dfs序列)">Acwing4310.树的DFS(dfs序列)</a></span>
+    <span><a href="/2022/07/17/CF915C/" title="CF915C Permute Digits（搜索+剪枝）">CF915C Permute Digits（搜索+剪枝）</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
+</div>
+
+    <span><a href="/2022/07/15/%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" title="顺序表实现归并排序">顺序表实现归并排序</a></span>
   </li>
 
   </ul>
