@@ -1,0 +1,542 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="HHH's Blog" href="http://example.com/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="HHH's Blog" href="http://example.com/atom.xml" />
+<link rel="alternate" type="application/json" title="HHH's Blog" href="http://example.com/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="/css/app.css?v=0.2.5">
+
+  
+  <meta name="keywords" content="C++" />
+
+
+<link rel="canonical" href="http://example.com/2022/08/10/cpp%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">
+
+
+
+  <title>
+C++智能指针 - C++笔记 |
+Yume Shoka = HHH's Blog = hhhhhhhhh</title>
+<meta name="generator" content="Hexo 6.2.0"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">C++智能指针
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2022-08-10 09:00:41">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-08-10T09:00:41+08:00">2022-08-10</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Yume Shoka</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicm0n457cj20zk0m8e81.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giph47e9vtj20zk0m8x6l.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclx29mstj20zk0m8hdt.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclfdu6exj20zk0m87hw.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giph4fomxoj20zk0m8axp.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipex2cdtbj20zk0m8x6p.jpg"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/categories/C-%E7%AC%94%E8%AE%B0/" itemprop="item" rel="index" title="In C++笔记"><span itemprop="name">C++笔记</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="en">
+  <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/10/cpp%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/head.jpg">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="hhhhhhhhh, ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="HHH's Blog">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>智能指针是C++11引入的新特性,用于解决以下问题:</p>
+<ul>
+<li>有些内存资源已经被释放，但指向它的指针并没有改变指向（成为了野指针），并且后续还在使用；</li>
+<li>有些内存资源已经被释放，后期又试图再释放一次（重复释放同一块内存会导致程序运行崩溃）；</li>
+<li>没有及时释放不再使用的内存资源，造成内存泄漏，程序占用的内存资源越来越多。</li>
+</ul>
+<p>使用智能指针可以很大程度上避免这个问题，因为智能指针就是一个类，当超出了类的作用域时，类会自动调用析构函数，析构函数会自动释放资源。所以，智能指针的作用原理就是在函数结束时自动释放内存空间，避免了手动释放内存空间。</p>
+<p>C++中的智能指针有4种，分别为：<strong>shared_ptr</strong>、<strong>unique_ptr</strong>、<strong>weak_ptr</strong>、<strong>auto_ptr</strong>，其中auto_ptr被C++11弃用。</p>
+<h1 id="三种智能指针的区别"><a href="#三种智能指针的区别" class="headerlink" title="三种智能指针的区别"></a>三种智能指针的区别</h1><p><strong>shared_ptr和unique_ptr都支持的操作</strong><br><img data-src="https://img-blog.csdnimg.cn/f2b3eb13527b456da3aaa7f7d6cc5768.png" alt="在这里插入图片描述"></p>
+<h2 id="unique-ptr指针"><a href="#unique-ptr指针" class="headerlink" title="unique_ptr指针"></a>unique_ptr指针</h2><ul>
+<li><p><strong>unique_ptr原理:</strong><br> unique_ptr实现独占式拥有或严格拥有概念，保证同一时间内只有一个智能指针可以指向该对象。它对于避免资源泄露，例如，以new创建对象后因为发生异常而忘记调用delete时的情形特别有用。</p>
+</li>
+<li><p><strong>unique_ptr操作:</strong><br><img data-src="https://img-blog.csdnimg.cn/4e0a60e7904a40e58405e72bcb1ebc79.png" alt="在这里插入图片描述"><br><strong>以下为unique_ptr的基本使用示例</strong></p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">    <span class="built_in">C</span>() &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;C constructor\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ~<span class="built_in">C</span>() &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;C delete\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun2</span><span class="params">()</span> </span>&#123; <span class="comment">// 测试unique_ptr自动释放内存资源</span></span><br><span class="line">    <span class="function">unique_ptr&lt;C&gt; <span class="title">p1</span><span class="params">(<span class="keyword">new</span> C())</span></span>;</span><br><span class="line">    C* p2 = <span class="keyword">new</span> <span class="built_in">C</span>(); <span class="comment">// 普通指针没有delete不能自动释放内存资源</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">unique_ptr&lt;string&gt; <span class="title">pu1</span><span class="params">(<span class="keyword">new</span> string(<span class="string">&quot;this is pu1&quot;</span>))</span></span>;</span><br><span class="line">    unique_ptr&lt;string&gt; pu2 = <span class="built_in">move</span>(pu1); <span class="comment">//不能直接将unique_ptr赋值,必须要用move()转化为临时对象</span></span><br><span class="line">    unique_ptr&lt;string&gt; pu3;</span><br><span class="line">    pu3 = <span class="built_in">unique_ptr</span>&lt;string&gt;(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">&quot;this is pu3&quot;</span>));</span><br><span class="line">    cout &lt;&lt; *pu2 &lt;&lt; endl;</span><br><span class="line">    <span class="comment">//使用release释放当前unique_ptr指针对所指堆内存的所有权,并且返回一个指向该堆内存指针用reset将该指针赋给pu1</span></span><br><span class="line">    pu1.<span class="built_in">reset</span>(pu3.<span class="built_in">release</span>()); </span><br><span class="line">    cout &lt;&lt; *pu1 &lt;&lt; endl;</span><br><span class="line">    <span class="built_in">fun2</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">输出：</span></span><br><span class="line"><span class="comment">this is pu1</span></span><br><span class="line"><span class="comment">this is pu3</span></span><br><span class="line"><span class="comment">C constructor</span></span><br><span class="line"><span class="comment">C constructor</span></span><br><span class="line"><span class="comment">C delete</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br></pre></td></tr></table></figure>
+<p><strong>为 unique_ptr 自定义释放规则</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">myDel</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">int</span>* p)</span> </span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;myDel\n&quot;</span>;</span><br><span class="line">        <span class="keyword">delete</span>[] p;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//为 unique_ptr 自定义释放规则</span></span><br><span class="line">    <span class="function">unique_ptr&lt;<span class="type">int</span>[], myDel&gt; <span class="title">p_arr</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>[<span class="number">5</span>])</span></span>; <span class="comment">//使用可调用的类</span></span><br><span class="line">    <span class="keyword">auto</span> myDel2 = [](<span class="type">int</span>* p) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;myDel2\n&quot;</span>;</span><br><span class="line">        <span class="keyword">delete</span>[] p;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="function">unique_ptr&lt;<span class="type">int</span>[], <span class="title">decltype</span><span class="params">(myDel2)</span>&gt; <span class="title">p_arr2</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>[<span class="number">5</span>], myDel2)</span></span>; <span class="comment">//使用lambda函数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">输出：</span></span><br><span class="line"><span class="comment">myDel2</span></span><br><span class="line"><span class="comment">myDel</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="shared-ptr指针"><a href="#shared-ptr指针" class="headerlink" title="shared_ptr指针"></a>shared_ptr指针</h2><ul>
+<li><strong>shared_ptr的原理</strong><br>shared_ptr实现共享式拥有概念。多个智能指针可以指向相同对象，该对象和其相关资源会在“最后一个引用被销毁”时候释放。从名字share就可以看出了资源可以被多个指针共享，它使用计数机制来表明资源被几个指针共享。可以通过成员函数use_count()来查看资源的所有者个数。除了可以通过new来构造，还可以通过传入auto_ptr, unique_ptr,weak_ptr来构造。当我们调用release()时，当前指针会释放资源所有权，计数减一。当计数等于0时，资源会被释放。</li>
+<li><strong>shared_ptr的操作</strong></li>
+</ul>
+<p><img data-src="https://img-blog.csdnimg.cn/052ffac4b8c34b87afd2efedc31e5f51.png" alt="在这里插入图片描述"><br><strong>以下为shared_ptr使用示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    </span><br><span class="line">    ~<span class="built_in">B</span>()</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;B delete\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">    ~<span class="built_in">C</span>() &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;C delete\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">auto</span> pc3 = <span class="built_in">make_shared</span>&lt;C&gt;();</span><br><span class="line">    &#123;</span><br><span class="line">        shared_ptr&lt;C&gt; pc1 = pc3; <span class="comment">//由于增加了一个新的指针使用pc3所指的内存资源,所以引用计数增加1</span></span><br><span class="line">        shared_ptr&lt;B&gt; pc2 = <span class="built_in">make_shared</span>&lt;B&gt;();</span><br><span class="line">        cout &lt;&lt; pc3.<span class="built_in">use_count</span>() &lt;&lt; endl;</span><br><span class="line">        cout &lt;&lt; pc2.<span class="built_in">use_count</span>() &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 由于pc1离开其作用域后放弃对内存的“使用权”，引用计数减1</span></span><br><span class="line">    cout &lt;&lt; pc3.<span class="built_in">use_count</span>() &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">该程序输出:</span></span><br><span class="line"><span class="comment">2</span></span><br><span class="line"><span class="comment">1</span></span><br><span class="line"><span class="comment">B delete</span></span><br><span class="line"><span class="comment">1</span></span><br><span class="line"><span class="comment">C delete</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="weak-ptr指针"><a href="#weak-ptr指针" class="headerlink" title="weak_ptr指针"></a>weak_ptr指针</h2><ul>
+<li><p><strong>weak_ptr指针的原理</strong><br>weak_ptr 是一种不控制对象生命周期的智能指针, 它指向一个 shared_ptr 管理的对象。进行该对象的内存管理的是那个强引用的 shared_ptr。weak_ptr只是提供了对管理对象的一个访问手段。weak_ptr 设计的目的是为配合 shared_ptr 而引入的一种智能指针来协助 shared_ptr 工作，它只可以从一个 shared_ptr 或另一个 weak_ptr 对象构造, <strong>它的构造和析构不会引起引用记数的增加或减少</strong>。weak_ptr是用来解决shared_ptr相互引用时的死锁问题，如果说两个shared_ptr相互引用，那么这两个指针的引用计数永远不可能下降为0,资源永远不会释放。它是对对象的一种弱引用，不会增加对象的引用计数，和shared_ptr之间可以相互转化，shared_ptr可以直接赋值给它，它可以通过调用lock函数来获得shared_ptr。</p>
+</li>
+<li><p><strong>weak_ptr的操作</strong><br><img data-src="https://img-blog.csdnimg.cn/f949f74e379740b494b58c04770be85a.png" alt="在这里插入图片描述"><br><strong>weak_ptr避免引用时死锁的示例</strong></p>
+</li>
+</ul>
+<p>(1).shared_ptr相互引用时造成死锁的示例:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdarg&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    shared_ptr&lt;B&gt; pb_; <span class="comment">// weak_ptr指针的构造和析构不会引起引用计数的增加和减少</span></span><br><span class="line">    ~<span class="built_in">A</span>()</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;A delete\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;I am A!&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    shared_ptr&lt;A&gt; pa_;</span><br><span class="line">    ~<span class="built_in">B</span>()</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;B delete\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">shared_ptr&lt;B&gt; <span class="title">pb</span><span class="params">(<span class="keyword">new</span> B())</span></span>;</span><br><span class="line">    <span class="function">shared_ptr&lt;A&gt; <span class="title">pa</span><span class="params">(<span class="keyword">new</span> A())</span></span>;</span><br><span class="line">   </span><br><span class="line">    pb-&gt;pa_ = pa;</span><br><span class="line">    pa-&gt;pb_ = pb;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// pa和pb的引用计数为2,离开此作用域后减为1,所以内存不会被释放</span></span><br><span class="line">    cout &lt;&lt; pa.<span class="built_in">use_count</span>() &lt;&lt; endl; </span><br><span class="line">    cout &lt;&lt; pb.<span class="built_in">use_count</span>() &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">fun</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">输出:</span></span><br><span class="line"><span class="comment">2</span></span><br><span class="line"><span class="comment">2</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>(2).将类中的指针类型改为weak_ptr后:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unordered_set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdarg&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    weak_ptr&lt;B&gt; pb_; <span class="comment">// weak_ptr指针的构造和析构不会引起引用计数的增加和减少</span></span><br><span class="line">    ~<span class="built_in">A</span>()</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;A delete\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;I am A!&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    weak_ptr&lt;A&gt; pa_;</span><br><span class="line">    ~<span class="built_in">B</span>()</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;B delete\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">shared_ptr&lt;B&gt; <span class="title">pb</span><span class="params">(<span class="keyword">new</span> B())</span></span>;</span><br><span class="line">    <span class="function">shared_ptr&lt;A&gt; <span class="title">pa</span><span class="params">(<span class="keyword">new</span> A())</span></span>;</span><br><span class="line">   </span><br><span class="line">    pb-&gt;pa_ = pa;</span><br><span class="line">    pa-&gt;pb_ = pb;</span><br><span class="line">   </span><br><span class="line">    cout &lt;&lt; pa.<span class="built_in">use_count</span>() &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; pb.<span class="built_in">use_count</span>() &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">fun</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">输出：</span></span><br><span class="line"><span class="comment">1</span></span><br><span class="line"><span class="comment">1</span></span><br><span class="line"><span class="comment">A delete</span></span><br><span class="line"><span class="comment">B delete</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p> <strong>注意</strong>：我们不能通过weak_ptr直接访问对象的方法，比如B对象中有一个方法print(),我们不能这样访问，pa-&gt;pb-&gt;print(); 英文pb是一个weak_ptr，应该先把它转化为shared_ptr，如：shared_ptr p &#x3D; pa-&gt;pb_.lock(); p-&gt;print(); </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//pb-&gt;pa_-&gt;print(); 错误</span></span><br><span class="line">	shared_ptr p = pb-&gt;pa_.<span class="built_in">lock</span>();</span><br><span class="line">	p-&gt;<span class="built_in">print</span>();</span><br></pre></td></tr></table></figure>
+
+      <div class="tags">
+          <a href="/tags/C/" rel="tag"><i class="ic i-tag"></i> C++</a>
+      </div>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2022-08-10 15:59:37" itemprop="dateModified" datetime="2022-08-10T15:59:37+08:00">2022-08-10</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="/images/wechatpay.png" alt="John Doe WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/alipay.jpg" alt="John Doe Alipay">
+        <p>Alipay</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>John Doe <i class="ic i-at"><em>@</em></i>HHH's Blog
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="http://example.com/2022/08/10/cpp%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" title="C++智能指针">http://example.com/2022/08/10/cpp智能指针/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="/2022/07/23/Cpp-static/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclfb3vzhj20zk0m8wny.jpg" title="C++static关键字">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> C++笔记</span>
+  <h3>C++static关键字</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.</span> <span class="toc-text">三种智能指针的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#unique-ptr%E6%8C%87%E9%92%88"><span class="toc-number">1.1.</span> <span class="toc-text">unique_ptr指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shared-ptr%E6%8C%87%E9%92%88"><span class="toc-number">1.2.</span> <span class="toc-text">shared_ptr指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#weak-ptr%E6%8C%87%E9%92%88"><span class="toc-number">1.3.</span> <span class="toc-text">weak_ptr指针</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="/2022/07/17/C-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" rel="bookmark" title="C++右值引用">C++右值引用</a></li><li><a href="/2022/07/18/Cpp%E8%99%9A%E5%87%BD%E6%95%B0%E4%B8%8E%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0/" rel="bookmark" title="C++虚函数与纯虚函数">C++虚函数与纯虚函数</a></li><li><a href="/2022/07/20/Cpp-const%E5%85%B3%E9%94%AE%E5%AD%97/" rel="bookmark" title="C++const关键字">C++const关键字</a></li><li><a href="/2022/07/23/Cpp-static/" rel="bookmark" title="C++static关键字">C++static关键字</a></li><li class="active"><a href="/2022/08/10/cpp%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" rel="bookmark" title="C++智能指针">C++智能指针</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="John Doe"
+      data-src="/images/head.jpg">
+  <p class="name" itemprop="name">John Doe</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">15</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">3</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">7</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL2h6MzU1NzI=" title="https:&#x2F;&#x2F;github.com&#x2F;hz35572"><i class="ic i-github"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+        
+  <li class="item dropdown">
+      <a href="javascript:void(0);"><i class="ic i-feather"></i>Posts</a>
+    <ul class="submenu">
+
+        
+  <li class="item">
+    <a href="/archives/" rel="section"><i class="ic i-list-alt"></i>Archives</a>
+  </li>
+
+        
+  <li class="item">
+    <a href="/categories/" rel="section"><i class="ic i-th"></i>Categories</a>
+  </li>
+
+        
+  <li class="item">
+    <a href="/tags/" rel="section"><i class="ic i-tags"></i>Tags</a>
+  </li>
+
+  </ul>
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/C-%E7%AC%94%E8%AE%B0/" title="In C++笔记">C++笔记</a>
+</div>
+
+    <span><a href="/2022/07/17/C-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" title="C++右值引用">C++右值引用</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/C-%E7%AC%94%E8%AE%B0/" title="In C++笔记">C++笔记</a>
+</div>
+
+    <span><a href="/2022/07/20/Cpp-const%E5%85%B3%E9%94%AE%E5%AD%97/" title="C++const关键字">C++const关键字</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/C-%E7%AC%94%E8%AE%B0/" title="In C++笔记">C++笔记</a>
+</div>
+
+    <span><a href="/2022/08/10/cpp%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" title="C++智能指针">C++智能指针</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
+</div>
+
+    <span><a href="/2022/07/16/Kruskal/" title="并查集+最小生成树（Kruskal算法）">并查集+最小生成树（Kruskal算法）</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
+</div>
+
+    <span><a href="/2022/07/15/%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" title="顺序表实现归并排序">顺序表实现归并排序</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E9%A2%98%E8%A7%A3/" title="In 题解">题解</a>
+</div>
+
+    <span><a href="/2022/07/15/Acwing4310-%E6%A0%91%E7%9A%84DFS/" title="Acwing4310.树的DFS(dfs序列)">Acwing4310.树的DFS(dfs序列)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/C-%E7%AC%94%E8%AE%B0/" title="In C++笔记">C++笔记</a>
+</div>
+
+    <span><a href="/2022/07/18/Cpp%E8%99%9A%E5%87%BD%E6%95%B0%E4%B8%8E%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0/" title="C++虚函数与纯虚函数">C++虚函数与纯虚函数</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E9%A2%98%E8%A7%A3/" title="In 题解">题解</a>
+</div>
+
+    <span><a href="/2022/07/17/CF915C/" title="CF915C Permute Digits（搜索+剪枝）">CF915C Permute Digits（搜索+剪枝）</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" title="In 数据结构与算法">数据结构与算法</a>
+</div>
+
+    <span><a href="/2022/07/15/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="二叉树基本操作">二叉树基本操作</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2022/07/13/hello-world/" title="Hello World">Hello World</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2022</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe @ Yume Shoka</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/08/10/cpp智能指针/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="/js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>
