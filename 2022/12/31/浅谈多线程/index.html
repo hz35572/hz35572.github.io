@@ -23,18 +23,18 @@
 <meta property="og:site_name" content="HHH&#39;s Blog">
 <meta property="og:description" content="一、理解线程的概念1.引入线程的原因在多进程服务端中，创建（复制）进程的工作本身会给操作系统带来相当沉重的负担。而且，每个进程都具有独立的内存空间，所以进程间通信的实现难度也会随之提高。换言之，多进程的缺点可概括为：  创建进程的过程会带来一定的开销 为了完成进程间数据交换，需要特殊的 IPC 技术。 但是更大的缺点是下面的： 每秒少则 10 次，多则千次的「上下文切换」是创建进程的最大开销 只有">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/assets/img/post1/fig1.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/6d3393e942e04afd8f2790aea9e6eb7d.png">
+<meta property="og:image" content="http://example.com/2022/12/31/assets/img/post1/fig1.png">
+<meta property="og:image" content="http://example.com/assets/img/post1/fig2.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/b0b398aa97214ba8bec70a7fb91c7e5a.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/f39dc0ff565e48bc879c58e17f39dfde.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/317c9af4dedd4794a893d58445cbb967.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/6333fb8373b346bb8d1ae5c49dd9b454.png">
 <meta property="article:published_time" content="2022-12-31T08:56:24.000Z">
-<meta property="article:modified_time" content="2023-04-17T14:22:44.659Z">
+<meta property="article:modified_time" content="2023-04-18T04:35:51.213Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/assets/img/post1/fig1.png">
+<meta name="twitter:image" content="http://example.com/2022/12/31/assets/img/post1/fig1.png">
   
   
   
@@ -292,13 +292,17 @@
 <li><code>线程间交换数据无需特殊技术</code></li>
 </ul>
 <h2 id="2、线程和进程的差异"><a href="#2、线程和进程的差异" class="headerlink" title="2、线程和进程的差异"></a>2、线程和进程的差异</h2><p>线程是为了解决：为了得到多条代码执行流而复制整个内存区域的负担太重。</p>
-<p>每个进程的内存空间都由保存全局变量的「数据区」、向 malloc 等函数动态分配提供空间的堆（Heap）、函数运行时间使用的栈（Stack）构成。每个进程都有独立的这种空间，多个进程的内存结构如图所示：<br><img src="/../assets/img/post1/fig1.png" srcset="/img/loading.gif" lazyload alt="进程间独立的内存"></p>
+<p>每个进程的内存空间都由保存全局变量的「数据区」、向 malloc 等函数动态分配提供空间的堆（Heap）、函数运行时间使用的栈（Stack）构成。每个进程都有独立的这种空间，多个进程的内存结构如图所示：</p>
+<p align="center">
+<img src="../assets/img/post1/fig1.png" srcset="/img/loading.gif" lazyload >
+</p>
+
 <p>但如果以获得多个代码执行流为目的，则不应该像上图那样完全分离内存结构，而只需分离栈区域。通过这种方式可以获得如下优势：</p>
 <ul>
 <li><code>上下文切换时不需要切换数据区和堆</code></li>
 <li><code>可以利用数据区和堆交换数据</code></li>
 </ul>
-<p>实际上这就是线程。线程为了保持多条代码执行流而隔开了栈区域，因此具有如下图所示的内存结构：<br><img src="https://img-blog.csdnimg.cn/6d3393e942e04afd8f2790aea9e6eb7d.png" srcset="/img/loading.gif" lazyload alt="线程的内存结构"><br>如图所示，多个线程共享数据区和堆。为了保持这种结构，线程将在进程内创建并运行。也就是说，进程和线程可以定义为如下形式：</p>
+<p>实际上这就是线程。线程为了保持多条代码执行流而隔开了栈区域，因此具有如下图所示的内存结构：<br><img src="/../assets/img/post1/fig2.png" srcset="/img/loading.gif" lazyload alt="线程的内存结构"><br>如图所示，多个线程共享数据区和堆。为了保持这种结构，线程将在进程内创建并运行。也就是说，进程和线程可以定义为如下形式：</p>
 <ul>
 <li><code>进程：在操作系统构成单独执行流的单位</code></li>
 <li><code>线程：在进程构成单独执行流的单位</code><br>如果说进程在操作系统内部生成多个执行流，那么线程就在同一进程内部创建多条执行流。因此，操作系统、进程、线程之间的关系可以表示为下图：<br><img src="https://img-blog.csdnimg.cn/b0b398aa97214ba8bec70a7fb91c7e5a.png" srcset="/img/loading.gif" lazyload alt="操作系统、进程、线程之间的关系"></li>
