@@ -16,15 +16,15 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、文件操作 touch aa.txt rm -rf  aa.txt vi aa.txt cat aa.txt  二、目录操作 mkdir aaa	&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;建目录aaa rm -rf aaa &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;删除 aaa目录">
+    <meta name="description" content="一、文件操作1234- touch aa.txt- rm -rf  aa.txt- vi aa.txt- cat aa.txt    二、目录操作123456mkdir aaa	# 建目录aaarm -rf aaa # 删除 aaa目录mv a.txt &#x2F;var&#x2F;log&#x2F;mysql&#x2F;b.txt # 将a.txt文件移动到mysql目录下并名改为b.txt cp &#x2F;usr&#x2F;tmp&#x2F;aaa &#x2F;usr&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux常用命令">
 <meta property="og:url" content="http://example.com/2024/02/10/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
 <meta property="og:site_name" content="HHH&#39;s Blog">
-<meta property="og:description" content="一、文件操作 touch aa.txt rm -rf  aa.txt vi aa.txt cat aa.txt  二、目录操作 mkdir aaa	&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;建目录aaa rm -rf aaa &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;删除 aaa目录">
+<meta property="og:description" content="一、文件操作1234- touch aa.txt- rm -rf  aa.txt- vi aa.txt- cat aa.txt    二、目录操作123456mkdir aaa	# 建目录aaarm -rf aaa # 删除 aaa目录mv a.txt &#x2F;var&#x2F;log&#x2F;mysql&#x2F;b.txt # 将a.txt文件移动到mysql目录下并名改为b.txt cp &#x2F;usr&#x2F;tmp&#x2F;aaa &#x2F;usr&#x2F;">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-02-10T14:41:40.000Z">
-<meta property="article:modified_time" content="2024-03-02T14:19:19.164Z">
+<meta property="article:modified_time" content="2024-06-28T13:10:23.192Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -219,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          681 words
+          470 words
         
       </span>
     
@@ -230,7 +230,7 @@
         
         
         
-          6 mins
+          4 mins
         
       </span>
     
@@ -273,24 +273,25 @@
             
               <div class="markdown-body">
                 
-                <h1 id="一、文件操作"><a href="#一、文件操作" class="headerlink" title="一、文件操作"></a>一、文件操作</h1><ul>
-<li>touch aa.txt</li>
-<li>rm -rf  aa.txt</li>
-<li>vi aa.txt</li>
-<li>cat aa.txt</li>
-</ul>
-<h1 id="二、目录操作"><a href="#二、目录操作" class="headerlink" title="二、目录操作"></a>二、目录操作</h1><ul>
-<li>mkdir aaa	&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;建目录aaa</li>
-<li>rm -rf aaa &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;删除 aaa目录</li>
-<li>mv a.txt &#x2F;var&#x2F;log&#x2F;mysql&#x2F;b.txt &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;将a.txt文件移动到mysql目录下并名改为b.txt </li>
-<li>cp &#x2F;usr&#x2F;tmp&#x2F;aaa &#x2F;usr&#x2F; &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;将aaa文件copy到usr下</li>
-<li>find &#x2F;usr&#x2F;tmp -name ‘a*’ &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;查找&#x2F;usr&#x2F;tmp目录下的所有以a开头的目录或文件<br>pwd	&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;查看当前所在目录</li>
-</ul>
+                <h1 id="一、文件操作"><a href="#一、文件操作" class="headerlink" title="一、文件操作"></a>一、文件操作</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">- touch aa.txt<br>- rm -rf  aa.txt<br>- vi aa.txt<br>- cat aa.txt<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="二、目录操作"><a href="#二、目录操作" class="headerlink" title="二、目录操作"></a>二、目录操作</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">mkdir aaa	# 建目录aaa<br>rm -rf aaa # 删除 aaa目录<br>mv a.txt /var/log/mysql/b.txt # 将a.txt文件移动到mysql目录下并名改为b.txt <br>cp /usr/tmp/aaa /usr/ # 将aaa文件copy到usr下<br>find /usr/tmp -name &#x27;a*&#x27; # 查找/usr/tmp目录下的所有以a开头的目录或文件<br>pwd	# 查看当前所在目录<br></code></pre></td></tr></table></figure>
+
+
+
+
+
 <h1 id="三、高阶指令"><a href="#三、高阶指令" class="headerlink" title="三、高阶指令"></a>三、高阶指令</h1><p><strong>权限修改</strong></p>
-<p>chmod 746 aaa.txt   chmod +x aaa.txt<br>7		 4		 6<br>   421  	421  	421</p>
-<ul>
-<li>rwx   	r–     	rw-       文件的权限<br>d  rwx   	r–     	rw-       目录的权限<br>  用户   用户所在组  其他用户</li>
-</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">chmod 746 aaa.txt   chmod +x aaa.txt<br>7		 4		 6<br>   421  	421  	421<br><br> rwx   	r--     	rw-       文件的权限 <br> d  rwx   	r--     	rw-       目录的权限<br>   用户   用户所在组  其他用户<br></code></pre></td></tr></table></figure>
+
+<p><strong>查看进程</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">top # 实时查看运行内存、cpu利用率<br>ps -ef # 非实时查看<br>ps -ef | grep ping<br></code></pre></td></tr></table></figure>
+
+<p><strong>结束进程</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">kill -9 9888 # 强制杀掉进程号为9888的进程<br>pkill -f mysql   # 结束进程名称为“mysql”的所有进程<br></code></pre></td></tr></table></figure>
+
 
                 
               </div>
@@ -380,6 +381,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/06/15/hello-world/" title="Hello World">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
