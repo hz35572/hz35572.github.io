@@ -16,24 +16,22 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="字典树介绍字典树（TrieTree），是一种树形结构，典型应用是用于统计，排序和保存大量的字符串（但不仅限于字符串,如01字典树）。主要思想是利用字符串的公共前缀来节约存储空间。很好地利用了串的公共前缀，节约了存储空间。字典树主要包含两种操作，插入和查找。比如，我们要怎么用树存下单词”abc”,“abb”,“bca”,”bc”呢？见图由此可以看出： 1、字典树用边表示字母 2、有相同前缀的单词公用">
+    <meta name="description" content="线程安全的懒汉模式 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657#include &lt;iostream&gt;#include &lt;mutex&gt;using namespace std;&#x2F;&#x2F; 线程安全懒汉式template">
 <meta property="og:type" content="article">
-<meta property="og:title" content="字典树">
-<meta property="og:url" content="http://example.com/2024/07/10/%E5%AD%97%E5%85%B8%E6%A0%91/index.html">
+<meta property="og:title" content="单例模式">
+<meta property="og:url" content="http://example.com/2024/07/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="HHH&#39;s Blog">
-<meta property="og:description" content="字典树介绍字典树（TrieTree），是一种树形结构，典型应用是用于统计，排序和保存大量的字符串（但不仅限于字符串,如01字典树）。主要思想是利用字符串的公共前缀来节约存储空间。很好地利用了串的公共前缀，节约了存储空间。字典树主要包含两种操作，插入和查找。比如，我们要怎么用树存下单词”abc”,“abb”,“bca”,”bc”呢？见图由此可以看出： 1、字典树用边表示字母 2、有相同前缀的单词公用">
+<meta property="og:description" content="线程安全的懒汉模式 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657#include &lt;iostream&gt;#include &lt;mutex&gt;using namespace std;&#x2F;&#x2F; 线程安全懒汉式template">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/assets/img/post9/img1.png">
-<meta property="article:published_time" content="2024-07-10T03:25:57.000Z">
-<meta property="article:modified_time" content="2024-07-10T04:34:23.854Z">
+<meta property="article:published_time" content="2024-07-10T05:20:27.000Z">
+<meta property="article:modified_time" content="2024-07-10T06:19:41.041Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/assets/img/post9/img1.png">
   
   
   
-  <title>字典树 - HHH&#39;s Blog</title>
+  <title>单例模式 - HHH&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +196,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="字典树"></span>
+            <span id="subtitle" data-typed-text="单例模式"></span>
           
         </div>
 
@@ -209,8 +207,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-07-10 11:25" pubdate>
-          July 10, 2024 am
+        <time datetime="2024-07-10 13:20" pubdate>
+          July 10, 2024 pm
         </time>
       </span>
     
@@ -221,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k words
+          1.8k words
         
       </span>
     
@@ -232,7 +230,7 @@
         
         
         
-          13 mins
+          15 mins
         
       </span>
     
@@ -270,18 +268,16 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">字典树</h1>
+            <h1 style="display: none">单例模式</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="字典树介绍"><a href="#字典树介绍" class="headerlink" title="字典树介绍"></a>字典树介绍</h1><p>字典树（TrieTree），是一种树形结构，典型应用是用于统计，排序和保存大量的字符串（但不仅限于字符串,如01字典树）。主要思想是利用字符串的公共前缀来节约存储空间。很好地利用了串的公共前缀，节约了存储空间。字典树主要包含两种操作，插入和查找。<br>比如，我们要怎么用树存下单词”abc”,“abb”,“bca”,”bc”呢？见图<br><img src="/../assets/img/post9/img1.png" srcset="/img/loading.gif" lazyload><br>由此可以看出：</p>
-<p>1、字典树用边表示字母</p>
-<p>2、有相同前缀的单词公用前缀节点，那我们可以的得出每个节点最多有26个子节点（在单词只包含小写字母的情况下）</p>
-<p>3、整棵树的根节点是空的。为什么呢？便于插入和查找，这将会在后面解释。</p>
-<p>4、每个单词结束的时候用一个特殊字符表示，图中用的’$‘，那么从根节点到任意一个‘$’所经过的边的所有字母表示一个单词。 </p>
-<p>关于其他字典树的详细介绍见：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_49688477/article/details/118879270">字典树图文详解</a></p>
-<h1 id="使用this指针实现字典树"><a href="#使用this指针实现字典树" class="headerlink" title="使用this指针实现字典树"></a>使用this指针实现字典树</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Trie</span> &#123;<br><span class="hljs-keyword">public</span>:<br>	std::vector&lt;Trie*&gt; children;<br>	<span class="hljs-type">bool</span> isEnd;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">Trie</span>() :<span class="hljs-built_in">children</span>(<span class="hljs-number">26</span>, <span class="hljs-literal">nullptr</span>), <span class="hljs-built_in">isEnd</span>(<span class="hljs-literal">false</span>) &#123;&#125;<br>	<span class="hljs-comment">/* 边上是字符 */</span><br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(std::string word)</span> </span>&#123;<br>		Trie* node = <span class="hljs-keyword">this</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> ch : word) &#123;<br>			<span class="hljs-keyword">if</span> (node-&gt;children[ch - <span class="hljs-string">&#x27;a&#x27;</span>] == <span class="hljs-literal">nullptr</span>) &#123;<br>				node-&gt;children[ch - <span class="hljs-string">&#x27;a&#x27;</span>] = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Trie</span>();<br>			&#125;<br>			node = node-&gt;children[ch - <span class="hljs-string">&#x27;a&#x27;</span>];<br>		&#125;<br>		node-&gt;isEnd = <span class="hljs-literal">true</span>;<br>	&#125;<br>	<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">search</span><span class="hljs-params">(std::string word)</span> </span>&#123;<br>		Trie* node = <span class="hljs-keyword">this</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> ch : word) &#123;<br>			<span class="hljs-keyword">if</span> (node-&gt;children[ch - <span class="hljs-string">&#x27;a&#x27;</span>] != <span class="hljs-literal">nullptr</span>) &#123;<br>				node = node-&gt;children[ch - <span class="hljs-string">&#x27;a&#x27;</span>];<br>			&#125;<br>			<span class="hljs-keyword">else</span> &#123;<br>				<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">return</span> node-&gt;isEnd;<br>	&#125;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	Trie* obj = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Trie</span>();<br>	obj-&gt;<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;beijing&quot;</span>);<br>	obj-&gt;<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;apple&quot;</span>);<br>	<span class="hljs-type">bool</span> res1 = obj-&gt;<span class="hljs-built_in">search</span>(<span class="hljs-string">&quot;apple&quot;</span>);<br>	std::cout &lt;&lt; <span class="hljs-string">&quot;apple is found: &quot;</span> &lt;&lt; res1 &lt;&lt; std:: endl;<br>	<span class="hljs-type">bool</span> res2 = obj-&gt;<span class="hljs-built_in">search</span>(<span class="hljs-string">&quot;app&quot;</span>);<br>	std::cout &lt;&lt; <span class="hljs-string">&quot;app is found: &quot;</span> &lt;&lt; res2 &lt;&lt; std::endl;<br>&#125;<br></code></pre></td></tr></table></figure>
+                <p><strong>线程安全的懒汉模式</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;mutex&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-comment">// 线程安全懒汉式</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Singleton</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">static</span> T* <span class="hljs-title">getInstance</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">if</span>(instance_ == <span class="hljs-literal">nullptr</span>)<br>		&#123;<br>			mutex_.<span class="hljs-built_in">lock</span>();<br>			<span class="hljs-keyword">if</span> (instance_ == <span class="hljs-literal">nullptr</span>)<br>			&#123;<br>				instance_ = <span class="hljs-keyword">new</span> <span class="hljs-built_in">T</span>();<br>			&#125;<br>			mutex_.<span class="hljs-built_in">unlock</span>();<br>		&#125;<br>		<span class="hljs-keyword">return</span> instance_;<br>	&#125;<br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-built_in">Singleton</span>() = <span class="hljs-keyword">delete</span>;<br>	<span class="hljs-built_in">Singleton</span>(<span class="hljs-type">const</span> Singleton&amp;) = <span class="hljs-keyword">delete</span>;<br>	Singleton&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Singleton&amp;) = <span class="hljs-keyword">delete</span>;<br><br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-type">static</span> T* instance_;<br>	<span class="hljs-type">static</span> mutex mutex_;<br>&#125;;<br><br><span class="hljs-comment">// 静态成员变量的外部初始化</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br>T* Singleton&lt;T&gt;::instance_ = <span class="hljs-literal">nullptr</span>;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br>mutex Singleton&lt;T&gt;::mutex_;  <span class="hljs-comment">// 初始化静态互斥锁</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Printer</span><br>&#123;<br>	<span class="hljs-keyword">friend</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Singleton</span>&lt;Printer&gt;;<br><br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-built_in">Printer</span>() = <span class="hljs-keyword">default</span>;<br>	<span class="hljs-built_in">Printer</span>(<span class="hljs-type">const</span> Printer&amp;) = <span class="hljs-keyword">delete</span>;<br>	Printer&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Printer&amp;) = <span class="hljs-keyword">delete</span>;<br><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span> </span>&#123;<br>		cout &lt;&lt; <span class="hljs-string">&quot;Printer&quot;</span> &lt;&lt; endl;<br>	&#125;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	Singleton&lt;Printer&gt;::<span class="hljs-built_in">getInstance</span>()-&gt;<span class="hljs-built_in">print</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>饿汉模式</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-comment">// 饿汉模式</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Singleton</span><br>&#123;<br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-built_in">Singleton</span>() = <span class="hljs-keyword">delete</span>;<br>	<span class="hljs-built_in">Singleton</span>(<span class="hljs-type">const</span> Singleton&amp;) = <span class="hljs-keyword">delete</span>;<br>	Singleton&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Singleton&amp;) = <span class="hljs-keyword">delete</span>;<br><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">static</span> T* <span class="hljs-title">getInstance</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">return</span> instance_;<br>	&#125;<br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-type">static</span> T* instance_;<br>&#125;;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br>T* Singleton&lt;T&gt;::instance_ = <span class="hljs-keyword">new</span> <span class="hljs-built_in">T</span>();<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Printer</span><br>&#123;<br>	<span class="hljs-keyword">friend</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Singleton</span>&lt;Printer&gt;;<br><br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-built_in">Printer</span>() = <span class="hljs-keyword">default</span>;<br>	<span class="hljs-built_in">Printer</span>(<span class="hljs-type">const</span> Printer&amp;) = <span class="hljs-keyword">delete</span>;<br>	Printer&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Printer&amp;) = <span class="hljs-keyword">delete</span>;<br><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span> </span>&#123;<br>		cout &lt;&lt; <span class="hljs-string">&quot;Printer&quot;</span> &lt;&lt; endl;<br>	&#125;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	Singleton&lt;Printer&gt;::<span class="hljs-built_in">getInstance</span>()-&gt;<span class="hljs-built_in">print</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -299,7 +295,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" class="category-chain-item">数据结构与算法</a>
+  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="category-chain-item">设计模式</a>
   
   
 
@@ -314,7 +310,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">#数据结构</a>
+        <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
       
     </div>
   
@@ -326,8 +322,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>字典树</div>
-      <div>http://example.com/2024/07/10/字典树/</div>
+      <div>单例模式</div>
+      <div>http://example.com/2024/07/10/单例模式/</div>
     </div>
     <div class="license-meta">
       
@@ -371,18 +367,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/07/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" title="单例模式">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">单例模式</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/07/02/%E9%9B%B6%E4%B8%80%E4%B8%87%E7%89%A9/" title="零一万物：Yi Model API的使用">
-                        <span class="hidden-mobile">零一万物：Yi Model API的使用</span>
+                      <a href="/2024/07/10/%E5%AD%97%E5%85%B8%E6%A0%91/" title="字典树">
+                        <span class="hidden-mobile">字典树</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
