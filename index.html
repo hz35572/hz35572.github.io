@@ -223,6 +223,67 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2024/11/12/ffmpeg%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81/" target="_self">
+          ffmpeg视频编码
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/12/ffmpeg%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81/" target="_self">
+        <div>
+          一、视频编码流程使用ffmpeg解码视频帧主要可分为两大步骤：初始化编码器和编码视频帧，以下代码以h264为例 1. 初始化编码器初始化编码器包含以下步骤： （1）查找编码器 12345videoCodec = avcodec_find_encoder_by_name(videoCodecName);if (!videoCodec) &#123;    release();    return f
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-11-12 22:59" pubdate>
+              2024-11-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" class="category-chain-item">音视频</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ffmpeg/">#ffmpeg</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81/" target="_self">
           ffmpeg视频解码
         </a>
@@ -231,7 +292,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81/" target="_self">
         <div>
-          一、视频解码流程使用ffmpeg解码视频帧主要可分为两大步骤：初始化解码器和解码视频帧，以下代码以mjpeg为例 1. 初始化解码器初始化解码器主要有以下步骤： （1）查找解码器 123456789101112// 查找MJPEG解码器    pCodec = avcodec_find_decoder_by_name(videoCodecName);    if (pCodec == nullpt
+          一、视频解码流程使用ffmpeg解码视频帧主要可分为两大步骤：初始化解码器和解码视频帧，以下代码以mjpeg为例 1. 初始化解码器初始化解码器主要有以下步骤： （1）查找解码器 1234567// 查找MJPEG解码器    pCodec = avcodec_find_decoder_by_name(videoCodecName);    if (pCodec == nullptr) &#123
         </div>
       </a>
 
@@ -701,67 +762,6 @@
             <i class="iconfont icon-date"></i>
             <time datetime="2023-01-03 22:00" pubdate>
               2023-01-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Linux/">#Linux</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/12/31/%E6%B5%85%E8%B0%88%E5%A4%9A%E7%BA%BF%E7%A8%8B/" target="_self">
-          浅谈多线程
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/12/31/%E6%B5%85%E8%B0%88%E5%A4%9A%E7%BA%BF%E7%A8%8B/" target="_self">
-        <div>
-          一、理解线程的概念1.引入线程的原因在多进程服务端中，创建（复制）进程的工作本身会给操作系统带来相当沉重的负担。而且，每个进程都具有独立的内存空间，所以进程间通信的实现难度也会随之提高。换言之，多进程的缺点可概括为：  创建进程的过程会带来一定的开销 为了完成进程间数据交换，需要特殊的 IPC 技术。 但是更大的缺点是下面的： 每秒少则 10 次，多则千次的「上下文切换」是创建进程的最大开销 只有
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-31 16:56" pubdate>
-              2022-12-31
             </time>
           </div>
         
