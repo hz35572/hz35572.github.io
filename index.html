@@ -223,15 +223,76 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81/" target="_self">
-          ffmpeg视频编码
+        <a href="/2025/07/01/%E6%89%8B%E5%86%99%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" target="_self">
+          C++手写智能指针
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/07/01/%E6%89%8B%E5%86%99%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" target="_self">
         <div>
-          一、视频编码流程使用ffmpeg解码视频帧主要可分为两大步骤：初始化编码器和编码视频帧，以下代码以h264为例 1. 初始化编码器初始化编码器包含以下步骤： （1）查找编码器 12345videoCodec = avcodec_find_encoder_by_name(videoCodecName);if (!videoCodec) &#123;    release();    return f
+          1. 智能指针的核心思想 共享指针：多个指针共享同一对象，通过引用计数自动释放内存 独占指针：单一所有权，禁止拷贝，支持移动语义  2. 共享指针（SharedPtr）实现剖析引用计数类：线程安全的计数管理 123456789class SharedCount &#123;public:    SharedCount() : count_&#123;1&#125; &#123;&#125;  //
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-07-01 23:35" pubdate>
+              2025-07-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/C/" class="category-chain-item">C++</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C/">#C++</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81/" target="_self">
+          ffmpeg视频解码
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81/" target="_self">
+        <div>
+          一、视频解码流程使用ffmpeg解码视频帧主要可分为两大步骤：初始化解码器和解码视频帧，以下代码以mjpeg为例 1. 初始化解码器初始化解码器主要有以下步骤： （1）查找解码器 1234567// 查找MJPEG解码器    pCodec = avcodec_find_decoder_by_name(videoCodecName);    if (pCodec == nullptr) &#123
         </div>
       </a>
 
@@ -284,15 +345,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81/" target="_self">
-          ffmpeg视频解码
+        <a href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81/" target="_self">
+          ffmpeg视频编码
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81/" target="_self">
         <div>
-          一、视频解码流程使用ffmpeg解码视频帧主要可分为两大步骤：初始化解码器和解码视频帧，以下代码以mjpeg为例 1. 初始化解码器初始化解码器主要有以下步骤： （1）查找解码器 1234567// 查找MJPEG解码器    pCodec = avcodec_find_decoder_by_name(videoCodecName);    if (pCodec == nullptr) &#123
+          一、视频编码流程使用ffmpeg解码视频帧主要可分为两大步骤：初始化编码器和编码视频帧，以下代码以h264为例 1. 初始化编码器初始化编码器包含以下步骤： （1）查找编码器 12345videoCodec = avcodec_find_encoder_by_name(videoCodecName);if (!videoCodec) &#123;    release();    return f
         </div>
       </a>
 
@@ -731,67 +792,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/OpenCV/">#OpenCV</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/01/03/%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" target="_self">
-          线程同步
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/01/03/%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" target="_self">
-        <div>
-          一、线程同步的概念首先，观察以下代码： 123456789101112131415161718192021222324252627282930313233343536373839404142434445#include &lt;stdio.h&gt;#include &lt;unistd.h&gt;#include &lt;stdlib.h&gt;#include &lt;pthread.h&gt
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-01-03 22:00" pubdate>
-              2023-01-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Linux/">#Linux</a>
             
           </div>
         
