@@ -24,7 +24,7 @@
 <meta property="og:description" content="AI Agent 经典范式解析（一）：概念与选型大模型（LLM）很能“聊天”，但要真正在业务里落地，需要使用工具、处理多步任务、并在试错中学会改进。这些能力不是靠“一句 prompt”搞定，而是靠一套 Agent 范式来组织。 不同范式决定了智能体“什么时候想、什么时候做、什么时候改”。本文将详细拆解业界最经典的三大范式：ReAct、Plan-and-Solve 和 Reflection。 一、A">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2026-04-05T07:30:20.000Z">
-<meta property="article:modified_time" content="2026-04-05T07:34:10.220Z">
+<meta property="article:modified_time" content="2026-04-05T09:50:25.828Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Agent架构">
 <meta name="twitter:card" content="summary_large_image">
@@ -219,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          9.9k words
+          10k words
         
       </span>
     
@@ -230,7 +230,7 @@
         
         
         
-          83 mins
+          84 mins
         
       </span>
     
@@ -276,7 +276,7 @@
                 <h1 id="AI-Agent-经典范式解析（一）：概念与选型"><a href="#AI-Agent-经典范式解析（一）：概念与选型" class="headerlink" title="AI Agent 经典范式解析（一）：概念与选型"></a>AI Agent 经典范式解析（一）：概念与选型</h1><p>大模型（LLM）很能“聊天”，但要真正在业务里落地，需要使用工具、处理多步任务、并在试错中学会改进。这些能力不是靠“一句 prompt”搞定，而是靠<strong>一套 Agent 范式</strong>来组织。</p>
 <p>不同范式决定了智能体“什么时候想、什么时候做、什么时候改”。本文将详细拆解业界最经典的三大范式：<strong>ReAct</strong>、<strong>Plan-and-Solve</strong> 和 <strong>Reflection</strong>。</p>
 <h2 id="一、Agent-能力光谱总览"><a href="#一、Agent-能力光谱总览" class="headerlink" title="一、Agent 能力光谱总览"></a>一、Agent 能力光谱总览</h2><p>我们可以把三大范式放在一个“能力光谱”里理解：</p>
-<pre class="mermaid">mindmap
+<pre><code class=" mermaid">mindmap
   root((LLM Agent 设计模式))
     ReAct（边想边做）
       推理与动作交替
@@ -289,7 +289,8 @@
     Reflection（反思式学习）
       事后反思 + 语言反馈
       记忆/经验库
-      适合复杂推理、代码生成、长期策略</pre>
+      适合复杂推理、代码生成、长期策略
+</code></pre>
 
 
 
@@ -301,15 +302,16 @@
 <li><strong>Observation</strong>（环境反馈）：工具返回的结果。</li>
 </ul>
 <p>简单讲：<strong>一边思考，一边动手，用动作的反馈修正下一步思考</strong>。</p>
-<h3 id="2-2-运行循环"><a href="#2-2-运行循环" class="headerlink" title="2.2 运行循环"></a>2.2 运行循环</h3><pre class="mermaid">flowchart LR
-  Q[用户问题] --> T1[Thought 1：分析问题]
-  T1 --> A1[Action 1：调用工具]
-  A1 --> O1[Observation 1：环境返回]
-  O1 --> T2[Thought 2：修正思路]
-  T2 --> A2[Action 2：继续调用]
-  A2 --> O2[Observation 2]
-  O2 -->|足够信息| Ans[输出最终答案]
-  O2 -->|需更多信息| T3[Thought 3...]</pre>
+<h3 id="2-2-运行循环"><a href="#2-2-运行循环" class="headerlink" title="2.2 运行循环"></a>2.2 运行循环</h3><pre><code class=" mermaid">flowchart LR
+  Q[&quot;用户问题&quot;] --&gt; T1[&quot;Thought 1: 分析问题&quot;]
+  T1 --&gt; A1[&quot;Action 1: 调用工具&quot;]
+  A1 --&gt; O1[&quot;Observation 1: 环境返回&quot;]
+  O1 --&gt; T2[&quot;Thought 2: 修正思路&quot;]
+  T2 --&gt; A2[&quot;Action 2: 继续调用&quot;]
+  A2 --&gt; O2[&quot;Observation 2&quot;]
+  O2 --&gt;|足够信息| Ans[&quot;输出最终答案&quot;]
+  O2 --&gt;|需更多信息| T3[&quot;Thought 3...&quot;]
+</code></pre>
 
 <h3 id="2-3-Prompt-示意"><a href="#2-3-Prompt-示意" class="headerlink" title="2.3 Prompt 示意"></a>2.3 Prompt 示意</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">Question: 除夕夜除了吃饺子，中国南方还有什么传统美食？<br><br>Thought 1: 我需要查找中国南方在除夕夜的传统饮食习惯。<br>Action 1: Search[南方除夕夜传统美食]<br>Observation 1: 南方除夕夜常吃汤圆、年糕、八宝饭...<br>Thought 2: 已经获取到相关信息，可以总结答案了。<br>Answer: 除夕夜中国南方的传统美食包括汤圆、年糕和八宝饭等...<br></code></pre></td></tr></table></figure>
 
@@ -332,14 +334,15 @@
 <li><strong>适用</strong>：数学推理、多步 QA、业务流程编排。</li>
 </ul>
 <h2 id="四、Reflection-x2F-Reflexion：反思式学习"><a href="#四、Reflection-x2F-Reflexion：反思式学习" class="headerlink" title="四、Reflection &#x2F; Reflexion：反思式学习"></a>四、Reflection &#x2F; Reflexion：反思式学习</h2><h3 id="4-1-核心思想"><a href="#4-1-核心思想" class="headerlink" title="4.1 核心思想"></a>4.1 核心思想</h3><p>传统 RL 需要大量样本+微调，而 Reflexion 选择：<strong>不更新权重，只更新记忆</strong>。<br>当任务失败时，让 LLM 用自然语言反思“哪里错了、为什么错了”，存入记忆库，下次尝试时作为上下文注入。</p>
-<h3 id="4-2-关键组件与循环"><a href="#4-2-关键组件与循环" class="headerlink" title="4.2 关键组件与循环"></a>4.2 关键组件与循环</h3><pre class="mermaid">flowchart LR
-  Q[任务] --> A1[Actor 生成行动]
-  A1 --> E[环境执行]
-  E --> R{成功?}
-  R -->|是| END[结束]
-  R -->|否| RF[Self-Reflection: 生成反思文本]
-  RF --> M[Episodic Memory 保存]
-  M --> A2[Actor 结合反思再次尝试]</pre>
+<h3 id="4-2-关键组件与循环"><a href="#4-2-关键组件与循环" class="headerlink" title="4.2 关键组件与循环"></a>4.2 关键组件与循环</h3><pre><code class=" mermaid">flowchart LR
+  Q[任务] --&gt; A1[Actor 生成行动]
+  A1 --&gt; E[环境执行]
+  E --&gt; R&#123;成功?&#125;
+  R --&gt;|是| END[结束]
+  R --&gt;|否| RF[Self-Reflection: 生成反思文本]
+  RF --&gt; M[Episodic Memory 保存]
+  M --&gt; A2[Actor 结合反思再次尝试]
+</code></pre>
 
 <h3 id="4-3-优缺点与场景"><a href="#4-3-优缺点与场景" class="headerlink" title="4.3 优缺点与场景"></a>4.3 优缺点与场景</h3><ul>
 <li><strong>优点</strong>：对闭源 API 友好；反思过程可读可调试；成功率随轮次提升。</li>
@@ -439,27 +442,28 @@
 <li><strong>退火机制</strong>：第 1 次失败用 GPT-4 反思；第 2 次失败用 GPT-3.5 反思；第 3 次直接返回错误，不再尝试。</li>
 </ul>
 <h2 id="四、统一架构蓝图"><a href="#四、统一架构蓝图" class="headerlink" title="四、统一架构蓝图"></a>四、统一架构蓝图</h2><p>在复杂业务中，这三种范式往往融合在一个 Agent 系统中。推荐以下微服务架构分层：</p>
-<pre class="mermaid">    graph TD
-    User[用户请求] --> Gateway[API 网关 & 鉴权]
-    Gateway --> Orchestrator[核心编排引擎]
+<pre><code class=" mermaid">graph TD
+User[用户请求] --&gt; Gateway[API 网关 &amp; 鉴权]
+Gateway --&gt; Orchestrator[核心编排引擎]
 
-    subgraph 编排层
-        Orchestrator --> Planner[Plan-and-Solve 模块]
-        Planner --> ReActExecutor[ReAct 执行模块]
-        ReActExecutor --> ToolEnv[工具沙箱环境]
-    end
+subgraph 编排层
+    Orchestrator --&gt; Planner[Plan-and-Solve 模块]
+    Planner --&gt; ReActExecutor[ReAct 执行模块]
+    ReActExecutor --&gt; ToolEnv[工具沙箱环境]
+end
 
-    ToolEnv -->|失败/成功| Evaluator[评估模块]
-    Evaluator -->|失败| ReflectionModule[Reflection 反思模块]
-    ReflectionModule -->|修改计划| Planner
+ToolEnv --&gt;|失败/成功| Evaluator[评估模块]
+Evaluator --&gt;|失败| ReflectionModule[Reflection 反思模块]
+ReflectionModule --&gt;|修改计划| Planner
 
-    subgraph 基础设施层
-        ToolEnv
-        Evaluator
-        ReflectionModule --> VectorDB[(向量记忆库)]
-        Orchestrator --> PromptMgr[版本化 Prompt 管理]
-        Orchestrator --> ContextDB[(状态与上下文存储)]
-    end</pre>
+subgraph 基础设施层
+    ToolEnv
+    Evaluator
+    ReflectionModule --&gt; VectorDB[(向量记忆库)]
+    Orchestrator --&gt; PromptMgr[版本化 Prompt 管理]
+    Orchestrator --&gt; ContextDB[(状态与上下文存储)]
+end
+</code></pre>
 
 <p>这套架构做到了：<strong>规划解耦、执行标准、反思可控</strong>。</p>
 <h1 id="AI-Agent-经典范式解析（三）：Python-实战代码精讲"><a href="#AI-Agent-经典范式解析（三）：Python-实战代码精讲" class="headerlink" title="AI Agent 经典范式解析（三）：Python 实战代码精讲"></a>AI Agent 经典范式解析（三）：Python 实战代码精讲</h1><p>前面讲了很多理论，本文我们直接上手。为了让你看清本质，我不使用 LangChain 等重封装框架，而是用最基础的 <code>openai</code> Python SDK，实现这三种范式的<strong>最小可行性代码（MVP）</strong>。</p>
@@ -642,6 +646,19 @@
 
   
 
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('mermaid' in window) {
+        mermaid.init();
+      }
+    });
+  });
+</script>
 
 
 
