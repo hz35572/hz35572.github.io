@@ -1,0 +1,1079 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="OpenCode, AI编程, 终端工具, Claude, GPT, Gemini, LLM, 编程助手, MCP">
+  
+    <meta name="description" content="OpenCode 是一款开源的终端 AI 编程代理，支持 75+ 种 LLM 模型，提供交互式 TUI 界面、多会话管理、LSP 集成等强大功能。本文将从零开始，手把手教你安装、配置和使用 OpenCode，助你提升编码效率。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenCode：终端中的 AI 编程利器——从安装到精通">
+<meta property="og:url" content="http://example.com/2026/04/14/opencode-ai-guide/index.html">
+<meta property="og:site_name" content="HHH&#39;s Blog">
+<meta property="og:description" content="OpenCode 是一款开源的终端 AI 编程代理，支持 75+ 种 LLM 模型，提供交互式 TUI 界面、多会话管理、LSP 集成等强大功能。本文将从零开始，手把手教你安装、配置和使用 OpenCode，助你提升编码效率。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-04-14T15:01:00.000Z">
+<meta property="article:modified_time" content="2026-04-14T15:05:25.946Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="开发工具">
+<meta property="article:tag" content="终端">
+<meta property="article:tag" content="OpenCode">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>OpenCode：终端中的 AI 编程利器——从安装到精通 - HHH&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="OpenCode：终端中的 AI 编程利器——从安装到精通"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-14 23:01" pubdate>
+          April 14, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          71 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">OpenCode：终端中的 AI 编程利器——从安装到精通</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 AI 辅助编程的浪潮中，你可能已经用过 Cursor、Copilot Chat 等 GUI 工具，但如果你是一个终端重度用户，希望在命令行中拥有一位”智能搭档”，那么 <strong>OpenCode</strong> 绝对值得你关注。</p>
+<p>OpenCode 是一款开源的终端 AI 编程代理，基于 Go 语言构建，使用 Bubble Tea 框架打造了流畅的 TUI（终端用户界面）。它支持 OpenAI、Anthropic Claude、Google Gemini、AWS Bedrock、Groq、Azure OpenAI 等 75+ 种 LLM 提供商，让你在终端中就能享受到强大的 AI 编程辅助。</p>
+<blockquote>
+<p>⚠️ <strong>更新提示</strong>：OpenCode 项目现已更名为 <strong>Crush</strong>，由原开发者与 Charm 团队共同维护。本文内容基于 OpenCode 版本撰写，核心概念与操作方式在新项目中保持一致。</p>
+</blockquote>
+<h2 id="一、OpenCode-是什么？"><a href="#一、OpenCode-是什么？" class="headerlink" title="一、OpenCode 是什么？"></a>一、OpenCode 是什么？</h2><p>简单来说，OpenCode 就是<strong>你的终端里的 AI 编程助手</strong>。它不仅能回答问题，还能直接操作你的代码——执行命令、搜索文件、修改代码，全部在终端中完成。</p>
+<h3 id="核心特性一览"><a href="#核心特性一览" class="headerlink" title="核心特性一览"></a>核心特性一览</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>交互式 TUI</strong></td>
+<td>基于 Bubble Tea 构建的终端界面，流畅美观</td>
+</tr>
+<tr>
+<td><strong>多模型支持</strong></td>
+<td>支持 75+ 种 LLM 模型，包括 Claude、GPT、Gemini 等</td>
+</tr>
+<tr>
+<td><strong>会话管理</strong></td>
+<td>支持多会话并行，方便切换上下文</td>
+</tr>
+<tr>
+<td><strong>工具集成</strong></td>
+<td>AI 可执行命令、搜索文件、修改代码</td>
+</tr>
+<tr>
+<td><strong>Vim 风格编辑器</strong></td>
+<td>内置编辑器，支持快捷键操作</td>
+</tr>
+<tr>
+<td><strong>LSP 集成</strong></td>
+<td>支持语言服务器协议，提供代码智能感知</td>
+</tr>
+<tr>
+<td><strong>文件变更追踪</strong></td>
+<td>可视化追踪会话中的文件修改</td>
+</tr>
+<tr>
+<td><strong>自定义命令</strong></td>
+<td>支持创建自定义 Markdown 命令模板</td>
+</tr>
+<tr>
+<td><strong>MCP 协议</strong></td>
+<td>通过 Model Context Protocol 扩展外部工具</td>
+</tr>
+<tr>
+<td><strong>隐私优先</strong></td>
+<td>不存储你的代码和上下文数据</td>
+</tr>
+</tbody></table>
+<h2 id="二、安装-OpenCode"><a href="#二、安装-OpenCode" class="headerlink" title="二、安装 OpenCode"></a>二、安装 OpenCode</h2><p>OpenCode 提供了多种安装方式，选择最适合你的即可。</p>
+<h3 id="2-1-一键脚本安装（推荐）"><a href="#2-1-一键脚本安装（推荐）" class="headerlink" title="2.1 一键脚本安装（推荐）"></a>2.1 一键脚本安装（推荐）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 安装最新版本</span><br>curl -fsSL https://raw.githubusercontent.com/opencode-ai/opencode/refs/heads/main/install | bash<br><br><span class="hljs-comment"># 安装指定版本</span><br>curl -fsSL https://raw.githubusercontent.com/opencode-ai/opencode/refs/heads/main/install | VERSION=0.1.0 bash<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-2-Homebrew-安装（macOS-x2F-Linux）"><a href="#2-2-Homebrew-安装（macOS-x2F-Linux）" class="headerlink" title="2.2 Homebrew 安装（macOS&#x2F;Linux）"></a>2.2 Homebrew 安装（macOS&#x2F;Linux）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">brew install opencode-ai/tap/opencode<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-3-Arch-Linux（AUR）"><a href="#2-3-Arch-Linux（AUR）" class="headerlink" title="2.3 Arch Linux（AUR）"></a>2.3 Arch Linux（AUR）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 使用 yay</span><br>yay -S opencode-ai-bin<br><br><span class="hljs-comment"># 使用 paru</span><br>paru -S opencode-ai-bin<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-4-Go-编译安装"><a href="#2-4-Go-编译安装" class="headerlink" title="2.4 Go 编译安装"></a>2.4 Go 编译安装</h3><p>如果你已经安装了 Go 环境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">go install github.com/opencode-ai/opencode@latest<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-5-Windows-用户"><a href="#2-5-Windows-用户" class="headerlink" title="2.5 Windows 用户"></a>2.5 Windows 用户</h3><p>Windows 用户可以通过以下方式安装：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># 使用 Go 安装（需先安装 Go）</span><br>go install github.com/opencode<span class="hljs-literal">-ai</span>/opencode@latest<br><br><span class="hljs-comment"># 或从 GitHub Releases 页面下载预编译二进制文件</span><br><span class="hljs-comment"># https://github.com/opencode-ai/opencode/releases</span><br></code></pre></td></tr></table></figure>
+
+<p>安装完成后，验证一下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">opencode --<span class="hljs-built_in">help</span><br></code></pre></td></tr></table></figure>
+
+<p>看到帮助信息输出，说明安装成功！</p>
+<h2 id="三、配置-OpenCode"><a href="#三、配置-OpenCode" class="headerlink" title="三、配置 OpenCode"></a>三、配置 OpenCode</h2><h3 id="3-1-配置文件位置"><a href="#3-1-配置文件位置" class="headerlink" title="3.1 配置文件位置"></a>3.1 配置文件位置</h3><p>OpenCode 按以下顺序查找配置文件（优先级从高到低）：</p>
+<ol>
+<li>当前目录：<code>./.opencode.json</code>（项目级配置）</li>
+<li>用户目录：<code>$HOME/.opencode.json</code></li>
+<li>XDG 目录：<code>$XDG_CONFIG_HOME/opencode/.opencode.json</code></li>
+</ol>
+<h3 id="3-2-API-Key-配置"><a href="#3-2-API-Key-配置" class="headerlink" title="3.2 API Key 配置"></a>3.2 API Key 配置</h3><p>OpenCode 通过环境变量管理各模型的 API Key：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># Anthropic Claude</span><br><span class="hljs-built_in">export</span> ANTHROPIC_API_KEY=<span class="hljs-string">&quot;sk-ant-...&quot;</span><br><br><span class="hljs-comment"># OpenAI</span><br><span class="hljs-built_in">export</span> OPENAI_API_KEY=<span class="hljs-string">&quot;sk-...&quot;</span><br><br><span class="hljs-comment"># Google Gemini</span><br><span class="hljs-built_in">export</span> GEMINI_API_KEY=<span class="hljs-string">&quot;AI...&quot;</span><br><br><span class="hljs-comment"># GitHub Copilot（无需 Key，使用 GitHub Token）</span><br><span class="hljs-built_in">export</span> GITHUB_TOKEN=<span class="hljs-string">&quot;ghp_...&quot;</span><br><br><span class="hljs-comment"># Groq</span><br><span class="hljs-built_in">export</span> GROQ_API_KEY=<span class="hljs-string">&quot;gsk_...&quot;</span><br><br><span class="hljs-comment"># AWS Bedrock</span><br><span class="hljs-built_in">export</span> AWS_ACCESS_KEY_ID=<span class="hljs-string">&quot;AKIA...&quot;</span><br><span class="hljs-built_in">export</span> AWS_SECRET_ACCESS_KEY=<span class="hljs-string">&quot;...&quot;</span><br><span class="hljs-built_in">export</span> AWS_REGION=<span class="hljs-string">&quot;us-east-1&quot;</span><br><br><span class="hljs-comment"># Azure OpenAI</span><br><span class="hljs-built_in">export</span> AZURE_OPENAI_ENDPOINT=<span class="hljs-string">&quot;https://xxx.openai.azure.com/&quot;</span><br><span class="hljs-built_in">export</span> AZURE_OPENAI_API_KEY=<span class="hljs-string">&quot;...&quot;</span><br><span class="hljs-built_in">export</span> AZURE_OPENAI_API_VERSION=<span class="hljs-string">&quot;2024-02-01&quot;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>💡 <strong>建议</strong>：将环境变量添加到你的 <code>~/.bashrc</code> 或 <code>~/.zshrc</code> 中，避免每次手动设置。</p>
+</blockquote>
+<h3 id="3-3-完整配置示例"><a href="#3-3-完整配置示例" class="headerlink" title="3.3 完整配置示例"></a>3.3 完整配置示例</h3><p>创建 <code>.opencode.json</code> 文件：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;directory&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;.opencode&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;providers&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;openai&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;apiKey&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;your-api-key&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;disabled&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;anthropic&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;apiKey&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;your-api-key&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;disabled&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;copilot&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;disabled&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;groq&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;apiKey&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;your-api-key&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;disabled&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;openrouter&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;apiKey&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;your-api-key&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;disabled&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;agents&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;coder&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;model&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;claude-sonnet-4&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;maxTokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">5000</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;task&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;model&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;claude-sonnet-4&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;maxTokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">5000</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;model&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;claude-sonnet-4&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;maxTokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">80</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;shell&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;path&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/bin/bash&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;args&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;-l&quot;</span><span class="hljs-punctuation">]</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;autoCompact&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;debug&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-4-Shell-配置"><a href="#3-4-Shell-配置" class="headerlink" title="3.4 Shell 配置"></a>3.4 Shell 配置</h3><p>如果你需要指定 OpenCode 使用哪个 Shell：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;shell&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;path&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/bin/zsh&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;args&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;-l&quot;</span><span class="hljs-punctuation">]</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="四、核心功能详解"><a href="#四、核心功能详解" class="headerlink" title="四、核心功能详解"></a>四、核心功能详解</h2><h3 id="4-1-启动与基本操作"><a href="#4-1-启动与基本操作" class="headerlink" title="4.1 启动与基本操作"></a>4.1 启动与基本操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 启动 OpenCode</span><br>opencode<br><br><span class="hljs-comment"># 调试模式启动</span><br>opencode -d<br><br><span class="hljs-comment"># 指定工作目录</span><br>opencode -c /path/to/project<br></code></pre></td></tr></table></figure>
+
+<p>启动后，你会看到一个漂亮的 TUI 界面，包含消息区域和编辑区域。</p>
+<h3 id="4-2-非交互模式"><a href="#4-2-非交互模式" class="headerlink" title="4.2 非交互模式"></a>4.2 非交互模式</h3><p>OpenCode 也支持单次命令模式，适合脚本和自动化场景：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 运行单次提示，输出到终端</span><br>opencode -p <span class="hljs-string">&quot;解释 Go 语言中 context 的用法&quot;</span><br><br><span class="hljs-comment"># 以 JSON 格式输出</span><br>opencode -p <span class="hljs-string">&quot;解释 Go 语言中 context 的用法&quot;</span> -f json<br><br><span class="hljs-comment"># 静默模式（不显示加载动画，适合脚本）</span><br>opencode -p <span class="hljs-string">&quot;解释 Go 语言中 context 的用法&quot;</span> -q<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-3-快捷键速查"><a href="#4-3-快捷键速查" class="headerlink" title="4.3 快捷键速查"></a>4.3 快捷键速查</h3><p><strong>全局快捷键：</strong></p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Ctrl+C</code></td>
+<td>退出应用</td>
+</tr>
+<tr>
+<td><code>Ctrl+?</code> &#x2F; <code>?</code></td>
+<td>切换帮助对话框</td>
+</tr>
+<tr>
+<td><code>Ctrl+L</code></td>
+<td>查看日志</td>
+</tr>
+<tr>
+<td><code>Ctrl+A</code></td>
+<td>切换会话</td>
+</tr>
+<tr>
+<td><code>Ctrl+K</code></td>
+<td>命令对话框</td>
+</tr>
+<tr>
+<td><code>Ctrl+O</code></td>
+<td>切换模型选择对话框</td>
+</tr>
+<tr>
+<td><code>Esc</code></td>
+<td>关闭当前覆盖层&#x2F;对话框</td>
+</tr>
+</tbody></table>
+<p><strong>会话管理：</strong></p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Ctrl+N</code></td>
+<td>创建新会话</td>
+</tr>
+<tr>
+<td><code>Ctrl+X</code></td>
+<td>取消当前操作</td>
+</tr>
+<tr>
+<td><code>i</code></td>
+<td>聚焦编辑器</td>
+</tr>
+<tr>
+<td><code>Ctrl+S</code></td>
+<td>发送消息</td>
+</tr>
+<tr>
+<td><code>Ctrl+E</code></td>
+<td>打开外部编辑器</td>
+</tr>
+</tbody></table>
+<p><strong>模型选择：</strong></p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>←</code> &#x2F; <code>h</code></td>
+<td>上一个提供商</td>
+</tr>
+<tr>
+<td><code>→</code> &#x2F; <code>l</code></td>
+<td>下一个提供商</td>
+</tr>
+<tr>
+<td><code>↑</code> &#x2F; <code>k</code></td>
+<td>上移</td>
+</tr>
+<tr>
+<td><code>↓</code> &#x2F; <code>j</code></td>
+<td>下移</td>
+</tr>
+</tbody></table>
+<h3 id="4-4-AI-工具集"><a href="#4-4-AI-工具集" class="headerlink" title="4.4 AI 工具集"></a>4.4 AI 工具集</h3><p>OpenCode 的 AI 助手拥有丰富的工具集，可以实际操作你的代码：</p>
+<p><strong>文件操作工具：</strong></p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>说明</th>
+<th>参数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>glob</code></td>
+<td>按模式查找文件</td>
+<td><code>pattern</code>（必填）, <code>path</code>（可选）</td>
+</tr>
+<tr>
+<td><code>grep</code></td>
+<td>搜索文件内容</td>
+<td><code>pattern</code>（必填）, <code>path</code>（可选）</td>
+</tr>
+<tr>
+<td><code>ls</code></td>
+<td>列出目录内容</td>
+<td><code>path</code>（可选）</td>
+</tr>
+<tr>
+<td><code>view</code></td>
+<td>查看文件内容</td>
+<td><code>file_path</code>（必填）, <code>offset</code>, <code>limit</code>（可选）</td>
+</tr>
+<tr>
+<td><code>write</code></td>
+<td>写入文件</td>
+<td><code>file_path</code>（必填）, <code>content</code>（必填）</td>
+</tr>
+<tr>
+<td><code>edit</code></td>
+<td>编辑文件</td>
+<td>多种编辑参数</td>
+</tr>
+<tr>
+<td><code>patch</code></td>
+<td>应用补丁</td>
+<td><code>file_path</code>（必填）, <code>diff</code>（必填）</td>
+</tr>
+</tbody></table>
+<p><strong>执行与搜索工具：</strong></p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>说明</th>
+<th>参数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>bash</code></td>
+<td>执行 Shell 命令</td>
+<td><code>command</code>（必填）, <code>timeout</code>（可选）</td>
+</tr>
+<tr>
+<td><code>fetch</code></td>
+<td>获取 URL 数据</td>
+<td><code>url</code>（必填）, <code>format</code>（必填）</td>
+</tr>
+<tr>
+<td><code>sourcegraph</code></td>
+<td>跨仓库搜索代码</td>
+<td><code>query</code>（必填）</td>
+</tr>
+<tr>
+<td><code>agent</code></td>
+<td>运行子任务</td>
+<td><code>prompt</code>（必填）</td>
+</tr>
+</tbody></table>
+<h2 id="五、实际操作示例"><a href="#五、实际操作示例" class="headerlink" title="五、实际操作示例"></a>五、实际操作示例</h2><h3 id="5-1-代码审查与重构"><a href="#5-1-代码审查与重构" class="headerlink" title="5.1 代码审查与重构"></a>5.1 代码审查与重构</h3><p>在项目目录启动 OpenCode，然后：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">请审查 src/utils.ts 文件，找出潜在的性能问题并给出优化建议<br></code></pre></td></tr></table></figure>
+
+<p>AI 会自动使用 <code>view</code> 工具读取文件，分析代码，然后给出具体建议。如果需要修改，它会使用 <code>edit</code> 工具直接在你的代码中应用变更。</p>
+<h3 id="5-2-Bug-修复"><a href="#5-2-Bug-修复" class="headerlink" title="5.2 Bug 修复"></a>5.2 Bug 修复</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">运行测试发现 TestUserService 失败了，请帮我排查并修复<br></code></pre></td></tr></table></figure>
+
+<p>OpenCode 会：</p>
+<ol>
+<li>使用 <code>bash</code> 运行测试，查看错误信息</li>
+<li>使用 <code>view</code> 查看相关代码</li>
+<li>使用 <code>grep</code> 搜索相关逻辑</li>
+<li>使用 <code>edit</code> 应用修复</li>
+<li>再次运行测试验证</li>
+</ol>
+<h3 id="5-3-项目初始化"><a href="#5-3-项目初始化" class="headerlink" title="5.3 项目初始化"></a>5.3 项目初始化</h3><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">帮我初始化一个 <span class="hljs-keyword">Next</span>.js <span class="hljs-number">14</span> 项目，使用 App Router、Tailwind CSS 和 TypeScript<br></code></pre></td></tr></table></figure>
+
+<p>OpenCode 会通过 <code>bash</code> 工具执行初始化命令，然后帮你配置好项目结构。</p>
+<h3 id="5-4-文档生成"><a href="#5-4-文档生成" class="headerlink" title="5.4 文档生成"></a>5.4 文档生成</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">为 src<span class="hljs-regexp">/api/u</span>sers.ts 中的所有函数生成 JSDoc 文档注释<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-5-自定义命令实战"><a href="#5-5-自定义命令实战" class="headerlink" title="5.5 自定义命令实战"></a>5.5 自定义命令实战</h3><p>创建一个自定义命令来快速审查 PR：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> -p ~/.config/opencode/commands<br></code></pre></td></tr></table></figure>
+
+<p>创建文件 <code>~/.config/opencode/commands/review-pr.md</code>：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># Review Pull Request $PR<span class="hljs-emphasis">_NUMBER</span></span><br><span class="hljs-emphasis"><span class="hljs-section"></span></span><br><span class="hljs-emphasis"><span class="hljs-section">RUN gh pr view $PR_</span>NUMBER --json title,body,files</span><br>RUN gh pr diff $PR<span class="hljs-emphasis">_NUMBER</span><br><span class="hljs-emphasis"></span><br><span class="hljs-emphasis">Please review this PR for:</span><br><span class="hljs-emphasis">1. Code quality and best practices</span><br><span class="hljs-emphasis">2. Potential bugs or edge cases</span><br><span class="hljs-emphasis">3. Security concerns</span><br><span class="hljs-emphasis">4. Performance implications</span><br></code></pre></td></tr></table></figure>
+
+<p>使用时按 <code>Ctrl+K</code>，选择 <code>user:review-pr</code>，输入 PR 号即可。</p>
+<h2 id="六、高级技巧"><a href="#六、高级技巧" class="headerlink" title="六、高级技巧"></a>六、高级技巧</h2><h3 id="6-1-自动上下文压缩"><a href="#6-1-自动上下文压缩" class="headerlink" title="6.1 自动上下文压缩"></a>6.1 自动上下文压缩</h3><p>OpenCode 内置了自动压缩功能，当对话接近模型的上下文窗口限制时：</p>
+<ul>
+<li>自动监控 token 使用量</li>
+<li>在达到 95% 时触发对话摘要</li>
+<li>创建包含摘要的新会话，延续工作上下文</li>
+</ul>
+<p>配置方式：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;autoCompact&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="6-2-MCP-服务器集成"><a href="#6-2-MCP-服务器集成" class="headerlink" title="6.2 MCP 服务器集成"></a>6.2 MCP 服务器集成</h3><p>通过 Model Context Protocol 扩展 OpenCode 的能力：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;mcpServers&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;database&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;stdio&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;command&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;path/to/mcp-server&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;env&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;args&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;web-search&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;sse&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;command&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;path/to/mcp-web-search&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;env&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;API_KEY=xxx&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;args&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="6-3-LSP-集成"><a href="#6-3-LSP-集成" class="headerlink" title="6.3 LSP 集成"></a>6.3 LSP 集成</h3><p>为特定语言启用 LSP 支持：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;lsp&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;go&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;disabled&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;command&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;gopls&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;typescript&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;disabled&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;command&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;typescript-language-server&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;args&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;--stdio&quot;</span><span class="hljs-punctuation">]</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="6-4-项目级自定义命令"><a href="#6-4-项目级自定义命令" class="headerlink" title="6.4 项目级自定义命令"></a>6.4 项目级自定义命令</h3><p>在项目根目录创建 <code>.opencode/commands/</code> 目录，添加项目专属命令：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cmake">your-<span class="hljs-keyword">project</span>/<br>├── .opencode/<br>│   └── commands/<br>│       ├── setup.md        <span class="hljs-comment"># project:setup</span><br>│       └── <span class="hljs-keyword">test</span>-all.md     <span class="hljs-comment"># project:test-all</span><br>└── ...<br></code></pre></td></tr></table></figure>
+
+<h2 id="七、常见问题解决"><a href="#七、常见问题解决" class="headerlink" title="七、常见问题解决"></a>七、常见问题解决</h2><h3 id="Q1：安装时提示网络错误"><a href="#Q1：安装时提示网络错误" class="headerlink" title="Q1：安装时提示网络错误"></a>Q1：安装时提示网络错误</h3><p><strong>问题</strong>：<code>curl</code> 下载安装脚本超时。</p>
+<p><strong>解决</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 方案1：使用代理</span><br><span class="hljs-built_in">export</span> https_proxy=http://127.0.0.1:7890<br>curl -fsSL https://raw.githubusercontent.com/opencode-ai/opencode/refs/heads/main/install | bash<br><br><span class="hljs-comment"># 方案2：直接从 GitHub Releases 下载二进制文件</span><br><span class="hljs-comment"># 访问 https://github.com/opencode-ai/opencode/releases</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Q2：API-Key-无效或权限不足"><a href="#Q2：API-Key-无效或权限不足" class="headerlink" title="Q2：API Key 无效或权限不足"></a>Q2：API Key 无效或权限不足</h3><p><strong>问题</strong>：启动后提示认证错误。</p>
+<p><strong>解决</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1. 确认环境变量是否设置</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$ANTHROPIC_API_KEY</span><br><br><span class="hljs-comment"># 2. 检查 API Key 是否有效（以 curl 测试）</span><br>curl https://api.anthropic.com/v1/messages \<br>  -H <span class="hljs-string">&quot;x-api-key: <span class="hljs-variable">$ANTHROPIC_API_KEY</span>&quot;</span> \<br>  -H <span class="hljs-string">&quot;content-type: application/json&quot;</span> \<br>  -H <span class="hljs-string">&quot;anthropic-version: 2023-06-01&quot;</span> \<br>  -d <span class="hljs-string">&#x27;&#123;&quot;model&quot;:&quot;claude-sonnet-4&quot;,&quot;max_tokens&quot;:10,&quot;messages&quot;:[&#123;&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;hi&quot;&#125;]&#125;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Q3：模型输出被截断"><a href="#Q3：模型输出被截断" class="headerlink" title="Q3：模型输出被截断"></a>Q3：模型输出被截断</h3><p><strong>问题</strong>：AI 回复不完整。</p>
+<p><strong>解决</strong>：增加 <code>maxTokens</code> 配置：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;agents&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;coder&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;model&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;claude-sonnet-4&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;maxTokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">16000</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Q4：上下文丢失"><a href="#Q4：上下文丢失" class="headerlink" title="Q4：上下文丢失"></a>Q4：上下文丢失</h3><p><strong>问题</strong>：长时间对话后 AI “忘记”了前面的内容。</p>
+<p><strong>解决</strong>：</p>
+<ol>
+<li>确保开启 <code>autoCompact</code>：<code>&quot;autoCompact&quot;: true</code></li>
+<li>手动压缩会话：按 <code>Ctrl+K</code> → 选择 <code>Compact Session</code></li>
+<li>适时创建新会话：按 <code>Ctrl+N</code></li>
+</ol>
+<h3 id="Q5：文件修改权限被拒绝"><a href="#Q5：文件修改权限被拒绝" class="headerlink" title="Q5：文件修改权限被拒绝"></a>Q5：文件修改权限被拒绝</h3><p><strong>问题</strong>：AI 尝试修改文件时弹出权限确认。</p>
+<p><strong>解决</strong>：</p>
+<ul>
+<li>按 <code>a</code> 允许本次操作</li>
+<li>按 <code>A</code> 允许整个会话的操作</li>
+<li>在非交互模式下所有权限自动批准</li>
+</ul>
+<h3 id="Q6：Windows-下的特殊问题"><a href="#Q6：Windows-下的特殊问题" class="headerlink" title="Q6：Windows 下的特殊问题"></a>Q6：Windows 下的特殊问题</h3><p><strong>问题</strong>：Windows 终端显示异常或快捷键不生效。</p>
+<p><strong>解决</strong>：</p>
+<ol>
+<li>推荐使用 <strong>Windows Terminal</strong> 或 <strong>WezTerm</strong></li>
+<li>确保终端支持 Unicode 和 True Color</li>
+<li>如遇 Shell 问题，在配置中显式指定：</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;shell&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;path&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;powershell&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;args&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;-NoLogo&quot;</span><span class="hljs-punctuation">]</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="八、使用技巧总结"><a href="#八、使用技巧总结" class="headerlink" title="八、使用技巧总结"></a>八、使用技巧总结</h2><ol>
+<li><strong>善用项目级配置</strong>：在项目根目录创建 <code>.opencode.json</code>，为不同项目设置不同模型和参数</li>
+<li><strong>创建自定义命令</strong>：将常用的审查、部署、测试流程封装成命令，一键执行</li>
+<li><strong>利用多会话</strong>：同时开启多个会话处理不同任务，互不干扰</li>
+<li><strong>巧用非交互模式</strong>：在 CI&#x2F;CD 流水线中使用 <code>opencode -p</code> 实现自动化代码审查</li>
+<li><strong>MCP 扩展生态</strong>：接入数据库、搜索引擎等 MCP 服务器，让 AI 获取更多上下文</li>
+<li><strong>定期压缩会话</strong>：长对话时注意 token 消耗，适时压缩或创建新会话</li>
+<li><strong>分享会话链接</strong>：OpenCode 支持生成会话分享链接，方便团队协作和问题排查</li>
+</ol>
+<h2 id="九、与同类工具对比"><a href="#九、与同类工具对比" class="headerlink" title="九、与同类工具对比"></a>九、与同类工具对比</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>OpenCode</th>
+<th>Claude Code</th>
+<th>Cursor</th>
+<th>GitHub Copilot CLI</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>开源</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>终端原生</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>多模型支持</td>
+<td>✅ 75+</td>
+<td>❌ 仅 Claude</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>自定义命令</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>MCP 协议</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>LSP 集成</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>免费模型</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>隐私优先</td>
+<td>✅</td>
+<td>⚠️</td>
+<td>⚠️</td>
+<td>⚠️</td>
+</tr>
+</tbody></table>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>OpenCode 作为一款开源的终端 AI 编程代理，凭借其多模型支持、丰富的工具集成、自定义命令和 MCP 扩展等特性，为开发者提供了一种高效且灵活的 AI 辅助编程体验。无论你是终端爱好者还是寻求更高效工作流的开发者，OpenCode 都值得一试。</p>
+<p>随着项目迁移到 <strong>Crush</strong>（由 Charm 团队维护），我们可以期待更稳定的开发和更丰富的功能迭代。如果你还没尝试过，现在就是最好的时机。</p>
+<hr>
+<p><strong>相关链接：</strong></p>
+<ul>
+<li>GitHub 仓库：<a target="_blank" rel="noopener" href="https://github.com/opencode-ai/opencode">https://github.com/opencode-ai/opencode</a></li>
+<li>Crush（新项目）：<a target="_blank" rel="noopener" href="https://github.com/charmbracelet/crush">https://github.com/charmbracelet/crush</a></li>
+<li>官方网站：<a target="_blank" rel="noopener" href="https://opencode.ai/">https://opencode.ai</a></li>
+<li>文档：<a target="_blank" rel="noopener" href="https://opencode.ai/docs">https://opencode.ai/docs</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" class="category-chain-item">开发工具</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/AI%E7%BC%96%E7%A8%8B/" class="category-chain-item">AI编程</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AI/">#AI</a>
+      
+        <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">#开发工具</a>
+      
+        <a href="/tags/%E7%BB%88%E7%AB%AF/">#终端</a>
+      
+        <a href="/tags/OpenCode/">#OpenCode</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>OpenCode：终端中的 AI 编程利器——从安装到精通</div>
+      <div>http://example.com/2026/04/14/opencode-ai-guide/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 14, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/13/claude-code-guide/" title="Claude Code 使用指南：让 AI 成为你最强的编程搭档">
+                        <span class="hidden-mobile">Claude Code 使用指南：让 AI 成为你最强的编程搭档</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
