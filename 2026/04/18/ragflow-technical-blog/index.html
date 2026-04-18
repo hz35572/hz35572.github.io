@@ -1,0 +1,1332 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="RAGFlow 是一款基于深度文档理解的开源检索增强生成（RAG）引擎。本文从系统架构、核心模块、技术选型等维度对其进行全面技术解读，帮助开发者和架构师深入理解其设计思想与实现方案。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度解读 RAGFlow：开源 RAG 引擎的架构设计与技术实践">
+<meta property="og:url" content="http://example.com/2026/04/18/ragflow-technical-blog/index.html">
+<meta property="og:site_name" content="HHH&#39;s Blog">
+<meta property="og:description" content="RAGFlow 是一款基于深度文档理解的开源检索增强生成（RAG）引擎。本文从系统架构、核心模块、技术选型等维度对其进行全面技术解读，帮助开发者和架构师深入理解其设计思想与实现方案。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-04-18T12:44:00.000Z">
+<meta property="article:modified_time" content="2026-04-18T12:45:26.314Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="RAG">
+<meta property="article:tag" content="开源">
+<meta property="article:tag" content="AI架构">
+<meta property="article:tag" content="文档理解">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>深度解读 RAGFlow：开源 RAG 引擎的架构设计与技术实践 - HHH&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="深度解读 RAGFlow：开源 RAG 引擎的架构设计与技术实践"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-18 20:44" pubdate>
+          April 18, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          98 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">深度解读 RAGFlow：开源 RAG 引擎的架构设计与技术实践</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="深度解读-RAGFlow：开源-RAG-引擎的架构设计与技术实践"><a href="#深度解读-RAGFlow：开源-RAG-引擎的架构设计与技术实践" class="headerlink" title="深度解读 RAGFlow：开源 RAG 引擎的架构设计与技术实践"></a>深度解读 RAGFlow：开源 RAG 引擎的架构设计与技术实践</h1><blockquote>
+<p><strong>摘要</strong>：RAGFlow 是一款基于深度文档理解的开源检索增强生成（RAG）引擎。本文从系统架构、核心模块、技术选型等维度对其进行全面技术解读，帮助开发者和架构师深入理解其设计思想与实现方案。</p>
+</blockquote>
+<hr>
+<h2 id="一、项目概述与背景"><a href="#一、项目概述与背景" class="headerlink" title="一、项目概述与背景"></a>一、项目概述与背景</h2><h3 id="1-1-RAG-技术背景"><a href="#1-1-RAG-技术背景" class="headerlink" title="1.1 RAG 技术背景"></a>1.1 RAG 技术背景</h3><p>检索增强生成（Retrieval-Augmented Generation, RAG）是近年来大语言模型（LLM）落地应用的关键技术。它通过引入外部知识检索机制，有效解决了 LLM 面临的以下核心问题：</p>
+<ul>
+<li><strong>知识时效性</strong>：LLM 的训练数据存在时间截止点，无法获取最新信息</li>
+<li><strong>领域专业性</strong>：通用模型在垂直领域的表现受限</li>
+<li><strong>幻觉问题</strong>：模型可能生成与事实不符的内容</li>
+<li><strong>上下文窗口限制</strong>：无法一次性处理海量文档</li>
+</ul>
+<h3 id="1-2-RAGFlow-项目简介"><a href="#1-2-RAGFlow-项目简介" class="headerlink" title="1.2 RAGFlow 项目简介"></a>1.2 RAGFlow 项目简介</h3><p><a target="_blank" rel="noopener" href="https://ragflow.io/">RAGFlow</a> 由 InfiniFlow 团队开发，是一款功能强大的开源 RAG 引擎。其核心设计理念是：</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">Quality <span class="hljs-keyword">in</span>, quality <span class="hljs-keyword">out</span><br></code></pre></td></tr></table></figure>
+
+<p>RAGFlow 不仅仅是一个简单的 RAG 框架，而是一个<strong>端到端的生产级 RAG 工作流系统</strong>，具备以下特点：</p>
+<ul>
+<li>基于深度文档理解，从多格式非结构化数据中提取高质量内容</li>
+<li>提供可配置、可解释的文本分块策略</li>
+<li>支持多路召回与重排序的检索策略</li>
+<li>内置 Agent 工作流编排能力</li>
+<li>兼容多种 LLM 和向量模型</li>
+<li>提供完善的 API 和企业级部署方案</li>
+</ul>
+<p><strong>许可证</strong>：Apache-2.0<br><strong>技术栈</strong>：Python 3.12+（Flask&#x2F;Quart）+ TypeScript&#x2F;React</p>
+<hr>
+<h2 id="二、系统整体架构设计"><a href="#二、系统整体架构设计" class="headerlink" title="二、系统整体架构设计"></a>二、系统整体架构设计</h2><h3 id="2-1-架构总览"><a href="#2-1-架构总览" class="headerlink" title="2.1 架构总览"></a>2.1 架构总览</h3><p>RAGFlow 采用<strong>微服务架构</strong>，基于 Docker 容器化部署。整体架构分为以下层次：</p>
+<pre><code class=" mermaid">graph TB
+    subgraph &quot;用户层&quot;
+        Web[Web 前端 React/UmiJS]
+        SDK[Python SDK]
+        API_CLI[RESTful API]
+    end
+
+    subgraph &quot;API 服务层&quot;
+        API_Server[API Server Flask/Quart]
+        Auth[认证授权]
+        KB_App[知识库管理]
+        Chat_App[对话服务]
+        File_App[文件服务]
+    end
+
+    subgraph &quot;核心业务层&quot;
+        subgraph &quot;RAG 引擎&quot;
+            Pipeline[处理流水线 Pipeline]
+            Chunking[文本分块 Chunking]
+            Indexing[索引构建]
+            Retrieval[检索检索]
+            Rerank[重排序 Rerank]
+        end
+
+        subgraph &quot;DeepDoc 文档理解&quot;
+            Layout[布局分析 Layout Analysis]
+            OCR[OCR 文字识别]
+            Parser[多格式解析器]
+            TableRec[表格结构识别]
+        end
+
+        subgraph &quot;Agent 引擎&quot;
+            Workflow[工作流编排]
+            MCP[MCP 集成]
+            Sandbox[代码执行沙箱]
+            Memory[记忆系统]
+        end
+    end
+
+    subgraph &quot;模型层&quot;
+        LLM[大语言模型 LLM]
+        Embedding[向量模型 Embedding]
+        RerankModel[重排序模型]
+        Multimodal[多模态模型]
+    end
+
+    subgraph &quot;存储层&quot;
+        MySQL[(MySQL 元数据)]
+        ES[(Elasticsearch/Infinity)]
+        MinIO[(MinIO 对象存储)]
+        Redis[(Redis 缓存)]
+    end
+
+    Web --&gt; API_Server
+    SDK --&gt; API_Server
+    API_CLI --&gt; API_Server
+
+    API_Server --&gt; Auth
+    API_Server --&gt; KB_App
+    API_Server --&gt; Chat_App
+    API_Server --&gt; File_App
+
+    KB_App --&gt; Pipeline
+    Chat_App --&gt; Retrieval
+    File_App --&gt; Parser
+
+    Pipeline --&gt; Chunking
+    Chunking --&gt; Indexing
+    Retrieval --&gt; Rerank
+    Rerank --&gt; LLM
+
+    Parser --&gt; Layout
+    Parser --&gt; OCR
+    Parser --&gt; TableRec
+
+    Workflow --&gt; MCP
+    Workflow --&gt; Sandbox
+    Workflow --&gt; Memory
+
+    LLM -.API.-&gt; OpenAI
+    LLM -.API.-&gt; Claude
+    Embedding -.API.-&gt; BAAI_bge
+    RerankModel -.API.-&gt; BAAI_bge_rerank
+
+    Indexing --&gt; ES
+    Retrieval --&gt; ES
+    KB_App --&gt; MySQL
+    Chat_App --&gt; MySQL
+    File_App --&gt; MinIO
+    Auth --&gt; Redis
+    Memory --&gt; Redis
+</code></pre>
+
+<h3 id="2-2-架构分层说明"><a href="#2-2-架构分层说明" class="headerlink" title="2.2 架构分层说明"></a>2.2 架构分层说明</h3><table>
+<thead>
+<tr>
+<th>层级</th>
+<th>职责</th>
+<th>关键技术</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>用户层</strong></td>
+<td>提供用户交互界面与接口</td>
+<td>React、UmiJS、TypeScript、RESTful API</td>
+</tr>
+<tr>
+<td><strong>API 服务层</strong></td>
+<td>处理业务路由、认证、请求分发</td>
+<td>Flask&#x2F;Quart、Blueprint</td>
+</tr>
+<tr>
+<td><strong>核心业务层</strong></td>
+<td>RAG 流水线、文档理解、Agent 工作流</td>
+<td>Python 异步处理、深度学习模型</td>
+</tr>
+<tr>
+<td><strong>模型层</strong></td>
+<td>LLM 推理、向量计算、重排序</td>
+<td>OpenAI API、本地模型部署</td>
+</tr>
+<tr>
+<td><strong>存储层</strong></td>
+<td>元数据、向量、文件、缓存</td>
+<td>MySQL、Elasticsearch、MinIO、Redis</td>
+</tr>
+</tbody></table>
+<h3 id="2-3-数据流概览"><a href="#2-3-数据流概览" class="headerlink" title="2.3 数据流概览"></a>2.3 数据流概览</h3><pre><code class=" mermaid">sequenceDiagram
+    participant U as 用户
+    participant API as API Server
+    participant Parser as DeepDoc Parser
+    participant Chunk as Chunking
+    participant Index as Indexing
+    participant ES as Elasticsearch
+    participant LLM as LLM
+
+    U-&gt;&gt;API: 上传文档
+    API-&gt;&gt;Parser: 解析文档内容
+    Parser--&gt;&gt;API: 返回结构化内容
+    API-&gt;&gt;Chunk: 文本分块
+    Chunk--&gt;&gt;API: 返回文本块
+    API-&gt;&gt;Index: 构建向量索引
+    Index-&gt;&gt;ES: 存储索引数据
+    ES--&gt;&gt;Index: 确认存储
+
+    U-&gt;&gt;API: 发起对话查询
+    API-&gt;&gt;ES: 检索相关文档
+    ES--&gt;&gt;API: 返回候选结果
+    API-&gt;&gt;API: 重排序
+    API-&gt;&gt;LLM: 生成回答
+    LLM--&gt;&gt;API: 返回生成结果
+    API--&gt;&gt;U: 展示回答与引用
+</code></pre>
+
+<hr>
+<h2 id="三、核心模块详细解读"><a href="#三、核心模块详细解读" class="headerlink" title="三、核心模块详细解读"></a>三、核心模块详细解读</h2><h3 id="3-1-API-服务模块（api-x2F-）"><a href="#3-1-API-服务模块（api-x2F-）" class="headerlink" title="3.1 API 服务模块（api&#x2F;）"></a>3.1 API 服务模块（api&#x2F;）</h3><h4 id="3-1-1-功能定位"><a href="#3-1-1-功能定位" class="headerlink" title="3.1.1 功能定位"></a>3.1.1 功能定位</h4><p>API 服务层是 RAGFlow 的<strong>对外服务入口</strong>，负责接收用户请求、执行业务逻辑、协调各底层模块工作，并返回响应结果。</p>
+<h4 id="3-1-2-核心子模块"><a href="#3-1-2-核心子模块" class="headerlink" title="3.1.2 核心子模块"></a>3.1.2 核心子模块</h4><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">api/<br>├── apps/                    <span class="hljs-comment"># API 蓝图（路由处理）</span><br>│   ├── kb_app.py           <span class="hljs-comment"># 知识库管理</span><br>│   ├── document_app.py     <span class="hljs-comment"># 文档处理</span><br>│   ├── file_app.py         <span class="hljs-comment"># 文件上传下载</span><br>│   ├── file2document_app.py <span class="hljs-comment"># 文件转文档</span><br>│   ├── restful_apis/<br>│   │   ├── chat_api.py     <span class="hljs-comment"># 对话服务</span><br>│   │   ├── search_api.py   <span class="hljs-comment"># 搜索服务</span><br>│   │   ├── dataset_api.py  <span class="hljs-comment"># 数据集管理</span><br>│   │   └── memory_api.py   <span class="hljs-comment"># 记忆管理</span><br>│   └── <span class="hljs-string">...</span><br>├── db/                      <span class="hljs-comment"># 数据访问层</span><br>│   ├── db_models.py        <span class="hljs-comment"># 数据库 ORM 模型</span><br>│   └── services/           <span class="hljs-comment"># 业务服务层</span><br>│       ├── knowledgebase_service.py<br>│       ├── document_service.py<br>│       ├── conversation_service.py<br>│       └── memory_service.py<br>└── <span class="hljs-string">...</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="3-1-3-关键实现逻辑"><a href="#3-1-3-关键实现逻辑" class="headerlink" title="3.1.3 关键实现逻辑"></a>3.1.3 关键实现逻辑</h4><p><strong>知识库管理流程</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@manager.route(<span class="hljs-params"><span class="hljs-string">&#x27;/create&#x27;</span>, methods=[<span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">create_knowledge_base</span>():<br>    req = request.json<br>    kb_data = &#123;<br>        <span class="hljs-string">&#x27;name&#x27;</span>: req.get(<span class="hljs-string">&#x27;name&#x27;</span>),<br>        <span class="hljs-string">&#x27;embedding_model&#x27;</span>: req.get(<span class="hljs-string">&#x27;embedding_model&#x27;</span>),<br>        <span class="hljs-string">&#x27;chunk_size&#x27;</span>: req.get(<span class="hljs-string">&#x27;chunk_size&#x27;</span>, <span class="hljs-number">512</span>),<br>        <span class="hljs-string">&#x27;parser_config&#x27;</span>: req.get(<span class="hljs-string">&#x27;parser_config&#x27;</span>, &#123;&#125;)<br>    &#125;<br>    kb = KnowledgebaseService.create(kb_data)<br>    <span class="hljs-keyword">return</span> jsonify(&#123;<span class="hljs-string">&#x27;code&#x27;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&#x27;data&#x27;</span>: kb.to_dict()&#125;)<br></code></pre></td></tr></table></figure>
+
+<p><strong>数据库模型设计</strong>：</p>
+<p>系统采用 ORM 方式管理数据，主要实体包括：</p>
+<ul>
+<li><strong>User</strong>：用户信息</li>
+<li><strong>Knowledgebase</strong>：知识库配置（分块策略、解析器、向量模型等）</li>
+<li><strong>Document</strong>：文档元数据（状态、格式、解析进度）</li>
+<li><strong>File</strong>：文件存储信息</li>
+<li><strong>Conversation</strong>：对话历史</li>
+<li><strong>Memory</strong>：用户记忆</li>
+</ul>
+<h4 id="3-1-4-与其他模块的交互"><a href="#3-1-4-与其他模块的交互" class="headerlink" title="3.1.4 与其他模块的交互"></a>3.1.4 与其他模块的交互</h4><pre><code class=" mermaid">graph LR
+    API --&gt;|创建/查询| KB_Service
+    API --&gt;|上传/解析| Doc_Service
+    API --&gt;|向量检索| RAG_Engine
+    API --&gt;|LLM 调用| LLM_Module
+    API --&gt;|文件存储| MinIO
+    API --&gt;|元数据| MySQL
+    API --&gt;|缓存| Redis
+
+    KB_Service --&gt; MySQL
+    Doc_Service --&gt; MinIO
+    RAG_Engine --&gt; Elasticsearch
+    LLM_Module -.HTTP.-&gt; External_LLM[&quot;外部 LLM&quot;]
+</code></pre>
+
+<hr>
+<h3 id="3-2-RAG-引擎模块（rag-x2F-）"><a href="#3-2-RAG-引擎模块（rag-x2F-）" class="headerlink" title="3.2 RAG 引擎模块（rag&#x2F;）"></a>3.2 RAG 引擎模块（rag&#x2F;）</h3><h4 id="3-2-1-功能定位"><a href="#3-2-1-功能定位" class="headerlink" title="3.2.1 功能定位"></a>3.2.1 功能定位</h4><p>RAG 引擎是系统的<strong>核心处理中枢</strong>，负责文档索引构建、向量检索、重排序、以及最终的 LLM 推理调用。</p>
+<h4 id="3-2-2-核心组件"><a href="#3-2-2-核心组件" class="headerlink" title="3.2.2 核心组件"></a>3.2.2 核心组件</h4><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs applescript">rag/<br>├── llm/                     <span class="hljs-comment"># 模型抽象层</span><br>│   ├── chat_model.py       <span class="hljs-comment"># 聊天模型接口</span><br>│   ├── embedding_model.py  <span class="hljs-comment"># 向量模型接口</span><br>│   ├── rerank_model.py     <span class="hljs-comment"># 重排序模型接口</span><br>│   └── ...<br>├── flow/                    <span class="hljs-comment"># 处理流水线</span><br>│   ├── pipeline.py         <span class="hljs-comment"># 流水线编排</span><br>│   ├── splitter/           <span class="hljs-comment"># 分块策略</span><br>│   ├── extractor/          <span class="hljs-comment"># 信息提取</span><br>│   └── <span class="hljs-built_in">file</span>.py             <span class="hljs-comment"># 文件处理</span><br>├── app/                     <span class="hljs-comment"># 应用实现</span><br>│   └── naive.py            <span class="hljs-comment"># 朴素 RAG 实现</span><br>├── nlp/                     <span class="hljs-comment"># NLP 工具</span><br>│   └── search.py           <span class="hljs-comment"># 搜索逻辑</span><br>└── utils/                   <span class="hljs-comment"># 工具函数</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="3-2-3-文本分块策略"><a href="#3-2-3-文本分块策略" class="headerlink" title="3.2.3 文本分块策略"></a>3.2.3 文本分块策略</h4><p>RAGFlow 提供<strong>多种可配置的文本分块模板</strong>，这是其核心竞争力之一：</p>
+<table>
+<thead>
+<tr>
+<th>分块模式</th>
+<th>适用场景</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>General</strong></td>
+<td>通用文本</td>
+<td>按固定大小滑动窗口</td>
+</tr>
+<tr>
+<td><strong>QA</strong></td>
+<td>问答对</td>
+<td>自动识别问题-答案对</td>
+</tr>
+<tr>
+<td><strong>Manual</strong></td>
+<td>手册&#x2F;说明书</td>
+<td>基于标题层级分割</td>
+</tr>
+<tr>
+<td><strong>Table</strong></td>
+<td>表格数据</td>
+<td>保留表格结构</td>
+</tr>
+<tr>
+<td><strong>Paper</strong></td>
+<td>学术论文</td>
+<td>按章节结构分割</td>
+</tr>
+<tr>
+<td><strong>Book</strong></td>
+<td>书籍</td>
+<td>按章节&#x2F;段落分割</td>
+</tr>
+<tr>
+<td><strong>Laws</strong></td>
+<td>法律文档</td>
+<td>按条款分割</td>
+</tr>
+<tr>
+<td><strong>Presentation</strong></td>
+<td>PPT</td>
+<td>按幻灯片分割</td>
+</tr>
+<tr>
+<td><strong>Picture</strong></td>
+<td>图片</td>
+<td>多模态模型描述</td>
+</tr>
+<tr>
+<td><strong>One</strong></td>
+<td>单文档</td>
+<td>整个文档作为一个块</td>
+</tr>
+<tr>
+<td><strong>Knowledge Graph</strong></td>
+<td>知识图谱</td>
+<td>提取实体关系</td>
+</tr>
+<tr>
+<td><strong>Tag</strong></td>
+<td>标签分类</td>
+<td>自动打标签</td>
+</tr>
+</tbody></table>
+<p><strong>分块处理核心逻辑</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Splitter</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">split</span>(<span class="hljs-params">self, text: <span class="hljs-built_in">str</span>, config: <span class="hljs-built_in">dict</span></span>) -&gt; <span class="hljs-type">List</span>[Chunk]:<br>        chunks = []<br>        <span class="hljs-comment"># 1. 按配置的分块大小切分</span><br>        chunk_size = config.get(<span class="hljs-string">&#x27;chunk_size&#x27;</span>, <span class="hljs-number">512</span>)<br>        overlap = config.get(<span class="hljs-string">&#x27;overlap&#x27;</span>, <span class="hljs-number">50</span>)<br><br>        <span class="hljs-comment"># 2. 应用具体分块策略</span><br>        <span class="hljs-keyword">if</span> config[<span class="hljs-string">&#x27;parser_id&#x27;</span>] == <span class="hljs-string">&#x27;general&#x27;</span>:<br>            chunks = self._general_split(text, chunk_size, overlap)<br>        <span class="hljs-keyword">elif</span> config[<span class="hljs-string">&#x27;parser_id&#x27;</span>] == <span class="hljs-string">&#x27;qa&#x27;</span>:<br>            chunks = self._qa_split(text)<br>        <span class="hljs-keyword">elif</span> config[<span class="hljs-string">&#x27;parser_id&#x27;</span>] == <span class="hljs-string">&#x27;manual&#x27;</span>:<br>            chunks = self._manual_split(text)<br><br>        <span class="hljs-comment"># 3. 为每个块添加元数据</span><br>        <span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> chunks:<br>            chunk.metadata = &#123;<br>                <span class="hljs-string">&#x27;source&#x27;</span>: config[<span class="hljs-string">&#x27;source&#x27;</span>],<br>                <span class="hljs-string">&#x27;page&#x27;</span>: config.get(<span class="hljs-string">&#x27;page&#x27;</span>),<br>                <span class="hljs-string">&#x27;keywords&#x27;</span>: extract_keywords(chunk.text)<br>            &#125;<br><br>        <span class="hljs-keyword">return</span> chunks<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-2-4-检索与重排序"><a href="#3-2-4-检索与重排序" class="headerlink" title="3.2.4 检索与重排序"></a>3.2.4 检索与重排序</h4><p><strong>多路召回机制</strong>：</p>
+<pre><code class=" mermaid">graph LR
+    Query[用户查询] --&gt; Embed[Embedding 向量化]
+    Query --&gt; BM25[BM25 关键词匹配]
+    Query --&gt; Hybrid[混合检索]
+
+    Embed --&gt; VecSearch[(向量检索)]
+    BM25 --&gt; TextSearch[(全文检索)]
+
+    VecSearch --&gt; Merge[结果合并]
+    TextSearch --&gt; Merge
+
+    Merge --&gt; Rerank[重排序模型]
+    Rerank --&gt; Final[排序结果]
+</code></pre>
+
+<p><strong>关键算法流程</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">retrieval</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span>, kb_id: <span class="hljs-built_in">str</span>, top_k: <span class="hljs-built_in">int</span> = <span class="hljs-number">10</span></span>) -&gt; <span class="hljs-type">List</span>[Chunk]:<br>    <span class="hljs-comment"># 1. 向量检索</span><br>    query_embedding = embedding_model.encode(query)<br>    vector_results = elasticsearch.search_vector(<br>        query_embedding, top_k=top_k * <span class="hljs-number">2</span><br>    )<br><br>    <span class="hljs-comment"># 2. 全文检索（BM25）</span><br>    text_results = elasticsearch.search_text(<br>        query, top_k=top_k * <span class="hljs-number">2</span><br>    )<br><br>    <span class="hljs-comment"># 3. 结果融合（RRF - Reciprocal Rank Fusion）</span><br>    merged_results = rrf_fusion(vector_results, text_results)<br><br>    <span class="hljs-comment"># 4. 重排序</span><br>    <span class="hljs-keyword">if</span> rerank_model:<br>        reranked = rerank_model.rank(query, merged_results)<br>        <span class="hljs-keyword">return</span> reranked[:top_k]<br><br>    <span class="hljs-keyword">return</span> merged_results[:top_k]<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-2-5-LLM-模型抽象"><a href="#3-2-5-LLM-模型抽象" class="headerlink" title="3.2.5 LLM 模型抽象"></a>3.2.5 LLM 模型抽象</h4><p>RAGFlow 设计了统一的 LLM 接口，支持多种模型提供商：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">LLMBase</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">chat</span>(<span class="hljs-params">self, messages: <span class="hljs-built_in">list</span>, **kwargs</span>) -&gt; <span class="hljs-built_in">str</span>:<br>        <span class="hljs-keyword">raise</span> NotImplementedError<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">stream_chat</span>(<span class="hljs-params">self, messages: <span class="hljs-built_in">list</span>, **kwargs</span>) -&gt; Generator:<br>        <span class="hljs-keyword">raise</span> NotImplementedError<br><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-3-DeepDoc-文档理解模块（deepdoc-x2F-）"><a href="#3-3-DeepDoc-文档理解模块（deepdoc-x2F-）" class="headerlink" title="3.3 DeepDoc 文档理解模块（deepdoc&#x2F;）"></a>3.3 DeepDoc 文档理解模块（deepdoc&#x2F;）</h3><h4 id="3-3-1-功能定位"><a href="#3-3-1-功能定位" class="headerlink" title="3.3.1 功能定位"></a>3.3.1 功能定位</h4><p>DeepDoc 是 RAGFlow 的<strong>文档智能解析引擎</strong>，基于深度学习模型，能够从各种复杂格式的非结构化文档中提取高质量的结构化内容。</p>
+<h4 id="3-3-2-核心能力"><a href="#3-3-2-核心能力" class="headerlink" title="3.3.2 核心能力"></a>3.3.2 核心能力</h4><figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs hsp">deepdoc/<br>├── parser/                  <span class="hljs-meta"># 文档解析器</span><br>│   ├── pdf_parser.py       <span class="hljs-meta"># PDF 解析</span><br>│   ├── docx_parser.py      <span class="hljs-meta"># Word 文档解析</span><br>│   ├── excel_parser.py     <span class="hljs-meta"># Excel 解析</span><br>│   ├── paddleocr_parser.py <span class="hljs-meta"># PaddleOCR 解析</span><br>│   └── <span class="hljs-keyword">resume</span>/             <span class="hljs-meta"># 简历专用解析</span><br>├── vision/                  <span class="hljs-meta"># 视觉识别组件</span><br>│   ├── layout_recognizer.py    <span class="hljs-meta"># 布局分析</span><br>│   ├── ocr.py                  <span class="hljs-meta"># OCR 文字识别</span><br>│   ├── recognizer.py           <span class="hljs-meta"># 识别器基类</span><br>│   └── table_structure_recognizer.py  <span class="hljs-meta"># 表格结构识别</span><br>└── ...<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-3-3-文档布局分析"><a href="#3-3-3-文档布局分析" class="headerlink" title="3.3.3 文档布局分析"></a>3.3.3 文档布局分析</h4><p>DeepDoc 使用深度学习模型进行<strong>文档布局分析</strong>，能够准确识别文档中的各类元素：</p>
+<pre><code class=" mermaid">graph TD
+    Doc[输入文档] --&gt; Preprocess[预处理]
+    Preprocess --&gt; LayoutModel[布局分析模型]
+
+    LayoutModel --&gt; Text[文本区域]
+    LayoutModel --&gt; Image[图片区域]
+    LayoutModel --&gt; Table[表格区域]
+    LayoutModel --&gt; Title[标题区域]
+    LayoutModel --&gt; Header[页眉页脚]
+
+    Text --&gt; TextExtract[文本提取]
+    Table --&gt; TableRec[表格结构识别]
+    Image --&gt; ImageDesc[多模态模型描述]
+    Title --&gt; TitleExtract[标题提取]
+</code></pre>
+
+<p><strong>支持识别的布局类型</strong>：</p>
+<ul>
+<li>标题（Title）</li>
+<li>文本段落（Text）</li>
+<li>表格（Table）</li>
+<li>图片（Figure）</li>
+<li>页眉&#x2F;页脚（Header&#x2F;Footer）</li>
+<li>脚注（Footnote）</li>
+<li>公式（Equation）</li>
+<li>列表（List）</li>
+</ul>
+<h4 id="3-3-4-OCR-文字识别"><a href="#3-3-4-OCR-文字识别" class="headerlink" title="3.3.4 OCR 文字识别"></a>3.3.4 OCR 文字识别</h4><p>DeepDoc 集成了 <strong>PaddleOCR</strong> 提供强大的 OCR 能力：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">OCR</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        self.det_model = TextDetector()    <span class="hljs-comment"># 文本检测</span><br>        self.rec_model = TextRecognizer()   <span class="hljs-comment"># 文本识别</span><br>        self.cls_model = TextClassifier()   <span class="hljs-comment"># 文本方向分类</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">process</span>(<span class="hljs-params">self, image: np.ndarray</span>) -&gt; <span class="hljs-type">List</span>[TextBlock]:<br>        <span class="hljs-comment"># 1. 文本检测</span><br>        boxes = self.det_model.detect(image)<br><br>        <span class="hljs-comment"># 2. 方向分类</span><br>        boxes = self.cls_model.classify(image, boxes)<br><br>        <span class="hljs-comment"># 3. 文本识别</span><br>        results = self.rec_model.recognize(image, boxes)<br><br>        <span class="hljs-keyword">return</span> results<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-3-5-多格式支持"><a href="#3-3-5-多格式支持" class="headerlink" title="3.3.5 多格式支持"></a>3.3.5 多格式支持</h4><table>
+<thead>
+<tr>
+<th>格式</th>
+<th>解析方式</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>PDF</strong></td>
+<td>布局分析 + OCR</td>
+<td>支持扫描件和原生 PDF</td>
+</tr>
+<tr>
+<td><strong>DOCX</strong></td>
+<td>XML 解析</td>
+<td>保留格式结构</td>
+</tr>
+<tr>
+<td><strong>Excel</strong></td>
+<td>单元格解析</td>
+<td>保留表格结构</td>
+</tr>
+<tr>
+<td><strong>PPT</strong></td>
+<td>幻灯片解析</td>
+<td>按页面处理</td>
+</tr>
+<tr>
+<td><strong>图片</strong></td>
+<td>OCR + 多模态</td>
+<td>支持扫描文档</td>
+</tr>
+<tr>
+<td><strong>TXT</strong></td>
+<td>直接读取</td>
+<td>纯文本处理</td>
+</tr>
+<tr>
+<td><strong>HTML</strong></td>
+<td>DOM 解析</td>
+<td>提取正文内容</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="3-4-Agent-引擎模块（agent-x2F-）"><a href="#3-4-Agent-引擎模块（agent-x2F-）" class="headerlink" title="3.4 Agent 引擎模块（agent&#x2F;）"></a>3.4 Agent 引擎模块（agent&#x2F;）</h3><h4 id="3-4-1-功能定位"><a href="#3-4-1-功能定位" class="headerlink" title="3.4.1 功能定位"></a>3.4.1 功能定位</h4><p>Agent 引擎提供<strong>智能体工作流编排能力</strong>，支持多步骤复杂任务的自动化执行，是 RAGFlow 从简单问答向智能助手演进的核心组件。</p>
+<h4 id="3-4-2-架构设计"><a href="#3-4-2-架构设计" class="headerlink" title="3.4.2 架构设计"></a>3.4.2 架构设计</h4><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs axapta">agent/<br>├── component/               <span class="hljs-meta"># Agent 组件</span><br>│   ├── base.py            <span class="hljs-meta"># 基础组件类</span><br>│   ├── agent_with_tools.py <span class="hljs-meta"># 带工具的 Agent</span><br>│   ├── loop.py            <span class="hljs-meta"># 循环组件</span><br>│   ├── iteration.py       <span class="hljs-meta"># 迭代组件</span><br>│   └── variable_assigner.py <span class="hljs-meta"># 变量赋值</span><br>├── sandbox/                 <span class="hljs-meta"># 沙箱执行环境</span><br>│   └── executor_manager/<br>│       └── core/<br>│           └── <span class="hljs-built_in">container</span>.py  <span class="hljs-meta"># 容器管理</span><br>├── tools/                   <span class="hljs-meta"># 工具集</span><br>│   └── code_exec.py       <span class="hljs-meta"># 代码执行器</span><br>└── ...<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-4-3-Agent-工作流"><a href="#3-4-3-Agent-工作流" class="headerlink" title="3.4.3 Agent 工作流"></a>3.4.3 Agent 工作流</h4><pre><code class=" mermaid">graph TD
+    Start[开始] --&gt; Input[输入解析]
+    Input --&gt; Think[思考/规划]
+    Think --&gt; ToolSelect&#123;工具选择&#125;
+
+    ToolSelect --&gt;|检索工具| RAG[调用 RAG 检索]
+    ToolSelect --&gt;|代码工具| Code[代码执行]
+    ToolSelect --&gt;|计算工具| Calc[数学计算]
+    ToolSelect --&gt;|MCP 工具| MCP[MCP 调用]
+
+    RAG --&gt; Synthesize[信息综合]
+    Code --&gt; Synthesize
+    Calc --&gt; Synthesize
+    MCP --&gt; Synthesize
+
+    Synthesize --&gt; Eval&#123;评估&#125;
+    Eval --&gt;|需要更多| Think
+    Eval --&gt;|完成| Output[输出结果]
+
+    Output --&gt; Memory[更新记忆]
+    Memory --&gt; End[结束]
+</code></pre>
+
+<h4 id="3-4-4-核心特性"><a href="#3-4-4-核心特性" class="headerlink" title="3.4.4 核心特性"></a>3.4.4 核心特性</h4><p><strong>1. 工具调用机制</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">AgentWithTools</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">execute</span>(<span class="hljs-params">self, task: <span class="hljs-built_in">str</span>, tools: <span class="hljs-type">List</span>[Tool]</span>) -&gt; <span class="hljs-built_in">str</span>:<br>        <span class="hljs-comment"># 1. 分析任务，选择合适工具</span><br>        plan = self.llm.plan(task, tools)<br><br>        <span class="hljs-comment"># 2. 逐步执行</span><br>        <span class="hljs-keyword">for</span> step <span class="hljs-keyword">in</span> plan.steps:<br>            tool = self.select_tool(step.tool_name)<br>            result = tool.execute(step.arguments)<br>            self.context.add(step.tool_name, result)<br><br>        <span class="hljs-comment"># 3. 综合生成最终答案</span><br>        <span class="hljs-keyword">return</span> self.llm.synthesize(task, self.context)<br></code></pre></td></tr></table></figure>
+
+<p><strong>2. 代码执行沙箱</strong>：</p>
+<p>Agent 支持在安全的沙箱环境中执行 Python&#x2F;JavaScript 代码：</p>
+<ul>
+<li>基于容器隔离</li>
+<li>资源限制（CPU、内存、网络）</li>
+<li>超时控制</li>
+<li>文件系统隔离</li>
+</ul>
+<p><strong>3. 记忆系统</strong>：</p>
+<ul>
+<li><strong>短期记忆</strong>：当前对话上下文</li>
+<li><strong>长期记忆</strong>：跨会话的用户偏好和历史交互</li>
+<li>支持记忆的增删改查</li>
+</ul>
+<p><strong>4. MCP（Model Context Protocol）集成</strong>：</p>
+<p>支持通过 MCP 协议扩展外部工具和服务，实现更丰富的 Agent 能力。</p>
+<hr>
+<h2 id="四、技术选型分析"><a href="#四、技术选型分析" class="headerlink" title="四、技术选型分析"></a>四、技术选型分析</h2><h3 id="4-1-后端技术栈"><a href="#4-1-后端技术栈" class="headerlink" title="4.1 后端技术栈"></a>4.1 后端技术栈</h3><table>
+<thead>
+<tr>
+<th>技术</th>
+<th>用途</th>
+<th>选型理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Python 3.12</strong></td>
+<td>主要开发语言</td>
+<td>AI&#x2F;ML 生态最完善，深度学习库支持</td>
+</tr>
+<tr>
+<td><strong>Flask&#x2F;Quart</strong></td>
+<td>Web 框架</td>
+<td>轻量级、易扩展，Quart 支持异步</td>
+</tr>
+<tr>
+<td><strong>uv</strong></td>
+<td>依赖管理</td>
+<td>比 pip&#x2F;poetry 更快，现代化的 Python 包管理器</td>
+</tr>
+<tr>
+<td><strong>Ruff</strong></td>
+<td>代码检查</td>
+<td>极快的 Python linter，Rust 实现</td>
+</tr>
+</tbody></table>
+<h3 id="4-2-前端技术栈"><a href="#4-2-前端技术栈" class="headerlink" title="4.2 前端技术栈"></a>4.2 前端技术栈</h3><table>
+<thead>
+<tr>
+<th>技术</th>
+<th>用途</th>
+<th>选型理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>TypeScript</strong></td>
+<td>开发语言</td>
+<td>类型安全，大型项目可维护性高</td>
+</tr>
+<tr>
+<td><strong>React</strong></td>
+<td>UI 框架</td>
+<td>组件化、生态丰富</td>
+</tr>
+<tr>
+<td><strong>UmiJS</strong></td>
+<td>企业级框架</td>
+<td>开箱即用，约定式路由</td>
+</tr>
+</tbody></table>
+<h3 id="4-3-数据存储"><a href="#4-3-数据存储" class="headerlink" title="4.3 数据存储"></a>4.3 数据存储</h3><table>
+<thead>
+<tr>
+<th>技术</th>
+<th>用途</th>
+<th>选型理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>MySQL</strong></td>
+<td>关系型数据</td>
+<td>成熟稳定，元数据存储</td>
+</tr>
+<tr>
+<td><strong>Elasticsearch</strong></td>
+<td>全文检索 + 向量</td>
+<td>强大的搜索能力，支持 BM25 和向量检索</td>
+</tr>
+<tr>
+<td><strong>Infinity</strong></td>
+<td>向量数据库（可选）</td>
+<td>高性能向量检索，国产开源</td>
+</tr>
+<tr>
+<td><strong>MinIO</strong></td>
+<td>对象存储</td>
+<td>S3 兼容，轻量级</td>
+</tr>
+<tr>
+<td><strong>Redis</strong></td>
+<td>缓存&#x2F;会话</td>
+<td>高性能内存数据库</td>
+</tr>
+</tbody></table>
+<h3 id="4-4-AI-x2F-ML-技术"><a href="#4-4-AI-x2F-ML-技术" class="headerlink" title="4.4 AI&#x2F;ML 技术"></a>4.4 AI&#x2F;ML 技术</h3><table>
+<thead>
+<tr>
+<th>技术</th>
+<th>用途</th>
+<th>选型理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>PaddleOCR</strong></td>
+<td>OCR 识别</td>
+<td>中文识别效果好，开源</td>
+</tr>
+<tr>
+<td><strong>Layout Analysis Model</strong></td>
+<td>文档布局分析</td>
+<td>基于深度学习的自定义模型</td>
+</tr>
+<tr>
+<td><strong>BAAI bge 系列</strong></td>
+<td>Embedding&#x2F;Rerank</td>
+<td>中文效果优异，开源可用</td>
+</tr>
+<tr>
+<td><strong>OpenAI API 兼容</strong></td>
+<td>LLM 抽象</td>
+<td>统一的接口适配多种模型</td>
+</tr>
+</tbody></table>
+<h3 id="4-5-部署与运维"><a href="#4-5-部署与运维" class="headerlink" title="4.5 部署与运维"></a>4.5 部署与运维</h3><table>
+<thead>
+<tr>
+<th>技术</th>
+<th>用途</th>
+<th>选型理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Docker</strong></td>
+<td>容器化</td>
+<td>标准化部署，环境一致性</td>
+</tr>
+<tr>
+<td><strong>Docker Compose</strong></td>
+<td>服务编排</td>
+<td>单机编排简单可靠</td>
+</tr>
+<tr>
+<td><strong>gVisor</strong></td>
+<td>沙箱</td>
+<td>轻量级容器运行时，安全隔离</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、项目亮点与创新点"><a href="#五、项目亮点与创新点" class="headerlink" title="五、项目亮点与创新点"></a>五、项目亮点与创新点</h2><h3 id="5-1-深度文档理解"><a href="#5-1-深度文档理解" class="headerlink" title="5.1 深度文档理解"></a>5.1 深度文档理解</h3><p>RAGFlow 的核心优势在于其对文档的深度理解能力：</p>
+<pre><code class=" mermaid">graph LR
+    subgraph &quot;传统 RAG&quot;
+        Doc1[文档] --&gt; SimpleParse[简单解析]
+        SimpleParse --&gt; SimpleChunk[固定分块]
+        SimpleChunk --&gt; Index1[索引]
+    end
+
+    subgraph &quot;RAGFlow&quot;
+        Doc2[文档] --&gt; DeepParse[深度解析]
+        DeepParse --&gt; Layout[布局分析]
+        DeepParse --&gt; OCR[OCR 识别]
+        DeepParse --&gt; Table[表格理解]
+        Layout --&gt; SmartChunk[智能分块]
+        OCR --&gt; SmartChunk
+        Table --&gt; SmartChunk
+        SmartChunk --&gt; Index2[索引]
+    end
+</code></pre>
+
+<p><strong>核心差异</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>传统 RAG</th>
+<th>RAGFlow</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>解析方式</td>
+<td>简单文本提取</td>
+<td>布局分析 + OCR + 结构识别</td>
+</tr>
+<tr>
+<td>分块策略</td>
+<td>固定大小</td>
+<td>多种模板，语义感知</td>
+</tr>
+<tr>
+<td>图片处理</td>
+<td>忽略或简单 OCR</td>
+<td>多模态模型生成描述</td>
+</tr>
+<tr>
+<td>表格处理</td>
+<td>扁平化</td>
+<td>保留结构信息</td>
+</tr>
+</tbody></table>
+<h3 id="5-2-可解释的文本分块"><a href="#5-2-可解释的文本分块" class="headerlink" title="5.2 可解释的文本分块"></a>5.2 可解释的文本分块</h3><p>RAGFlow 提供<strong>12 种以上</strong>的分块策略，用户可以根据文档类型选择最合适的模板：</p>
+<ul>
+<li><strong>可控性</strong>：用户可选择、配置分块参数</li>
+<li><strong>可解释性</strong>：分块结果可预览、可手动调整</li>
+<li><strong>可视化</strong>：分块过程可视化展示</li>
+</ul>
+<h3 id="5-3-多路召回-重排序"><a href="#5-3-多路召回-重排序" class="headerlink" title="5.3 多路召回 + 重排序"></a>5.3 多路召回 + 重排序</h3><p>采用先进的检索策略，确保检索结果的质量：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs stylus">检索公式：RRF（Reciprocal Rank Fusion）<br><br><span class="hljs-function"><span class="hljs-title">score</span><span class="hljs-params">(d)</span></span> = Σ (<span class="hljs-number">1</span> / (k + <span class="hljs-built_in">rank_i</span>(d)))<br><br>其中：<br>- d 是文档<br>- <span class="hljs-built_in">rank_i</span>(d) 是文档在第 <span class="hljs-selector-tag">i</span> 路检索中的排名<br>- k 是常数（通常为 <span class="hljs-number">60</span>）<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-4-Agent-工作流编排"><a href="#5-4-Agent-工作流编排" class="headerlink" title="5.4 Agent 工作流编排"></a>5.4 Agent 工作流编排</h3><p>RAGFlow 内置强大的 Agent 能力：</p>
+<ul>
+<li><strong>可视化编排</strong>：拖拽式工作流设计</li>
+<li><strong>工具集成</strong>：支持代码执行、MCP、RAG 检索等</li>
+<li><strong>记忆系统</strong>：支持短期和长期记忆</li>
+<li><strong>沙箱安全</strong>：代码在隔离环境中执行</li>
+</ul>
+<h3 id="5-5-企业级特性"><a href="#5-5-企业级特性" class="headerlink" title="5.5 企业级特性"></a>5.5 企业级特性</h3><ul>
+<li><strong>完善的 API</strong>：RESTful API 易于集成</li>
+<li><strong>Python SDK</strong>：提供官方 SDK 简化开发</li>
+<li><strong>多租户支持</strong>：支持多用户多知识库</li>
+<li><strong>权限管理</strong>：细粒度的访问控制</li>
+<li><strong>部署灵活</strong>：支持 Docker、源码、云部署</li>
+</ul>
+<h3 id="5-6-持续活跃的开发"><a href="#5-6-持续活跃的开发" class="headerlink" title="5.6 持续活跃的开发"></a>5.6 持续活跃的开发</h3><p>根据更新日志，RAGFlow 保持着高频的功能迭代：</p>
+<ul>
+<li>2025-12: Agent 记忆系统</li>
+<li>2025-11: Gemini 3 Pro 支持</li>
+<li>2025-11: Confluence&#x2F;S3&#x2F;Notion 数据同步</li>
+<li>2025-10: MinerU&#x2F;Docling 文档解析</li>
+<li>2025-10: 可编排数据管道</li>
+<li>2025-08: GPT-5 支持、Agentic Workflow、MCP</li>
+</ul>
+<hr>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>RAGFlow 作为一款开源 RAG 引擎，在以下几个方面展现了其技术实力：</p>
+<ol>
+<li><strong>文档理解深度</strong>：通过 DeepDoc 实现对多格式文档的深度解析，远超简单文本提取</li>
+<li><strong>分块策略丰富</strong>：提供多种可配置模板，满足不同场景需求</li>
+<li><strong>检索策略先进</strong>：多路召回 + 重排序，确保检索质量</li>
+<li><strong>Agent 能力</strong>：内置工作流编排，支持复杂任务自动化</li>
+<li><strong>生态兼容</strong>：兼容多种 LLM 和向量模型，易于集成</li>
+<li><strong>企业级设计</strong>：完善的 API、SDK、部署方案</li>
+</ol>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>企业知识库问答系统</li>
+<li>智能客服</li>
+<li>文档检索与分析</li>
+<li>法律&#x2F;医疗等专业领域问答</li>
+<li>学术研究辅助</li>
+</ul>
+<p>对于正在寻找生产级 RAG 解决方案的团队，RAGFlow 是一个值得深入评估的开源选项。</p>
+<hr>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li>RAGFlow 官方仓库: <a target="_blank" rel="noopener" href="https://github.com/infiniflow/ragflow">https://github.com/infiniflow/ragflow</a></li>
+<li>官方文档: <a target="_blank" rel="noopener" href="https://ragflow.io/docs/dev/">https://ragflow.io/docs/dev/</a></li>
+<li>RAGFlow 官网: <a target="_blank" rel="noopener" href="https://ragflow.io/">https://ragflow.io/</a></li>
+<li>Infinity 向量数据库: <a target="_blank" rel="noopener" href="https://github.com/infiniflow/infinity">https://github.com/infiniflow/infinity</a></li>
+<li>PaddleOCR: <a target="_blank" rel="noopener" href="https://github.com/PaddlePaddle/PaddleOCR">https://github.com/PaddlePaddle/PaddleOCR</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI%E5%BA%94%E7%94%A8/" class="category-chain-item">AI应用</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/RAG/">#RAG</a>
+      
+        <a href="/tags/%E5%BC%80%E6%BA%90/">#开源</a>
+      
+        <a href="/tags/AI%E6%9E%B6%E6%9E%84/">#AI架构</a>
+      
+        <a href="/tags/%E6%96%87%E6%A1%A3%E7%90%86%E8%A7%A3/">#文档理解</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>深度解读 RAGFlow：开源 RAG 引擎的架构设计与技术实践</div>
+      <div>http://example.com/2026/04/18/ragflow-technical-blog/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 18, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/14/opencode-ai-guide/" title="OpenCode：终端中的 AI 编程利器——从安装到精通">
+                        <span class="hidden-mobile">OpenCode：终端中的 AI 编程利器——从安装到精通</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
