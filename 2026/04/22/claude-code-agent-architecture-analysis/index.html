@@ -16,17 +16,18 @@
   <meta name="author" content="Victor">
   <meta name="keywords" content="">
   
-    <meta name="description" content="# Claude Code婧愮爜娣卞害瑙ｆ瀽锛欰I Agent鏋舵瀯璁捐鐨勫叧閿妧鏈粡楠屾€荤粨  鎽樿锛氭湰鏂囧熀浜庡洓绡嘋laude Code婧愮爜瑙ｈ鏂囩珷锛岀郴缁熸€у垎鏋愪簡宸ヤ笟绾I Agent鐨勬灦鏋勮璁°€佹牳蹇冨姛鑳藉疄鐜般€佺畻娉曚紭鍖栫瓑鏂归潰鐨勬妧鏈鐐癸紝褰掔撼浜嗗叡鍚屾妧鏈疄璺典笌宸紓鍖栬В鍐虫柟妗堬紝鎻愬彇浜嗕换鍔¤鍒掋€佸伐鍏疯皟鐢ㄣ€佽蹇">
+    <meta name="description" content="Claude Code源码深度解析：AI Agent架构设计的关键技术经验总结 摘要：本文基于四篇Claude Code源码解读文章，系统性分析了工业级AI Agent的架构设计、核心功能实现、算法优化等方面的技术要点，归纳了共同技术实践与差异化解决方案，提取了任务规划、工具调用、记忆管理、多模态交互等关键环节的可复用技术经验，并整理了开发难点与最佳实践。   目录 核心架构设计 上下文管理：AI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Claude Code源码深度解析：AI Agent架构设计的关键技术经验总结">
 <meta property="og:url" content="http://example.com/2026/04/22/claude-code-agent-architecture-analysis/index.html">
 <meta property="og:site_name" content="Victor&#39;s Blog">
-<meta property="og:description" content="# Claude Code婧愮爜娣卞害瑙ｆ瀽锛欰I Agent鏋舵瀯璁捐鐨勫叧閿妧鏈粡楠屾€荤粨  鎽樿锛氭湰鏂囧熀浜庡洓绡嘋laude Code婧愮爜瑙ｈ鏂囩珷锛岀郴缁熸€у垎鏋愪簡宸ヤ笟绾I Agent鐨勬灦鏋勮璁°€佹牳蹇冨姛鑳藉疄鐜般€佺畻娉曚紭鍖栫瓑鏂归潰鐨勬妧鏈鐐癸紝褰掔撼浜嗗叡鍚屾妧鏈疄璺典笌宸紓鍖栬В鍐虫柟妗堬紝鎻愬彇浜嗕换鍔¤鍒掋€佸伐鍏疯皟鐢ㄣ€佽蹇">
+<meta property="og:description" content="Claude Code源码深度解析：AI Agent架构设计的关键技术经验总结 摘要：本文基于四篇Claude Code源码解读文章，系统性分析了工业级AI Agent的架构设计、核心功能实现、算法优化等方面的技术要点，归纳了共同技术实践与差异化解决方案，提取了任务规划、工具调用、记忆管理、多模态交互等关键环节的可复用技术经验，并整理了开发难点与最佳实践。   目录 核心架构设计 上下文管理：AI">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2026-04-21T16:15:00.000Z">
-<meta property="article:modified_time" content="2026-04-21T16:16:14.430Z">
+<meta property="article:published_time" content="2026-04-21T16:29:00.000Z">
+<meta property="article:modified_time" content="2026-04-21T16:30:36.882Z">
 <meta property="article:author" content="Victor">
-<meta property="article:tag" content="Agent架构">
+<meta property="article:tag" content="开源">
+<meta property="article:tag" content="AI架构">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -207,7 +208,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-04-22 00:15" pubdate>
+        <time datetime="2026-04-22 00:29" pubdate>
           April 22, 2026 am
         </time>
       </span>
@@ -219,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          14k words
+          10k words
         
       </span>
     
@@ -230,7 +231,7 @@
         
         
         
-          120 mins
+          85 mins
         
       </span>
     
@@ -273,571 +274,930 @@
             
               <div class="markdown-body">
                 
-                <p>﻿# Claude Code婧愮爜娣卞害瑙ｆ瀽锛欰I Agent鏋舵瀯璁捐鐨勫叧閿妧鏈粡楠屾€荤粨</p>
-<blockquote>
-<p><strong>鎽樿</strong>锛氭湰鏂囧熀浜庡洓绡嘋laude Code婧愮爜瑙ｈ鏂囩珷锛岀郴缁熸€у垎鏋愪簡宸ヤ笟绾I Agent鐨勬灦鏋勮璁°€佹牳蹇冨姛鑳藉疄鐜般€佺畻娉曚紭鍖栫瓑鏂归潰鐨勬妧鏈鐐癸紝褰掔撼浜嗗叡鍚屾妧鏈疄璺典笌宸紓鍖栬В鍐虫柟妗堬紝鎻愬彇浜嗕换鍔¤鍒掋€佸伐鍏疯皟鐢ㄣ€佽蹇嗙鐞嗐€佸妯℃€佷氦浜掔瓑鍏抽敭鐜妭鐨勫彲澶嶇敤鎶€鏈粡楠岋紝骞舵暣鐞嗕簡寮€鍙戦毦鐐逛笌鏈€浣冲疄璺点€?</p>
+                <h1 id="Claude-Code源码深度解析：AI-Agent架构设计的关键技术经验总结"><a href="#Claude-Code源码深度解析：AI-Agent架构设计的关键技术经验总结" class="headerlink" title="Claude Code源码深度解析：AI Agent架构设计的关键技术经验总结"></a>Claude Code源码深度解析：AI Agent架构设计的关键技术经验总结</h1><blockquote>
+<p><strong>摘要</strong>：本文基于四篇Claude Code源码解读文章，系统性分析了工业级AI Agent的架构设计、核心功能实现、算法优化等方面的技术要点，归纳了共同技术实践与差异化解决方案，提取了任务规划、工具调用、记忆管理、多模态交互等关键环节的可复用技术经验，并整理了开发难点与最佳实践。</p>
 </blockquote>
 <hr>
-<h2 id="鐩綍"><a href="#鐩綍" class="headerlink" title="鐩綍"></a>鐩綍</h2><ol>
-<li><a href="#1-%E9%8F%8D%E7%A8%BF%E7%B8%BE%E9%8F%8B%E8%88%B5%E7%80%AF%E7%92%81%E6%8D%90%EE%85%B8">鏍稿績鏋舵瀯璁捐</a></li>
-<li>[涓婁笅鏂囩鐞嗭細AI Agent鐨勬牳蹇冩寫鎴榏(#2-涓婁笅鏂囩鐞哸i-agent鐨勬牳蹇冩寫鎴?</li>
-<li>[璁板繂绯荤粺锛氫粠鐭湡鍒伴暱鏈熺殑瀹屾暣閾捐矾](#3-璁板繂绯荤粺浠庣煭鏈熷埌闀挎湡鐨勫畬鏁撮摼璺?</li>
-<li>[澶欰gent鍗忎綔锛氫粠鍗曞叺浣滄垬鍒板垎甯冨紡鍐涘洟](#4-澶歛gent鍗忎綔浠庡崟鍏典綔鎴樺埌鍒嗗竷寮忓啗鍥?</li>
-<li>[宸ュ叿璋冪敤涓庡畨鍏ㄦ帶鍒禲(#5-宸ュ叿璋冪敤涓庡畨鍏ㄦ帶鍒?</li>
-<li><a href="#6-%E9%8D%99%EE%88%9B%E5%A2%BF%E7%81%9E%E6%9B%9F%E2%82%AC%D1%82%E7%AC%8Chook%E7%BB%AF%E8%8D%A4%E7%B2%BA">鍙墿灞曟€т笌Hook绯荤粺</a></li>
-<li>[鎬ц兘浼樺寲涓庣紦瀛樼瓥鐣(#7-鎬ц兘浼樺寲涓庣紦瀛樼瓥鐣?</li>
-<li><a href="#8-%E9%91%B7%EE%81%83%E5%AF%8C%E5%AE%B8%E3%83%A4%E7%B6%94%E5%A6%AF%E2%80%B3%E7%B4%A1">鑷富宸ヤ綔妯″紡</a></li>
-<li>[閬ユ祴涓庣洃鎺т綋绯籡(#9-閬ユ祴涓庣洃鎺т綋绯?</li>
-<li>[寮€鍙戦毦鐐逛笌鏈€浣冲疄璺礭(#10-寮€鍙戦毦鐐逛笌鏈€浣冲疄璺?</li>
-<li>[鎬荤粨涓庡惎绀篯(#11-鎬荤粨涓庡惎绀?</li>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#1-%E6%A0%B8%E5%BF%83%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1">核心架构设计</a></li>
+<li><a href="#2-%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86ai-agent%E7%9A%84%E6%A0%B8%E5%BF%83%E6%8C%91%E6%88%98">上下文管理：AI Agent的核心挑战</a></li>
+<li><a href="#3-%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F%E4%BB%8E%E7%9F%AD%E6%9C%9F%E5%88%B0%E9%95%BF%E6%9C%9F%E7%9A%84%E5%AE%8C%E6%95%B4%E9%93%BE%E8%B7%AF">记忆系统：从短期到长期的完整链路</a></li>
+<li><a href="#4-%E5%A4%9Aagent%E5%8D%8F%E4%BD%9C%E4%BB%8E%E5%8D%95%E5%85%B5%E4%BD%9C%E6%88%98%E5%88%B0%E5%88%86%E5%B8%83%E5%BC%8F%E5%86%9B%E5%9B%A2">多Agent协作：从单兵作战到分布式军团</a></li>
+<li><a href="#5-%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8%E4%B8%8E%E5%AE%89%E5%85%A8%E6%8E%A7%E5%88%B6">工具调用与安全控制</a></li>
+<li><a href="#6-%E5%8F%AF%E6%89%A9%E5%B1%95%E6%80%A7%E4%B8%8Ehook%E7%B3%BB%E7%BB%9F">可扩展性与Hook系统</a></li>
+<li><a href="#7-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B8%8E%E7%BC%93%E5%AD%98%E7%AD%96%E7%95%A5">性能优化与缓存策略</a></li>
+<li><a href="#8-%E8%87%AA%E4%B8%BB%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F">自主工作模式</a></li>
+<li><a href="#9-%E9%81%A5%E6%B5%8B%E4%B8%8E%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB">遥测与监控体系</a></li>
+<li><a href="#10-%E5%BC%80%E5%8F%91%E9%9A%BE%E7%82%B9%E4%B8%8E%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5">开发难点与最佳实践</a></li>
+<li><a href="#11-%E6%80%BB%E7%BB%93%E4%B8%8E%E5%90%AF%E7%A4%BA">总结与启示</a></li>
 </ol>
 <hr>
-<h2 id="1-鏍稿績鏋舵瀯璁捐"><a href="#1-鏍稿績鏋舵瀯璁捐" class="headerlink" title="1. 鏍稿績鏋舵瀯璁捐"></a>1. 鏍稿績鏋舵瀯璁捐</h2><h3 id="1-1-Agent鐨勬湰璐ㄥ畾涔"><a href="#1-1-Agent鐨勬湰璐ㄥ畾涔" class="headerlink" title="1.1 Agent鐨勬湰璐ㄥ畾涔?"></a>1.1 Agent鐨勬湰璐ㄥ畾涔?</h3><p>Claude Code鐨勬簮鐮佹彮绀轰簡涓€涓噸瑕佽鐭ワ細**AI Agent涓嶆槸绠€鍗曠殑”鍙戞秷鎭?鏀跺洖澶?绋嬪簭锛岃€屾槸涓€涓惊鐜墽琛屽紩鎿?*銆傚叾鏍稿績鏋舵瀯鍙互姒傛嫭涓猴細</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs ruby">鐢ㄦ埛杈撳叆 鈫<span class="hljs-string">?R</span>EPL鎺ユ敹 鈫<span class="hljs-string">?Q</span>ueryEngine绠＄悊鐘舵€<span class="hljs-string">?鈫</span><span class="hljs-string">?q</span>ueryLoop鏍稿績寰幆<br>       鈫<span class="hljs-string">?w</span>hile (<span class="hljs-literal">true</span>) &#123;<br>  <span class="hljs-number">1</span>. 鍑嗗娑堟伅锛堝帇缂┿€佽鍓€佹姌鍙狅級<br>  <span class="hljs-number">2</span>. 缁勮System Prompt<br>  <span class="hljs-number">3</span>. 妫€鏌ユ槸鍚﹂渶瑕丄uto-Compact<br>  <span class="hljs-number">4</span>. 璋冪敤<span class="hljs-variable constant_">API</span>锛堟祦寮忥級<br>  <span class="hljs-number">5</span>. 鏀堕泦Assistant娑堟伅鍜屽伐鍏疯皟鐢?  <span class="hljs-number">6</span>. 鎵ц宸ュ叿锛堝彲骞跺彂锛?  <span class="hljs-number">7</span>. 鏀堕泦宸ュ叿缁撴灉<br>  <span class="hljs-number">8</span>. 妫€鏌ユ槸鍚﹂渶瑕佺户缁?  <span class="hljs-number">9</span>. 鎵цStop Hooks锛堝惈璁板繂鎻愬彇锛?  <span class="hljs-number">10</span>. 鑻ユ棤宸ュ叿璋冪敤 鈫<span class="hljs-string">?閫</span>€鍑哄惊鐜<span class="hljs-string">?&#125;</span><br></code></pre></td></tr></table></figure>
+<h2 id="1-核心架构设计"><a href="#1-核心架构设计" class="headerlink" title="1. 核心架构设计"></a>1. 核心架构设计</h2><h3 id="1-1-Agent的本质定义"><a href="#1-1-Agent的本质定义" class="headerlink" title="1.1 Agent的本质定义"></a>1.1 Agent的本质定义</h3><p>Claude Code的源码揭示了一个重要认知：<strong>AI Agent不是简单的”发消息-收回复”程序，而是一个循环执行引擎</strong>。其核心架构可以概括为：</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs gauss">用户输入 → REPL接收 → QueryEngine管理状态 → queryLoop核心循环<br>       ↓<br><span class="hljs-keyword">while</span> (true) &#123;<br>  <span class="hljs-number">1.</span> 准备消息（压缩、裁剪、折叠）<br>  <span class="hljs-number">2.</span> 组装<span class="hljs-keyword">System</span> Prompt<br>  <span class="hljs-number">3.</span> 检查是否需要Auto-Compact<br>  <span class="hljs-number">4.</span> 调用API（流式）<br>  <span class="hljs-number">5.</span> 收集Assistant消息和工具调用<br>  <span class="hljs-number">6.</span> 执行工具（可并发）<br>  <span class="hljs-number">7.</span> 收集工具结果<br>  <span class="hljs-number">8.</span> 检查是否需要继续<br>  <span class="hljs-number">9.</span> 执行<span class="hljs-keyword">Stop</span> Hooks（含记忆提取）<br>  <span class="hljs-number">10.</span> 若无工具调用 → 退出循环<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>**鎶€鏈粡楠?*锛?</p>
+<p><strong>技术经验</strong>：</p>
 <ul>
-<li>Agent鐨勬牳蹇冩槸”妯″瀷+宸ュ叿+璁板繂+鐜鍙嶉”鐨勫惊鐜郴缁?- 闇€瑕佹槑纭尯鍒哃LM锛堝紩鎿庯級銆佹帹鐞嗘ā鍨嬶紙澧炲己鐗堝紩鎿庯級鍜孉gent锛堟帶鍒剁郴缁燂級</li>
-<li>Coding Harness鏄洿缁曟ā鍨嬫瀯寤虹殑杞欢灞傦紝璐熻矗涓婁笅鏂囩鐞嗐€佸伐鍏蜂娇鐢ㄣ€佹彁绀虹紦瀛樼瓑</li>
+<li>Agent的核心是”模型+工具+记忆+环境反馈”的循环系统</li>
+<li>需要明确区分LLM（引擎）、推理模型（增强版引擎）和Agent（控制系统）</li>
+<li>Coding Harness是围绕模型构建的软件层，负责上下文管理、工具使用、提示缓存等</li>
 </ul>
-<h3 id="1-2-11灞傛灦鏋勮璁"><a href="#1-2-11灞傛灦鏋勮璁" class="headerlink" title="1.2 11灞傛灦鏋勮璁?"></a>1.2 11灞傛灦鏋勮璁?</h3><p>Claude Code閲囩敤浜?1灞傛灦鏋勮璁★紝鏈川涓婃槸涓€涓?*浼鎴愯亰澶╁伐鍏风殑Agent缂栨帓骞冲彴**锛?</p>
+<h3 id="1-2-11层架构设计"><a href="#1-2-11层架构设计" class="headerlink" title="1.2 11层架构设计"></a>1.2 11层架构设计</h3><p>Claude Code采用了11层架构设计，本质上是一个<strong>伪装成聊天工具的Agent编排平台</strong>：</p>
 <table>
 <thead>
 <tr>
-<th>灞傜骇</th>
-<th>鏍稿績鍔熻兘</th>
-<th>鎶€鏈疄鐜?</th>
+<th>层级</th>
+<th>核心功能</th>
+<th>技术实现</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>1</td>
-<td>涓婁笅鏂囨敞鍏?</td>
-<td>CLAUDE.md姣忚疆鍔犺浇锛?0000瀛楃绌洪棿</td>
+<td>上下文注入</td>
+<td>CLAUDE.md每轮加载，40000字符空间</td>
 </tr>
 <tr>
 <td>2</td>
-<td>缂撳瓨浼樺寲</td>
-<td>瀛怉gent鍏变韩prompt缂撳瓨</td>
+<td>缓存优化</td>
+<td>子Agent共享prompt缓存</td>
 </tr>
 <tr>
 <td>3</td>
-<td>鏉冮檺鎺у埗</td>
-<td>浜斿眰鏉冮檺閰嶇疆浣撶郴</td>
+<td>权限控制</td>
+<td>五层权限配置体系</td>
 </tr>
 <tr>
 <td>4</td>
-<td>涓婁笅鏂囧帇缂?</td>
-<td>5绉嶅帇缂╃瓥鐣ラ€掕繘</td>
+<td>上下文压缩</td>
+<td>5种压缩策略递进</td>
 </tr>
 <tr>
 <td>5</td>
-<td>鎵╁睍鑳藉姏</td>
-<td>25+鐢熷懡鍛ㄦ湡Hook浜嬩欢</td>
+<td>扩展能力</td>
+<td>25+生命周期Hook事件</td>
 </tr>
 <tr>
 <td>6</td>
-<td>浼氳瘽绠＄悊</td>
-<td>JSONL鎸佷箙鍖栵紝鏀寔鎭㈠鍜宖ork</td>
+<td>会话管理</td>
+<td>JSONL持久化，支持恢复和fork</td>
 </tr>
 <tr>
 <td>7</td>
-<td>宸ュ叿绯荤粺</td>
-<td>60+宸ュ叿锛屾櫤鑳芥壒澶勭悊</td>
+<td>工具系统</td>
+<td>60+工具，智能批处理</td>
 </tr>
 <tr>
 <td>8</td>
-<td>娴佸紡鏋舵瀯</td>
-<td>async generator锛岄殢鏃朵腑鏂?</td>
+<td>流式架构</td>
+<td>async generator，随时中断</td>
 </tr>
 <tr>
 <td>9</td>
-<td>閲嶈瘯鏈哄埗</td>
-<td>鎸囨暟閫€閬?鎶栧姩锛屾渶澶?0娆?</td>
+<td>重试机制</td>
+<td>指数退避+抖动，最多10次</td>
 </tr>
 <tr>
 <td>10</td>
-<td>Memory绯荤粺</td>
-<td>鍏眰璁板繂鏋舵瀯</td>
+<td>Memory系统</td>
+<td>六层记忆架构</td>
 </tr>
 <tr>
 <td>11</td>
-<td>澶欰gent鍗忎綔</td>
-<td>Fork&#x2F;Subagent&#x2F;Swarm涓夌妯″紡</td>
+<td>多Agent协作</td>
+<td>Fork&#x2F;Subagent&#x2F;Swarm三种模式</td>
 </tr>
 </tbody></table>
 <hr>
-<h2 id="2-涓婁笅鏂囩鐞嗭細AI-Agent鐨勬牳蹇冩寫鎴"><a href="#2-涓婁笅鏂囩鐞嗭細AI-Agent鐨勬牳蹇冩寫鎴" class="headerlink" title="2. 涓婁笅鏂囩鐞嗭細AI Agent鐨勬牳蹇冩寫鎴?"></a>2. 涓婁笅鏂囩鐞嗭細AI Agent鐨勬牳蹇冩寫鎴?</h2><h3 id="2-1-鏍规湰鐭涚浘"><a href="#2-1-鏍规湰鐭涚浘" class="headerlink" title="2.1 鏍规湰鐭涚浘"></a>2.1 鏍规湰鐭涚浘</h3><p>AI Agent闈复鐨勬牳蹇冪煕鐩炬槸锛?*闇€瑕佽秴闀夸笂涓嬫枃鎵嶈兘瀹屾垚澶嶆潅浠诲姟锛屼絾瓒呴暱涓婁笅鏂囩殑Token鎴愭湰浼氳浜у搧鍦ㄥ晢涓氫笂涓嶅彲鎸佺画**銆?<br>鍏蜂綋琛ㄧ幇锛?</p>
+<h2 id="2-上下文管理：AI-Agent的核心挑战"><a href="#2-上下文管理：AI-Agent的核心挑战" class="headerlink" title="2. 上下文管理：AI Agent的核心挑战"></a>2. 上下文管理：AI Agent的核心挑战</h2><h3 id="2-1-根本矛盾"><a href="#2-1-根本矛盾" class="headerlink" title="2.1 根本矛盾"></a>2.1 根本矛盾</h3><p>AI Agent面临的核心矛盾是：<strong>需要超长上下文才能完成复杂任务，但超长上下文的Token成本会让产品在商业上不可持续</strong>。</p>
+<p>具体表现：</p>
 <ul>
-<li>涓€杞暱瀵硅瘽鍙兘鏈?00K+ Token鐨則ool_result</li>
-<li>姣忚疆瀵硅瘽閮藉叏閲忛噸鍙?鈫?鎴愭湰椋欏崌锛?1+涓€杞級</li>
-<li>浼犵粺鍋氭硶銆屽垹鏃ф秷鎭€嶁啋 prompt cache澶辨晥 鈫?閲嶅彂鍏ㄩ儴 鈫?闆笂鍔犻湝</li>
-<li>涓嶅垹 鈫?涓婁笅鏂囨孩鍑猴紝瀵硅瘽涓柇</li>
+<li>一轮长对话可能有100K+ Token的tool_result</li>
+<li>每轮对话都全量重发 → 成本飙升（$1+一轮）</li>
+<li>传统做法「删旧消息」→ prompt cache失效 → 重发全部 → 雪上加霜</li>
+<li>不删 → 上下文溢出，对话中断</li>
 </ul>
-<h3 id="2-2-System-Prompt鐨勪袱灞傜紦瀛樻灦鏋"><a href="#2-2-System-Prompt鐨勪袱灞傜紦瀛樻灦鏋" class="headerlink" title="2.2 System Prompt鐨勪袱灞傜紦瀛樻灦鏋?"></a>2.2 System Prompt鐨勪袱灞傜紦瀛樻灦鏋?</h3><p>Claude Code灏哖rompt鎷嗗垎涓轰袱灞傦紝閫氳繃 *<em>鍒嗙晫绾匡紙BOUNDARY MARKER锛?</em> 瀹炵幇瀹屽叏瑙ｈ€︼細</p>
+<h3 id="2-2-System-Prompt的两层缓存架构"><a href="#2-2-System-Prompt的两层缓存架构" class="headerlink" title="2.2 System Prompt的两层缓存架构"></a>2.2 System Prompt的两层缓存架构</h3><p>Claude Code将Prompt拆分为两层，通过 <strong>分界线（BOUNDARY MARKER）</strong> 实现完全解耦：</p>
 <table>
 <thead>
 <tr>
-<th>缁村害</th>
-<th>闈欐€佸墠缂€锛坰cope: ‘global’锛?</th>
-<th>鍔ㄦ€侀儴鍒嗭紙scope: null锛?</th>
+<th>维度</th>
+<th>静态前缀（scope: ‘global’）</th>
+<th>动态部分（scope: null）</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>鍐呭</td>
-<td>韬唤瀹氫箟銆佺郴缁熻鍒欍€佷换鍔¤鑼?</td>
-<td>浼氳瘽鎸囧紩銆佽蹇嗐€佺幆澧冧俊鎭?</td>
+<td>内容</td>
+<td>身份定义、系统规则、任务规范</td>
+<td>会话指引、记忆、环境信息</td>
 </tr>
 <tr>
-<td>缂撳瓨鑼冨洿</td>
-<td>璺ㄧ敤鎴枫€佽法缁勭粐鍏变韩</td>
-<td>姣忎釜浼氳瘽鐙珛</td>
+<td>缓存范围</td>
+<td>跨用户、跨组织共享</td>
+<td>每个会话独立</td>
 </tr>
 <tr>
-<td>澶辨晥鏃舵満</td>
-<td>鍑犱箮姘镐笉澶辨晥</td>
-<td>&#x2F;clear鎴?compact鏃跺け鏁?</td>
+<td>失效时机</td>
+<td>几乎永不失效</td>
+<td>&#x2F;clear或&#x2F;compact时失效</td>
 </tr>
 <tr>
-<td>澶у皬浼拌</td>
+<td>大小估计</td>
 <td>5-8K Token</td>
 <td>5-10K Token</td>
 </tr>
 </tbody></table>
-<p>**鎶€鏈粡楠?*锛?</p>
+<p><strong>技术经验</strong>：</p>
 <ul>
-<li>鍖哄垎”姘歌繙涓嶅彉鐨?鍜?姣忔涓嶅悓鐨?锛屽垎鍒寰?- 鍒嗙晫绾跨‘淇濆姩鎬侀儴鍒嗗彉鍖栨椂锛岄潤鎬侀儴鍒嗙殑缂撳瓨缁濆涓嶄細澶辨晥</li>
-<li>闈欐€侀儴鍒嗚法鏁扮櫨涓囩敤鎴峰叡浜紝浜х敓涔樻暟鏁堝簲</li>
+<li>区分”永远不变的”和”每次不同的”，分别对待</li>
+<li>分界线确保动态部分变化时，静态部分的缓存绝对不会失效</li>
+<li>静态部分跨数百万用户共享，产生乘数效应</li>
 </ul>
-<h3 id="2-3-鍥涘眰閫掕繘鐨凜ompact鏋舵瀯"><a href="#2-3-鍥涘眰閫掕繘鐨凜ompact鏋舵瀯" class="headerlink" title="2.3 鍥涘眰閫掕繘鐨凜ompact鏋舵瀯"></a>2.3 鍥涘眰閫掕繘鐨凜ompact鏋舵瀯</h3><p>褰撲笂涓嬫枃鎺ヨ繎涓婇檺鏃讹紝Claude Code閲囩敤鍥涘眰閫掕繘鐨勫帇缂╃瓥鐣ワ細</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs ruby">涓婁笅鏂囨帴杩戜笂闄?  鈫<span class="hljs-string">?L</span>ayer <span class="hljs-number">1</span>: MicroCompact锛堣交閲忔竻鐞嗭級<br>  鈹溾攢鈹€ 缂撳瓨宸插喎 鈫<span class="hljs-string">?鐩</span>存帴娓呯┖鏃ool_result<br>  鈹斺攢鈹€ 缂撳瓨杩樼儹 鈫<span class="hljs-string">?c</span>ache_edits澧為噺鍒犻櫎<br>  鈫<span class="hljs-string">?涓</span>嶅锛<span class="hljs-string">?L</span>ayer <span class="hljs-number">2</span>: SessionMemoryCompact锛堜細璇濊蹇嗗帇缂╋級<br>  鈹溾攢鈹€ 淇濈暀鏈€杩<span class="hljs-string">?0</span>K-40K token鐨勬秷鎭?  鈹斺攢鈹€ 鐢⊿ession Memory鏇夸唬鏃у璇?  鈫<span class="hljs-string">?杩</span>樹笉澶燂紵<br>Layer <span class="hljs-number">3</span>: Full Compact锛堝叏閲忓帇缂╋級<br>  鈹溾攢鈹€ Fork涓€涓猘gent鍋氭憳瑕?  鈹溾攢鈹€ 澶嶇敤涓诲璇濈殑prompt cache<br>  鈹斺攢鈹€ 鍥剧墖鏇挎崲涓篬image]鏍囪<br>  鈫<span class="hljs-string">?杩</span>樹笉澶燂紵<br>Layer <span class="hljs-number">4</span>: <span class="hljs-variable constant_">PTL</span> Retry锛堢粓鏋佸厹搴曪級<br>  鈹斺攢鈹€ 浠庡ご閮ㄧ爫鎺夋渶鏃х殑娑堟伅缁勶紝鏈€澶氱爫<span class="hljs-number">20</span>%<br></code></pre></td></tr></table></figure>
+<h3 id="2-3-四层递进的Compact架构"><a href="#2-3-四层递进的Compact架构" class="headerlink" title="2.3 四层递进的Compact架构"></a>2.3 四层递进的Compact架构</h3><p>当上下文接近上限时，Claude Code采用四层递进的压缩策略：</p>
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-attribute">上下文接近上限</span><br><span class="hljs-attribute">  ↓</span><br><span class="hljs-attribute">Layer 1</span><span class="hljs-punctuation">:</span> <span class="hljs-string">MicroCompact（轻量清理）</span><br>  <span class="hljs-attribute">├── 缓存已冷 → 直接清空旧tool_result</span><br><span class="hljs-attribute">  └── 缓存还热 → cache_edits增量删除</span><br><span class="hljs-attribute">  ↓ 不够？</span><br><span class="hljs-attribute">Layer 2</span><span class="hljs-punctuation">:</span> <span class="hljs-string">SessionMemoryCompact（会话记忆压缩）</span><br>  <span class="hljs-attribute">├── 保留最近10K-40K token的消息</span><br><span class="hljs-attribute">  └── 用Session Memory替代旧对话</span><br><span class="hljs-attribute">  ↓ 还不够？</span><br><span class="hljs-attribute">Layer 3</span><span class="hljs-punctuation">:</span> <span class="hljs-string">Full Compact（全量压缩）</span><br>  <span class="hljs-attribute">├── Fork一个agent做摘要</span><br><span class="hljs-attribute">  ├── 复用主对话的prompt cache</span><br><span class="hljs-attribute">  └── 图片替换为[image]标记</span><br><span class="hljs-attribute">  ↓ 还不够？</span><br><span class="hljs-attribute">Layer 4</span><span class="hljs-punctuation">:</span> <span class="hljs-string">PTL Retry（终极兜底）</span><br>  └── 从头部砍掉最旧的消息组，最多砍20%<br></code></pre></td></tr></table></figure>
 
-<h4 id="2-3-1-Cache-Edits榛戠鎶€"><a href="#2-3-1-Cache-Edits榛戠鎶€" class="headerlink" title="2.3.1 Cache Edits榛戠鎶€"></a>2.3.1 Cache Edits榛戠鎶€</h4><p>杩欐槸Anthropic API鐨勬湭鍏紑鍔熻兘锛屾牳蹇冩槸<strong>缂撳瓨涓嶅け鏁堢殑澧為噺鍒犻櫎</strong>锛?</p>
+<h4 id="2-3-1-Cache-Edits黑科技"><a href="#2-3-1-Cache-Edits黑科技" class="headerlink" title="2.3.1 Cache Edits黑科技"></a>2.3.1 Cache Edits黑科技</h4><p>这是Anthropic API的未公开功能，核心是<strong>缓存不失效的增量删除</strong>：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;cache_edits&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;edits&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>    <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;delete&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;cache_reference&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;tool_use_id_A&quot;</span> <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;delete&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;cache_reference&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;tool_use_id_B&quot;</span> <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">]</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
 
-<p>宸ヤ綔鍘熺悊锛?</p>
+<p>工作原理：</p>
 <ol>
-<li>缁欐瘡涓潡璐翠笂ID锛坈ache_reference锛?2. 鍛婅瘔鏈嶅姟绔?璺宠繃杩欎簺鍧?锛堟暟鎹繕鍦ㄧ紦瀛橀噷锛屽彧鏄鏍囪涓?璺宠繃”锛?3. 淇濆瓨鏍囪鎸囦护锛屼緵鍚庣画璇锋眰浣跨敤</li>
+<li>给每个块贴上ID（cache_reference）</li>
+<li>告诉服务端”跳过这些块”（数据还在缓存里，只是被标记为”跳过”）</li>
+<li>保存标记指令，供后续请求使用</li>
 </ol>
-<p><strong>浼樺娍</strong>锛?</p>
+<p><strong>优势</strong>：</p>
 <ul>
-<li>缂撳瓨鍓嶇紑娌″彉 鈫?涓嬩竴杞繕鏄懡涓?- 妯″瀷鐪嬪埌鐨勪笂涓嬫枃鍙樼煭浜?鈫?鐪乼oken</li>
-<li>鍘熷鏁版嵁杩樺湪鏈嶅姟绔?鈫?鍙槸琚爣璁颁负”璺宠繃”</li>
+<li>缓存前缀没变 → 下一轮还是命中</li>
+<li>模型看到的上下文变短了 → 省token</li>
+<li>原始数据还在服务端 → 只是被标记为”跳过”</li>
 </ul>
-<h4 id="2-3-2-SessionMemoryCompact锛氬绉戞墜鏈紡鐨勭簿纭垏鍓"><a href="#2-3-2-SessionMemoryCompact锛氬绉戞墜鏈紡鐨勭簿纭垏鍓" class="headerlink" title="2.3.2 SessionMemoryCompact锛氬绉戞墜鏈紡鐨勭簿纭垏鍓?"></a>2.3.2 SessionMemoryCompact锛氬绉戞墜鏈紡鐨勭簿纭垏鍓?</h4><p>鏍稿績瑙勫垯锛?</p>
+<h4 id="2-3-2-SessionMemoryCompact：外科手术式的精确切割"><a href="#2-3-2-SessionMemoryCompact：外科手术式的精确切割" class="headerlink" title="2.3.2 SessionMemoryCompact：外科手术式的精确切割"></a>2.3.2 SessionMemoryCompact：外科手术式的精确切割</h4><p>核心规则：</p>
 <ul>
-<li><strong>缁濅笉鎷嗘暎tool_use鍜宼ool_result</strong> 鈥?宸ュ叿璋冪敤鍜岀粨鏋滃繀椤绘垚瀵瑰嚭鐜?- <strong>缁濅笉鎷嗘暎thinking鍧楀拰鍚宮essage.id鐨則ool_use</strong> 鈥?鎬濊€冭繃绋嬪拰鎵ц鍔ㄤ綔蹇呴』鍦ㄤ竴璧?- 淇濈暀鏈€杩?0K-40K token鐨勬秷鎭紙鏍规嵁涓婁笅鏂囧帇鍔涘姩鎬佽皟鏁达級</li>
-<li>鐢ㄤ竴鏉ession Memory鏇夸唬鏃у璇?<br>**鎶€鏈粡楠?*锛?</li>
-<li>鍒囧壊閫昏緫鏄?瀹佸彲澶氱暀涓€鐐癸紝涔熶笉鑳芥媶鏁?鐨勪繚瀹堢瓥鐣?- 纭繚涓婁笅鏂囩殑璇箟瀹屾暣鎬?</li>
+<li><strong>绝不拆散tool_use和tool_result</strong> — 工具调用和结果必须成对出现</li>
+<li><strong>绝不拆散thinking块和同message.id的tool_use</strong> — 思考过程和执行动作必须在一起</li>
+<li>保留最近10K-40K token的消息（根据上下文压力动态调整）</li>
+<li>用一条Session Memory替代旧对话</li>
 </ul>
-<h3 id="2-4-涓婁笅鏂囧帇缂╃殑浜旂绛栫暐"><a href="#2-4-涓婁笅鏂囧帇缂╃殑浜旂绛栫暐" class="headerlink" title="2.4 涓婁笅鏂囧帇缂╃殑浜旂绛栫暐"></a>2.4 涓婁笅鏂囧帇缂╃殑浜旂绛栫暐</h3><table>
+<p><strong>技术经验</strong>：</p>
+<ul>
+<li>切割逻辑是”宁可多留一点，也不能拆散”的保守策略</li>
+<li>确保上下文的语义完整性</li>
+</ul>
+<h3 id="2-4-上下文压缩的五种策略"><a href="#2-4-上下文压缩的五种策略" class="headerlink" title="2.4 上下文压缩的五种策略"></a>2.4 上下文压缩的五种策略</h3><table>
 <thead>
 <tr>
-<th>绛栫暐</th>
-<th>瑙﹀彂鏉′欢</th>
-<th>鏍稿績鎵嬫</th>
-<th>浠ｄ环</th>
+<th>策略</th>
+<th>触发条件</th>
+<th>核心手段</th>
+<th>代价</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>microcompact</td>
-<td>鍩轰簬鏃堕棿锛?0鍒嗛挓锛?</td>
-<td>娓呯悊鏃у伐鍏风粨鏋?</td>
-<td>鏈€灏?</td>
+<td>基于时间（60分钟）</td>
+<td>清理旧工具结果</td>
+<td>最小</td>
 </tr>
 <tr>
 <td>context collapse</td>
-<td>90%&#x2F;95%闃堝€?</td>
-<td>鎶曞奖鎶樺彔锛堜笉淇敼鍘熸秷鎭級</td>
-<td>灏?</td>
+<td>90%&#x2F;95%阈值</td>
+<td>投影折叠（不修改原消息）</td>
+<td>小</td>
 </tr>
 <tr>
 <td>session memory</td>
-<td>token澧為暱+宸ュ叿璋冪敤闃堝€?</td>
-<td>鐢╯ummary鏇夸唬鏃у璇?</td>
-<td>涓?</td>
+<td>token增长+工具调用阈值</td>
+<td>用summary替代旧对话</td>
+<td>中</td>
 </tr>
 <tr>
 <td>full compact</td>
-<td>鎺ヨ繎涓婁笅鏂囦笂闄?</td>
-<td>Fork agent鍋氬叏閲忔憳瑕?</td>
-<td>杈冨ぇ</td>
+<td>接近上下文上限</td>
+<td>Fork agent做全量摘要</td>
+<td>较大</td>
 </tr>
 <tr>
 <td>PTL truncation</td>
-<td>鏋佺鎯呭喌</td>
-<td>涓㈠純鏈€鏃╂秷鎭粍</td>
-<td>鏈€澶?</td>
+<td>极端情况</td>
+<td>丢弃最早消息组</td>
+<td>最大</td>
 </tr>
 </tbody></table>
-<p>**鎶€鏈粡楠?*锛?</p>
+<p><strong>技术经验</strong>：</p>
 <ul>
-<li>鑳借交閲忚В鍐崇殑涓嶇敤閲嶉噺绾ф柟妗?- 鍘嬬缉鍚庨渶瑕佽嚜鍔ㄦ仮澶嶅叧閿笂涓嬫枃锛堟渶杩戞枃浠躲€佹縺娲荤殑Skills绛夛級</li>
-<li>鍘嬬缉涓嶆槸鍗曚竴鐨勶紝鑰屾槸鏍规嵁涓婁笅鏂囧帇鍔涢€愮骇鍗囩骇</li>
+<li>能轻量解决的不用重量级方案</li>
+<li>压缩后需要自动恢复关键上下文（最近文件、激活的Skills等）</li>
+<li>压缩不是单一的，而是根据上下文压力逐级升级</li>
 </ul>
 <hr>
-<h2 id="3-璁板繂绯荤粺锛氫粠鐭湡鍒伴暱鏈熺殑瀹屾暣閾捐矾"><a href="#3-璁板繂绯荤粺锛氫粠鐭湡鍒伴暱鏈熺殑瀹屾暣閾捐矾" class="headerlink" title="3. 璁板繂绯荤粺锛氫粠鐭湡鍒伴暱鏈熺殑瀹屾暣閾捐矾"></a>3. 璁板繂绯荤粺锛氫粠鐭湡鍒伴暱鏈熺殑瀹屾暣閾捐矾</h2><h3 id="3-1-鍏眰璁板繂鏋舵瀯"><a href="#3-1-鍏眰璁板繂鏋舵瀯" class="headerlink" title="3.1 鍏眰璁板繂鏋舵瀯"></a>3.1 鍏眰璁板繂鏋舵瀯</h3><p>Claude Code鐨勮蹇嗙郴缁熸槸鍏舵渶绮惧阀鐨勬ā鍧椾箣涓€锛岃鐩栦簡瀹屽叏涓嶅悓鐨勬椂闂村昂搴︼細</p>
+<h2 id="3-记忆系统：从短期到长期的完整链路"><a href="#3-记忆系统：从短期到长期的完整链路" class="headerlink" title="3. 记忆系统：从短期到长期的完整链路"></a>3. 记忆系统：从短期到长期的完整链路</h2><h3 id="3-1-六层记忆架构"><a href="#3-1-六层记忆架构" class="headerlink" title="3.1 六层记忆架构"></a>3.1 六层记忆架构</h3><p>Claude Code的记忆系统是其最精巧的模块之一，覆盖了完全不同的时间尺度：</p>
 <table>
 <thead>
 <tr>
-<th>鏃堕棿灏哄害</th>
-<th>鏈哄埗</th>
-<th>璇存槑</th>
+<th>时间尺度</th>
+<th>机制</th>
+<th>说明</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>绉掔骇</td>
+<td>秒级</td>
 <td>Relevant Memory Recall</td>
-<td>姣忚疆prefetch锛孲onnet閫夋嫨鐩稿叧璁板繂</td>
+<td>每轮prefetch，Sonnet选择相关记忆</td>
 </tr>
 <tr>
-<td>鍥炲悎绾?</td>
+<td>回合级</td>
 <td>extractMemories</td>
-<td>姣忚疆缁撴潫鍚庡悗鍙板瓙Agent鍐欏洖</td>
+<td>每轮结束后后台子Agent写回</td>
 </tr>
 <tr>
-<td>鍒嗛挓绾?</td>
+<td>分钟级</td>
 <td>Session Memory</td>
-<td>杈惧埌token闃堝€煎悗鏇存柊浼氳瘽鎽樿</td>
+<td>达到token阈值后更新会话摘要</td>
 </tr>
 <tr>
-<td>澶╃骇</td>
+<td>天级</td>
 <td>AutoDream</td>
-<td>24h+5 session闂ㄦ锛岃法session consolidation</td>
+<td>24h+5 session门槛，跨session consolidation</td>
 </tr>
 <tr>
-<td>鎵嬪姩</td>
+<td>手动</td>
 <td>CLAUDE.md&#x2F;Team Memory</td>
-<td>鐢ㄦ埛缂栬緫鎴栧洟闃熷悓姝?</td>
+<td>用户编辑或团队同步</td>
 </tr>
 </tbody></table>
-<h3 id="3-2-涓夊眰璁板繂浣撶郴"><a href="#3-2-涓夊眰璁板繂浣撶郴" class="headerlink" title="3.2 涓夊眰璁板繂浣撶郴"></a>3.2 涓夊眰璁板繂浣撶郴</h3><table>
+<h3 id="3-2-三层记忆体系"><a href="#3-2-三层记忆体系" class="headerlink" title="3.2 三层记忆体系"></a>3.2 三层记忆体系</h3><table>
 <thead>
 <tr>
-<th>灞傜骇</th>
-<th>璺緞</th>
-<th>瑙﹀彂鏂瑰紡</th>
-<th>鐢熷懡鍛ㄦ湡</th>
+<th>层级</th>
+<th>路径</th>
+<th>触发方式</th>
+<th>生命周期</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Auto Memory</td>
 <td>~&#x2F;.claude&#x2F;projects&#x2F;<path>&#x2F;memory&#x2F;</td>
-<td>姣忚疆瀵硅瘽缁撴潫鑷姩鍐欏叆</td>
-<td>鐭湡宸ヤ綔璁板繂</td>
+<td>每轮对话结束自动写入</td>
+<td>短期工作记忆</td>
 </tr>
 <tr>
 <td>Team Memory</td>
-<td>Auto Memory鐨勫瓙鐩綍</td>
-<td>鍥㈤槦鍏变韩</td>
-<td>璺ㄧ敤鎴锋寔涔呭寲</td>
+<td>Auto Memory的子目录</td>
+<td>团队共享</td>
+<td>跨用户持久化</td>
 </tr>
 <tr>
 <td>Agent Memory</td>
-<td>鑷敼杩汚gent鐨勪笓灞炵洰褰?</td>
-<td>autoDream瀹氭湡鏁村悎</td>
-<td>闀挎湡鐭ヨ瘑搴?</td>
+<td>自改进Agent的专属目录</td>
+<td>autoDream定期整合</td>
+<td>长期知识库</td>
 </tr>
 </tbody></table>
-<h3 id="3-3-鍥涚璁板繂绫诲瀷"><a href="#3-3-鍥涚璁板繂绫诲瀷" class="headerlink" title="3.3 鍥涚璁板繂绫诲瀷"></a>3.3 鍥涚璁板繂绫诲瀷</h3><table>
+<h3 id="3-3-四种记忆类型"><a href="#3-3-四种记忆类型" class="headerlink" title="3.3 四种记忆类型"></a>3.3 四种记忆类型</h3><table>
 <thead>
 <tr>
-<th>绫诲瀷</th>
-<th>鐢ㄩ€?</th>
-<th>浣曟椂淇濆瓨</th>
-<th>绀轰緥</th>
+<th>类型</th>
+<th>用途</th>
+<th>何时保存</th>
+<th>示例</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>user</td>
-<td>鐢ㄦ埛瑙掕壊銆佸亸濂姐€佺煡璇嗘按骞?</td>
-<td>浜嗚В鍒扮敤鎴风殑浠讳綍涓汉淇℃伅</td>
-<td>“鐢ㄦ埛鏄暟鎹瀛﹀”</td>
+<td>用户角色、偏好、知识水平</td>
+<td>了解到用户的任何个人信息</td>
+<td>“用户是数据科学家”</td>
 </tr>
 <tr>
 <td>feedback</td>
-<td>鐢ㄦ埛瀵瑰伐浣滄柟寮忕殑鎸囧</td>
-<td>鐢ㄦ埛绾犳鎴栫‘璁や綘鐨勫仛娉?</td>
-<td>“涓嶈鍦ㄦ祴璇曚腑mock鏁版嵁搴?</td>
+<td>用户对工作方式的指导</td>
+<td>用户纠正或确认你的做法</td>
+<td>“不要在测试中mock数据库”</td>
 </tr>
 <tr>
 <td>project</td>
-<td>椤圭洰鍔ㄦ€併€佺洰鏍囥€佹埅姝㈡棩鏈?</td>
-<td>浜嗚В鍒颁唬鐮?git鏃犳硶鎺ㄦ柇鐨勯」鐩俊鎭?</td>
-<td>“鍛ㄥ洓寮€濮嬩唬鐮佸喕缁?</td>
+<td>项目动态、目标、截止日期</td>
+<td>了解到代码&#x2F;git无法推断的项目信息</td>
+<td>“周四开始代码冻结”</td>
 </tr>
 <tr>
 <td>reference</td>
-<td>澶栭儴绯荤粺鐨勬寚寮?</td>
-<td>浜嗚В鍒板閮ㄨ祫婧愮殑浣嶇疆鍜岀敤閫?</td>
-<td>“pipeline bug鍦↙inear杩借釜”</td>
+<td>外部系统的指引</td>
+<td>了解到外部资源的位置和用途</td>
+<td>“pipeline bug在Linear追踪”</td>
 </tr>
 </tbody></table>
-<h3 id="3-4-Memory鍐欏叆鐨勪袱鏉¤矾寰"><a href="#3-4-Memory鍐欏叆鐨勪袱鏉¤矾寰" class="headerlink" title="3.4 Memory鍐欏叆鐨勪袱鏉¤矾寰?"></a>3.4 Memory鍐欏叆鐨勪袱鏉¤矾寰?</h3><figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-attribute">璺緞A锛氫富妯″瀷鐩存帴鍐?  椹卞姩鏂瑰紡</span><span class="hljs-punctuation">:</span> <span class="hljs-string">System Prompt涓殑memory琛屼负鎸囦护</span><br>  <span class="hljs-attribute">鎵ц鑰? 涓籄gent鑷繁锛堝湪姝ｅ父瀵硅瘽杩囩▼涓級</span><br><span class="hljs-attribute">  鐗圭偣</span><span class="hljs-punctuation">:</span> <span class="hljs-string">鐢ㄦ埛璇?璁颁綇鎴戝枩娆abs&quot; 鈫?涓绘ā鍨嬬洿鎺ヨ皟鐢╓rite鍐檓emory鏂囦欢</span><br><br><span class="hljs-attribute">璺緞B锛氬悗鍙癳xtractMemories瀛怉gent</span><br><span class="hljs-attribute">  椹卞姩鏂瑰紡</span><span class="hljs-punctuation">:</span> <span class="hljs-string">stopHooks.ts 鈫?extractMemories()</span><br>  <span class="hljs-attribute">鎵ц鑰? Fork鍑虹殑瀛怉gent锛堝彈闄愭潈闄愶級</span><br><span class="hljs-attribute">  鐗圭偣</span><span class="hljs-punctuation">:</span> <span class="hljs-string">鍥炲悎缁撴潫鍚庯紝鍚庡彴鑷姩鍒嗘瀽瀵硅瘽锛屾彁鐐煎€煎緱淇濆瓨鐨勪俊鎭?```</span><br><br><span class="hljs-comment">### 3.5 AutoDream锛氱绾胯蹇嗗珐鍥?</span><br>**瑙﹀彂鏉′欢**锛?<br><span class="hljs-bullet">-</span> <span class="hljs-string">璺濈涓婃 鈮?24灏忔椂</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">绱Н 鈮?5涓柊session</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">鑾峰彇鏂囦欢閿侊紙闃插苟鍙戯級</span><br><br>**鍥涗釜闃舵**锛?<br>1. **Orient锛堝畾鍚戯級**锛氭壂鎻忓凡鏈夎蹇嗭紝浜嗚В褰撳墠鐭ヨ瘑搴撶姸鎬?2. **Gather锛堥噰闆嗭級**锛氫粠鏃ュ織鍜屼細璇濊浆褰曚腑鎻愬彇鏂扮煡璇?3. **Integrate锛堟暣鍚堬級**锛氬悎骞舵柊鏃х煡璇嗭紝淇鐭涚浘锛屽幓閲?4. **Prune锛堜慨鍓級**锛氱簿绠€绱㈠紩锛屽垹闄ょ煕鐩炬潯鐩紝浼樺寲璁板繂缁撴瀯<br><br>**鎶€鏈粡楠?*锛?<br><span class="hljs-bullet">-</span> <span class="hljs-string">璁板繂涓嶆槸鍗曚竴鐨勶紝鑰屾槸鍒嗗眰鐨?- 浠?璁板綍瀵硅瘽&quot;鍒?瀛︿範鐭ヨ瘑&quot;鐨勮嚜鎴戣繘鍖?- 姣忔浜や簰 鈫?鎻愬彇璁板繂 鈫?瀹氭湡鏁村悎 鈫?鏇存柊璁ょ煡 鈫?鎸囧涓嬩竴娆′氦浜?</span><br><span class="hljs-comment">### 3.6 Memory涓诲姩鍙洖鏈哄埗锛圓ctive Recall锛?</span><br>**瀹屾暣鍙洖娴佺▼**锛?<br>1. 鎵弿memory鐩綍锛堟渶澶?00涓枃浠讹級<br>2. 鍘婚噸杩囨护锛坅lreadySurfaced闆嗗悎锛?3. 鏋勫缓鍊欓€夋竻鍗?4. Sonnet sideQuery鎵撳垎閫夋嫨锛堚墹5涓渶鐩稿叧锛?5. 璇诲彇瀹屾暣鍐呭+娉ㄥ叆<br>6. 鏇存柊alreadySurfaced<br><br>**鎶€鏈粡楠?*锛?<br><span class="hljs-bullet">-</span> <span class="hljs-string">鐢⊿onnet鑰屼笉鏄疧pus锛氭绱㈡帓搴忎换鍔★紝Sonnet鏇村揩鏇翠究瀹?- 鍙湅frontmatter鎽樿锛氫笉璇诲畬鏁存枃浠跺唴瀹规潵鍖归厤</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">鍚屼竴鏉¤蹇嗗湪涓€涓細璇濅腑鏈€澶氳娉ㄥ叆涓€娆★紝閬垮厤娴垂token</span><br><br>***<br><br><span class="hljs-comment">## 4. 澶欰gent鍗忎綔锛氫粠鍗曞叺浣滄垬鍒板垎甯冨紡鍐涘洟</span><br><br><span class="hljs-comment">### 4.1 涓轰粈涔堥渶瑕佸Agent锛?</span><br>鍗曚釜Agent鏈変笁涓ぉ鐒剁摱棰堬細<br><br><span class="hljs-bullet">-</span> <span class="hljs-string">**涓婁笅鏂囨薄鏌?* 鈥?涓€涓换鍔＄殑涓棿缁撴灉浼氭薄鏌撲富瀵硅瘽鍘嗗彶</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">**鏃犳硶骞惰** 鈥?鍙兘涓茶鎵ц锛屾晥鐜囦綆</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">**鏃犳硶涓撲笟鍖?* 鈥?涓€涓狝gent瑕佸鐞嗘墍鏈夌被鍨嬬殑浠诲姟</span><br><br><span class="hljs-comment">### 4.2 涓夌鍗忎綔妯″紡</span><br><br>| 妯″紡       | 鐗圭偣          | 閫傜敤鍦烘櫙        | 缂撳瓨        |<br>| -------- | ----------- | ----------- | --------- |<br>| Fork     | 缁ф壙鐖朵笂涓嬫枃锛岀紦瀛樻渶浼?| 璋冩煡銆佺爺绌?      | 鍏变韩鐖剁骇cache |<br>| Subagent | 涓撳椤鹃棶锛岀嫭绔嬩笂涓嬫枃  | 闇€瑕佺嫭绔嬭瑙?鐗瑰畾瑙掕壊 | 鐙珛缂撳瓨      |<br>| Swarm    | 鎸佷箙鍖栧洟闃燂紝鍒嗗竷寮忓崗浣?| 澶欰gent闀挎湡鍗忎綔  | 鍚勮嚜鐙珛      |<br><br><span class="hljs-comment">### 4.3 瀛怉gent鍏变韩Prompt缂撳瓨</span><br><br>**鏈€鍏抽敭鐨勫彂鐜?*锛氬綋Claude Code fork涓€涓瓙Agent鏃讹紝瀹冧細鍒涘缓涓€涓笌鐖朵笂涓嬫枃瀛楄妭绾у畬鍏ㄤ竴鑷寸殑鍓湰銆傝€孉PI浼氬杩欎釜涓婁笅鏂囧仛缂撳瓨銆?<br>**缁撹**锛氬悓鏃跺惎鍔?涓狝gent澶勭悊涓嶅悓浠诲姟锛屾垚鏈嚑涔庡拰1涓狝gent椤哄簭鎵ц宸笉澶氥€?<br>**鎶€鏈粡楠?*锛?<br><span class="hljs-bullet">-</span> <span class="hljs-string">Fork鐩存帴澶嶅埗鐖剁骇娓叉煋鍚庣殑system prompt瀛楄妭锛岄伩鍏岶eature Flag鍐封啋鐑垏鎹㈠鑷寸紦瀛樺け鏁?- 杩欐槸Cache鎰熺煡鐨勮璁?鈥?杩濧gent鐨勫垱寤烘柟寮忛兘瑕佽€冭檻缂撳瓨鍛戒腑鐜?</span><br><span class="hljs-comment">### 4.4 鍒嗗竷寮忔潈闄愮鐞?</span><br>Swarm鏈€绮惧鐨勮璁℃槸**鏉冮檺鍐掓场**锛?<br></code></pre></td></tr></table></figure>
-<p>Worker閬囧埌鏉冮檺鎻愮ず<br>  鈫?鍙戦€乸ermission_request鍒癓eader閭<br>  鈫?Leader鍦ㄧ粓绔睍绀哄璇濇锛堢敤鎴峰鎵癸級<br>  鈫?Leader鍙戦€乸ermission_response鍒癢orker閭<br>  鈫?Worker鏀跺埌鍝嶅簲锛岀户缁垨涓</p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs gherkin"><br><span class="hljs-symbol">*</span><span class="hljs-symbol">*</span>鎶€鏈粡楠?<span class="hljs-symbol">*</span>锛?<br>- 澶氫釜Worker鐨勬潈闄愯姹傛眹鎬诲埌Leader锛岀敤鎴峰彧闇€瀹℃壒涓€娆?- 鍗充娇鍦ㄥ悓杩涚▼锛屼篃鐢ㄦ枃浠堕偖绠憋紝淇濊瘉涓夌杩愯鏂瑰紡鐨勮涓轰竴鑷?<br><span class="hljs-comment">### 4.5 瀛怉gent鐨勪笁绉嶆墽琛屾ā鍨?</span><br>|<span class="hljs-string"> 妯″瀷       </span>|<span class="hljs-string"> 鎻忚堪                             </span>|<span class="hljs-string"> 缂撳瓨 </span>|<br>|<span class="hljs-string"> -------- </span>|<span class="hljs-string"> ------------------------------ </span>|<span class="hljs-string"> -- </span>|<br>|<span class="hljs-string"> fork     </span>|<span class="hljs-string"> 缁ф壙鐖朵笂涓嬫枃锛岀紦瀛樻渶浼?                   </span>|<span class="hljs-string"> 鍏变韩 </span>|<br>|<span class="hljs-string"> teammate </span>|<span class="hljs-string"> 鍦╰mux鎴杋Term涓紑鐙珛闈㈡澘锛岄€氳繃鏂囦欢&quot;閭&quot;閫氫俊   </span>|<span class="hljs-string"> 鐙珛 </span>|<br>|<span class="hljs-string"> worktree </span>|<span class="hljs-string"> 姣忎釜Agent涓€涓嫭绔媑it worktree锛屽悇鑷垎鏀殧绂?</span>|<span class="hljs-string"> 鐙珛 </span>|<br><br><span class="hljs-symbol">*</span><span class="hljs-symbol">*</span><span class="hljs-symbol">*</span><br><br><span class="hljs-comment">## 5. 宸ュ叿璋冪敤涓庡畨鍏ㄦ帶鍒?</span><br><span class="hljs-comment">### 5.1 宸ュ叿璋冪敤娴佺▼</span><br><br></code></pre></td></tr></table></figure>
-<p>妯″瀷杈撳嚭缁撴瀯鍖栧姩浣?  鈫?harness楠岃瘉璇ユ搷浣?  鈫?锛堝彲閫夛級璇锋眰鎵瑰噯<br>  鈫?鎵ц璇ユ搷浣?  鈫?灏嗘湁鐣岀粨鏋滃弽棣堝洖寰幆</p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs gherkin"><br><span class="hljs-comment">### 5.2 鏅鸿兘鎵瑰鐞嗘墽琛?</span><br>|<span class="hljs-string"> 绫诲瀷             </span>|<span class="hljs-string"> 宸ュ叿                     </span>|<span class="hljs-string"> 鎵ц鏂瑰紡      </span>|<br>|<span class="hljs-string"> -------------- </span>|<span class="hljs-string"> ---------------------- </span>|<span class="hljs-string"> --------- </span>|<br>|<span class="hljs-string"> concurrent锛堝苟鍙戯級 </span>|<span class="hljs-string"> 鍙鎿嶄綔锛堣鏂囦欢銆佹悳绱€乬lob鍖归厤锛?   </span>|<span class="hljs-string"> 鏈€澶?0涓苟鍙?  </span>|<br>|<span class="hljs-string"> serial锛堜覆琛岋級     </span>|<span class="hljs-string"> 鏈変慨鏀硅涓虹殑鎿嶄綔锛堢紪杈戙€佸啓鍏ャ€乥ash鍛戒护锛?</span>|<span class="hljs-string"> 閫愪釜鎵ц锛岄伩鍏嶅啿绐?</span>|<br><br><span class="hljs-comment">### 5.3 浜斿眰鏉冮檺閰嶇疆浣撶郴</span><br><br></code></pre></td></tr></table></figure>
-<p>policy &gt; flag &gt; local &gt; project &gt; user</p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs gherkin"><br><span class="hljs-symbol">*</span><span class="hljs-symbol">*</span>涓夌鏉冮檺妯″紡<span class="hljs-symbol">*</span><span class="hljs-symbol">*</span>锛?<br>- <span class="hljs-symbol">*</span><span class="hljs-symbol">*</span>bypass<span class="hljs-symbol">*</span><span class="hljs-symbol">*</span> 鈥?瀹屽叏涓嶅仛鏉冮檺妫€鏌ワ紙鍗遍櫓浣嗘瀬蹇級<br>- <span class="hljs-symbol">*</span><span class="hljs-symbol">*</span>allowEdits<span class="hljs-symbol">*</span><span class="hljs-symbol">*</span> 鈥?鑷姩鍏佽宸ヤ綔鐩綍鍐呯殑鏂囦欢缂栬緫<br>- <span class="hljs-symbol">*</span><span class="hljs-symbol">*</span>auto<span class="hljs-symbol">*</span><span class="hljs-symbol">*</span> 鈥?姣忎釜鎿嶄綔鐢变竴涓狶LM鍒嗙被鍣ㄥ垽鏂紙鏈€骞宠　锛?<br><span class="hljs-comment">### 5.4 Bash瀹夊叏鍒嗙被鍣細20+閬撴鏌ユ祦姘寸嚎</span><br><br>鏍稿績妫€鏌ワ細<br><br>- Shell鍏冨瓧绗︽娴?鈥?`$() `` &#123;&#125; <span class="hljs-variable">&lt;&gt;</span>` 绛?- 鍛戒护鏇挎崲妯″紡 鈥?`<span class="hljs-variable">&lt;() &gt;</span>() =() $(` 绛?- 鍗遍櫓鍙橀噺妫€娴?鈥?`$IFS銆?PATH` 绛?- 杈撳叆/杈撳嚭閲嶅畾鍚戞娴?- 鑺辨嫭鍙峰睍寮€妫€娴?鈥?`&#123;a,b,c&#125;` 缁曡繃<br>- 鍙嶆枩鏉犺浆涔夎繍绠楃 鈥?`\; \|<span class="hljs-string"> \&amp;` 绛?- 寮曞彿鍙嶅悓姝?鈥?`&quot;x\&quot;y&quot; \; echo ~/.ssh/id_rsa`</span><br><span class="hljs-string">- 鎺у埗瀛楃 + Unicode绌虹櫧瀛楃</span><br><span class="hljs-string">- jq绯荤粺鍑芥暟妫€娴?鈥?`system()/exec/...`</span><br><span class="hljs-string">- /proc鏂囦欢绯荤粺璁块棶 鈥?`/proc/self/environ` 绛?</span><br><span class="hljs-string">**Zsh涓撳睘闃插尽**锛?</span><br><span class="hljs-string">- `zmodload` 鈫?鍔犺浇鍗遍櫓妯″潡</span><br><span class="hljs-string">- `emulate` 鈫?eval绛変环鐗?- `zpty` 鈫?浼粓绔墽琛屽懡浠?- `ztcp` 鈫?TCP杩炴帴澶栨硠鏁版嵁</span><br><span class="hljs-string">- `zf_rm` 鈫?缁曡繃rm鏉冮檺妫€鏌?</span><br><span class="hljs-string">**鎶€鏈粡楠?*锛?</span><br><span class="hljs-string">- 姣忎釜妫€鏌ラ兘鏈夊敮涓€鐨刢heckId锛?-26锛夛紝瑙﹀彂鏃朵笂鎶ラ仴娴?- 娌欑鎵ц 鈥?鍗遍櫓鎿嶄綔寮哄埗娌欑</span><br><span class="hljs-string">- 缁嗙矑搴︽枃浠舵潈闄?鈥?鏁忔劅鏂囦欢鍙</span><br><span class="hljs-string">- 缃戠粶闅旂 鈥?鍙厑璁哥壒瀹氬煙鍚嶏紝API璋冪敤鐧藉悕鍗?</span><br><span class="hljs-string">***</span><br><span class="hljs-string"></span><br><span class="hljs-string">## 6. 鍙墿灞曟€т笌Hook绯荤粺</span><br><span class="hljs-string"></span><br><span class="hljs-string">### 6.1 25+鐢熷懡鍛ㄦ湡浜嬩欢</span><br><span class="hljs-string"></span><br><span class="hljs-string"></span>|<span class="hljs-string"> 绫诲埆       </span>|<span class="hljs-string"> 浜嬩欢                 </span>|<span class="hljs-string"> 璇存槑           </span>|<br>|<span class="hljs-string"> -------- </span>|<span class="hljs-string"> ------------------ </span>|<span class="hljs-string"> ------------ </span>|<br>|<span class="hljs-string"> 宸ュ叿鐩稿叧     </span>|<span class="hljs-string"> PreToolUse         </span>|<span class="hljs-string"> 宸ュ叿鎵ц鍓嶏紙鍙樆姝㈡墽琛岋級 </span>|<br>|<span class="hljs-string"> &lt;br /&gt;   </span>|<span class="hljs-string"> PostToolUse        </span>|<span class="hljs-string"> 宸ュ叿鎵ц鍚庯紙鍙鏌ョ粨鏋滐級 </span>|<br>|<span class="hljs-string"> &lt;br /&gt;   </span>|<span class="hljs-string"> PostToolUseFailure </span>|<span class="hljs-string"> 宸ュ叿鎵ц澶辫触鍚?     </span>|<br>|<span class="hljs-string"> &lt;br /&gt;   </span>|<span class="hljs-string"> PermissionDenied   </span>|<span class="hljs-string"> 鏉冮檺琚嫆缁濆悗       </span>|<br>|<span class="hljs-string"> &lt;br /&gt;   </span>|<span class="hljs-string"> PermissionRequest  </span>|<span class="hljs-string"> 鏉冮檺璇锋眰鏃?       </span>|<br>|<span class="hljs-string"> 浼氳瘽鐢熷懡鍛ㄦ湡   </span>|<span class="hljs-string"> UserPromptSubmit   </span>|<span class="hljs-string"> 鐢ㄦ埛鎻愪氦娑堟伅鏃?     </span>|<br>|<span class="hljs-string"> &lt;br /&gt;   </span>|<span class="hljs-string"> SessionStart       </span>|<span class="hljs-string"> 浼氳瘽寮€濮?        </span>|<br>|<span class="hljs-string"> &lt;br /&gt;   </span>|<span class="hljs-string"> SessionEnd         </span>|<span class="hljs-string"> 浼氳瘽缁撴潫         </span>|<br>|<span class="hljs-string"> &lt;br /&gt;   </span>|<span class="hljs-string"> Stop               </span>|<span class="hljs-string"> 妯″瀷瀹屾垚鍥炵瓟       </span>|<br>|<span class="hljs-string"> 鍘嬬缉鐩稿叧     </span>|<span class="hljs-string"> PreCompact         </span>|<span class="hljs-string"> 鍘嬬缉鍓?         </span>|<br>|<span class="hljs-string"> &lt;br /&gt;   </span>|<span class="hljs-string"> PostCompact        </span>|<span class="hljs-string"> 鍘嬬缉鍚?         </span>|<br>|<span class="hljs-string"> 瀛怉gent鐩稿叧 </span>|<span class="hljs-string"> SubagentStart      </span>|<span class="hljs-string"> 瀛怉gent鍚姩     </span>|<br>|<span class="hljs-string"> &lt;br /&gt;   </span>|<span class="hljs-string"> SubagentStop       </span>|<span class="hljs-string"> 瀛怉gent鍋滄     </span>|<br>|<span class="hljs-string"> 閰嶇疆鍙樻洿     </span>|<span class="hljs-string"> ConfigChange       </span>|<span class="hljs-string"> 閰嶇疆鍙樻洿         </span>|<br>|<span class="hljs-string"> &lt;br /&gt;   </span>|<span class="hljs-string"> CwdChanged         </span>|<span class="hljs-string"> 宸ヤ綔鐩綍鍙樻洿       </span>|<br>|<span class="hljs-string"> &lt;br /&gt;   </span>|<span class="hljs-string"> FileChanged        </span>|<span class="hljs-string"> 鏂囦欢鍙樻洿         </span>|<br><br><span class="hljs-comment">### 6.2 鍥涚Hook绫诲瀷</span><br><br>|<span class="hljs-string"> 绫诲瀷      </span>|<span class="hljs-string"> 璇存槑        </span>|<span class="hljs-string"> 绀轰緥                                        </span>|<br>|<span class="hljs-string"> ------- </span>|<span class="hljs-string"> --------- </span>|<span class="hljs-string"> ----------------------------------------- </span>|<br>|<span class="hljs-string"> command </span>|<span class="hljs-string"> 鎵цShell鍛戒护 </span>|<span class="hljs-string"> `&quot;command&quot;: &quot;eslint --fix&quot;`               </span>|<br>|<span class="hljs-string"> prompt  </span>|<span class="hljs-string"> 璁㎜LM杩涜楠岃瘉  </span>|<span class="hljs-string"> `&quot;prompt&quot;: &quot;妫€鏌?ARGUMENTS鏄惁瀹夊叏&quot;`            </span>|<br>|<span class="hljs-string"> agent   </span>|<span class="hljs-string"> 澶氳疆Agent楠岃瘉 </span>|<span class="hljs-string"> 澶嶆潅鐨勫畨鍏ㄥ鏌?                                  </span>|<br>|<span class="hljs-string"> http    </span>|<span class="hljs-string"> POST鍒板閮ㄦ湇鍔?</span>|<span class="hljs-string"> `&quot;url&quot;: &quot;https://audit.example.com/hook&quot;` </span>|<br><br><span class="hljs-comment">### 6.3 Hook鎵ц鏈哄埗</span><br><br></code></pre></td></tr></table></figure>
-<p>Hook瑙﹀彂<br>  鈫?鎸夋潵婧愭帓搴忥紙浼樺厛绾т粠浣庡埌楂橈級锛?  1. userSettings锛堝叏灞€锛?  2. projectSettings锛堥」鐩叡浜級<br>  3. localSettings锛堟湰鍦扮鏈夛級<br>  4. policySettings锛堜紒涓氱鐞嗭級<br>  5. pluginHooks锛堟彃浠舵敞鍐岋級<br>  6. sessionHooks锛堜細璇濅复鏃讹級<br>  鈫?鎵цHook锛堟湁瓒呮椂淇濇姢锛岄粯璁?0鍒嗛挓锛?  鈹溾攢鈹€ 閫€鍑虹爜0 鈫?鎴愬姛<br>  鈹溾攢鈹€ 閫€鍑虹爜2 鈫?闃诲鎬ч敊璇紙鍙兘闃绘宸ュ叿鎵ц锛?  鈹斺攢鈹€ 鍏朵粬閫€鍑虹爜 鈫?闈為樆濉炴€ц鍛?&#96;&#96;&#96;</p>
-<p>**鎶€鏈粡楠?*锛?</p>
+<h3 id="3-4-Memory写入的两条路径"><a href="#3-4-Memory写入的两条路径" class="headerlink" title="3.4 Memory写入的两条路径"></a>3.4 Memory写入的两条路径</h3><figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-attribute">路径A：主模型直接写</span><br><span class="hljs-attribute">  驱动方式</span><span class="hljs-punctuation">:</span> <span class="hljs-string">System Prompt中的memory行为指令</span><br>  <span class="hljs-attribute">执行者</span><span class="hljs-punctuation">:</span> <span class="hljs-string">主Agent自己（在正常对话过程中）</span><br>  <span class="hljs-attribute">特点</span><span class="hljs-punctuation">:</span> <span class="hljs-string">用户说&quot;记住我喜欢tabs&quot; → 主模型直接调用Write写memory文件</span><br><br><span class="hljs-attribute">路径B：后台extractMemories子Agent</span><br><span class="hljs-attribute">  驱动方式</span><span class="hljs-punctuation">:</span> <span class="hljs-string">stopHooks.ts → extractMemories()</span><br>  <span class="hljs-attribute">执行者</span><span class="hljs-punctuation">:</span> <span class="hljs-string">Fork出的子Agent（受限权限）</span><br>  <span class="hljs-attribute">特点</span><span class="hljs-punctuation">:</span> <span class="hljs-string">回合结束后，后台自动分析对话，提炼值得保存的信息</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-5-AutoDream：离线记忆巩固"><a href="#3-5-AutoDream：离线记忆巩固" class="headerlink" title="3.5 AutoDream：离线记忆巩固"></a>3.5 AutoDream：离线记忆巩固</h3><p><strong>触发条件</strong>：</p>
 <ul>
-<li>Hook绯荤粺鏄湡姝ｇ殑鎵╁睍API</li>
-<li>鍙互鍦ㄦ瘡娆℃彁闂椂鑷姩娉ㄥ叆additionalContext</li>
-<li>杩欐槸鏋勫缓”鑷畾涔夊紑鍙戠幆澧?鐨勬柟寮忊€斺€斾笉鏄啓鏇村ソ鐨刾rompt锛岃€屾槸鐩存帴鏀归€犵郴缁熸湰韬殑琛屼负</li>
+<li>距离上次 ≥ 24小时</li>
+<li>累积 ≥ 5个新session</li>
+<li>获取文件锁（防并发）</li>
+</ul>
+<p><strong>四个阶段</strong>：</p>
+<ol>
+<li><strong>Orient（定向）</strong>：扫描已有记忆，了解当前知识库状态</li>
+<li><strong>Gather（采集）</strong>：从日志和会话转录中提取新知识</li>
+<li><strong>Integrate（整合）</strong>：合并新旧知识，修正矛盾，去重</li>
+<li><strong>Prune（修剪）</strong>：精简索引，删除矛盾条目，优化记忆结构</li>
+</ol>
+<p><strong>技术经验</strong>：</p>
+<ul>
+<li>记忆不是单一的，而是分层的</li>
+<li>从”记录对话”到”学习知识”的自我进化</li>
+<li>每次交互 → 提取记忆 → 定期整合 → 更新认知 → 指导下一次交互</li>
+</ul>
+<h3 id="3-6-Memory主动召回机制（Active-Recall）"><a href="#3-6-Memory主动召回机制（Active-Recall）" class="headerlink" title="3.6 Memory主动召回机制（Active Recall）"></a>3.6 Memory主动召回机制（Active Recall）</h3><p><strong>完整召回流程</strong>：</p>
+<ol>
+<li>扫描memory目录（最多200个文件）</li>
+<li>去重过滤（alreadySurfaced集合）</li>
+<li>构建候选清单</li>
+<li>Sonnet sideQuery打分选择（≤5个最相关）</li>
+<li>读取完整内容+注入</li>
+<li>更新alreadySurfaced</li>
+</ol>
+<p><strong>技术经验</strong>：</p>
+<ul>
+<li>用Sonnet而不是Opus：检索排序任务，Sonnet更快更便宜</li>
+<li>只看frontmatter摘要：不读完整文件内容来匹配</li>
+<li>同一条记忆在一个会话中最多被注入一次，避免浪费token</li>
 </ul>
 <hr>
-<h2 id="7-鎬ц兘浼樺寲涓庣紦瀛樼瓥鐣"><a href="#7-鎬ц兘浼樺寲涓庣紦瀛樼瓥鐣" class="headerlink" title="7. 鎬ц兘浼樺寲涓庣紦瀛樼瓥鐣?"></a>7. 鎬ц兘浼樺寲涓庣紦瀛樼瓥鐣?</h2><h3 id="7-1-Cache鎰熺煡璁捐"><a href="#7-1-Cache鎰熺煡璁捐" class="headerlink" title="7.1 Cache鎰熺煡璁捐"></a>7.1 Cache鎰熺煡璁捐</h3><p>Claude Code鐨勬瘡涓璁″喅绛栭兘鍦ㄨ€冭檻缂撳瓨鍛戒腑鐜囷細</p>
+<h2 id="4-多Agent协作：从单兵作战到分布式军团"><a href="#4-多Agent协作：从单兵作战到分布式军团" class="headerlink" title="4. 多Agent协作：从单兵作战到分布式军团"></a>4. 多Agent协作：从单兵作战到分布式军团</h2><h3 id="4-1-为什么需要多Agent？"><a href="#4-1-为什么需要多Agent？" class="headerlink" title="4.1 为什么需要多Agent？"></a>4.1 为什么需要多Agent？</h3><p>单个Agent有三个天然瓶颈：</p>
+<ul>
+<li><strong>上下文污染</strong> — 一个任务的中间结果会污染主对话历史</li>
+<li><strong>无法并行</strong> — 只能串行执行，效率低</li>
+<li><strong>无法专业化</strong> — 一个Agent要处理所有类型的任务</li>
+</ul>
+<h3 id="4-2-三种协作模式"><a href="#4-2-三种协作模式" class="headerlink" title="4.2 三种协作模式"></a>4.2 三种协作模式</h3><table>
+<thead>
+<tr>
+<th>模式</th>
+<th>特点</th>
+<th>适用场景</th>
+<th>缓存</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Fork</td>
+<td>继承父上下文，缓存最优</td>
+<td>调查、研究</td>
+<td>共享父级cache</td>
+</tr>
+<tr>
+<td>Subagent</td>
+<td>专家顾问，独立上下文</td>
+<td>需要独立视角&#x2F;特定角色</td>
+<td>独立缓存</td>
+</tr>
+<tr>
+<td>Swarm</td>
+<td>持久化团队，分布式协作</td>
+<td>多Agent长期协作</td>
+<td>各自独立</td>
+</tr>
+</tbody></table>
+<h3 id="4-3-子Agent共享Prompt缓存"><a href="#4-3-子Agent共享Prompt缓存" class="headerlink" title="4.3 子Agent共享Prompt缓存"></a>4.3 子Agent共享Prompt缓存</h3><p><strong>最关键的发现</strong>：当Claude Code fork一个子Agent时，它会创建一个与父上下文字节级完全一致的副本。而API会对这个上下文做缓存。</p>
+<p><strong>结论</strong>：同时启动5个Agent处理不同任务，成本几乎和1个Agent顺序执行差不多。</p>
+<p><strong>技术经验</strong>：</p>
+<ul>
+<li>Fork直接复制父级渲染后的system prompt字节，避免Feature Flag冷→热切换导致缓存失效</li>
+<li>这是Cache感知的设计 — 连Agent的创建方式都要考虑缓存命中率</li>
+</ul>
+<h3 id="4-4-分布式权限管理"><a href="#4-4-分布式权限管理" class="headerlink" title="4.4 分布式权限管理"></a>4.4 分布式权限管理</h3><p>Swarm最精妙的设计是<strong>权限冒泡</strong>：</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sqf">Worker遇到权限提示<br>  ↓<br>发送permission_request到<span class="hljs-built_in">Leader</span>邮箱<br>  ↓<br><span class="hljs-built_in">Leader</span>在终端展示对话框（用户审批）<br>  ↓<br><span class="hljs-built_in">Leader</span>发送permission_response到Worker邮箱<br>  ↓<br>Worker收到响应，继续或中止<br></code></pre></td></tr></table></figure>
+
+<p><strong>技术经验</strong>：</p>
+<ul>
+<li>多个Worker的权限请求汇总到Leader，用户只需审批一次</li>
+<li>即使在同进程，也用文件邮箱，保证三种运行方式的行为一致</li>
+</ul>
+<h3 id="4-5-子Agent的三种执行模型"><a href="#4-5-子Agent的三种执行模型" class="headerlink" title="4.5 子Agent的三种执行模型"></a>4.5 子Agent的三种执行模型</h3><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>描述</th>
+<th>缓存</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fork</td>
+<td>继承父上下文，缓存最优</td>
+<td>共享</td>
+</tr>
+<tr>
+<td>teammate</td>
+<td>在tmux或iTerm中开独立面板，通过文件”邮箱”通信</td>
+<td>独立</td>
+</tr>
+<tr>
+<td>worktree</td>
+<td>每个Agent一个独立git worktree，各自分支隔离</td>
+<td>独立</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="5-工具调用与安全控制"><a href="#5-工具调用与安全控制" class="headerlink" title="5. 工具调用与安全控制"></a>5. 工具调用与安全控制</h2><h3 id="5-1-工具调用流程"><a href="#5-1-工具调用流程" class="headerlink" title="5.1 工具调用流程"></a>5.1 工具调用流程</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs">模型输出结构化动作<br>  ↓<br>harness验证该操作<br>  ↓<br>（可选）请求批准<br>  ↓<br>执行该操作<br>  ↓<br>将有界结果反馈回循环<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-2-智能批处理执行"><a href="#5-2-智能批处理执行" class="headerlink" title="5.2 智能批处理执行"></a>5.2 智能批处理执行</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>工具</th>
+<th>执行方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>concurrent（并发）</td>
+<td>只读操作（读文件、搜索、glob匹配）</td>
+<td>最多10个并发</td>
+</tr>
+<tr>
+<td>serial（串行）</td>
+<td>有修改行为的操作（编辑、写入、bash命令）</td>
+<td>逐个执行，避免冲突</td>
+</tr>
+</tbody></table>
+<h3 id="5-3-五层权限配置体系"><a href="#5-3-五层权限配置体系" class="headerlink" title="5.3 五层权限配置体系"></a>5.3 五层权限配置体系</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">policy</span> &gt; flag &gt; <span class="hljs-keyword">local</span> &gt; project &gt; <span class="hljs-keyword">user</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>三种权限模式</strong>：</p>
+<ul>
+<li><strong>bypass</strong> — 完全不做权限检查（危险但极快）</li>
+<li><strong>allowEdits</strong> — 自动允许工作目录内的文件编辑</li>
+<li><strong>auto</strong> — 每个操作由一个LLM分类器判断（最平衡）</li>
+</ul>
+<h3 id="5-4-Bash安全分类器：20-道检查流水线"><a href="#5-4-Bash安全分类器：20-道检查流水线" class="headerlink" title="5.4 Bash安全分类器：20+道检查流水线"></a>5.4 Bash安全分类器：20+道检查流水线</h3><p>核心检查：</p>
+<ul>
+<li>Shell元字符检测 — <code>$() `` &#123;&#125; &lt;&gt;</code> 等</li>
+<li>命令替换模式 — <code>&lt;() &gt;() =() $(</code> 等</li>
+<li>危险变量检测 — <code>$IFS、$PATH</code> 等</li>
+<li>输入&#x2F;输出重定向检测</li>
+<li>花括号展开检测 — <code>&#123;a,b,c&#125;</code> 绕过</li>
+<li>反斜杠转义运算符 — <code>\; \| \&amp;</code> 等</li>
+<li>引号反同步 — <code>&quot;x\&quot;y&quot; \; echo ~/.ssh/id_rsa</code></li>
+<li>控制字符 + Unicode空白字符</li>
+<li>jq系统函数检测 — <code>system()/exec/...</code></li>
+<li>&#x2F;proc文件系统访问 — <code>/proc/self/environ</code> 等</li>
+</ul>
+<p><strong>Zsh专属防御</strong>：</p>
+<ul>
+<li><code>zmodload</code> → 加载危险模块</li>
+<li><code>emulate</code> → eval等价物</li>
+<li><code>zpty</code> → 伪终端执行命令</li>
+<li><code>ztcp</code> → TCP连接外泄数据</li>
+<li><code>zf_rm</code> → 绕过rm权限检查</li>
+</ul>
+<p><strong>技术经验</strong>：</p>
+<ul>
+<li>每个检查都有唯一的checkId（1-26），触发时上报遥测</li>
+<li>沙箱执行 — 危险操作强制沙箱</li>
+<li>细粒度文件权限 — 敏感文件只读</li>
+<li>网络隔离 — 只允许特定域名，API调用白名单</li>
+</ul>
+<hr>
+<h2 id="6-可扩展性与Hook系统"><a href="#6-可扩展性与Hook系统" class="headerlink" title="6. 可扩展性与Hook系统"></a>6. 可扩展性与Hook系统</h2><h3 id="6-1-25-生命周期事件"><a href="#6-1-25-生命周期事件" class="headerlink" title="6.1 25+生命周期事件"></a>6.1 25+生命周期事件</h3><table>
+<thead>
+<tr>
+<th>类别</th>
+<th>事件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>工具相关</td>
+<td>PreToolUse</td>
+<td>工具执行前（可阻止执行）</td>
+</tr>
+<tr>
+<td><br /></td>
+<td>PostToolUse</td>
+<td>工具执行后（可检查结果）</td>
+</tr>
+<tr>
+<td><br /></td>
+<td>PostToolUseFailure</td>
+<td>工具执行失败后</td>
+</tr>
+<tr>
+<td><br /></td>
+<td>PermissionDenied</td>
+<td>权限被拒绝后</td>
+</tr>
+<tr>
+<td><br /></td>
+<td>PermissionRequest</td>
+<td>权限请求时</td>
+</tr>
+<tr>
+<td>会话生命周期</td>
+<td>UserPromptSubmit</td>
+<td>用户提交消息时</td>
+</tr>
+<tr>
+<td><br /></td>
+<td>SessionStart</td>
+<td>会话开始</td>
+</tr>
+<tr>
+<td><br /></td>
+<td>SessionEnd</td>
+<td>会话结束</td>
+</tr>
+<tr>
+<td><br /></td>
+<td>Stop</td>
+<td>模型完成回答</td>
+</tr>
+<tr>
+<td>压缩相关</td>
+<td>PreCompact</td>
+<td>压缩前</td>
+</tr>
+<tr>
+<td><br /></td>
+<td>PostCompact</td>
+<td>压缩后</td>
+</tr>
+<tr>
+<td>子Agent相关</td>
+<td>SubagentStart</td>
+<td>子Agent启动</td>
+</tr>
+<tr>
+<td><br /></td>
+<td>SubagentStop</td>
+<td>子Agent停止</td>
+</tr>
+<tr>
+<td>配置变更</td>
+<td>ConfigChange</td>
+<td>配置变更</td>
+</tr>
+<tr>
+<td><br /></td>
+<td>CwdChanged</td>
+<td>工作目录变更</td>
+</tr>
+<tr>
+<td><br /></td>
+<td>FileChanged</td>
+<td>文件变更</td>
+</tr>
+</tbody></table>
+<h3 id="6-2-四种Hook类型"><a href="#6-2-四种Hook类型" class="headerlink" title="6.2 四种Hook类型"></a>6.2 四种Hook类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>command</td>
+<td>执行Shell命令</td>
+<td><code>&quot;command&quot;: &quot;eslint --fix&quot;</code></td>
+</tr>
+<tr>
+<td>prompt</td>
+<td>让LLM进行验证</td>
+<td><code>&quot;prompt&quot;: &quot;检查$ARGUMENTS是否安全&quot;</code></td>
+</tr>
+<tr>
+<td>agent</td>
+<td>多轮Agent验证</td>
+<td>复杂的安全审查</td>
+</tr>
+<tr>
+<td>http</td>
+<td>POST到外部服务</td>
+<td><code>&quot;url&quot;: &quot;https://audit.example.com/hook&quot;</code></td>
+</tr>
+</tbody></table>
+<h3 id="6-3-Hook执行机制"><a href="#6-3-Hook执行机制" class="headerlink" title="6.3 Hook执行机制"></a>6.3 Hook执行机制</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs markdown">Hook触发<br>  ↓<br>按来源排序（优先级从低到高）：<br><span class="hljs-bullet">  1.</span> userSettings（全局）<br><span class="hljs-bullet">  2.</span> projectSettings（项目共享）<br><span class="hljs-bullet">  3.</span> localSettings（本地私有）<br><span class="hljs-bullet">  4.</span> policySettings（企业管理）<br><span class="hljs-bullet">  5.</span> pluginHooks（插件注册）<br><span class="hljs-bullet">  6.</span> sessionHooks（会话临时）<br>  ↓<br>执行Hook（有超时保护，默认10分钟）<br>  ├── 退出码0 → 成功<br>  ├── 退出码2 → 阻塞性错误（可能阻止工具执行）<br>  └── 其他退出码 → 非阻塞性警告<br></code></pre></td></tr></table></figure>
+
+<p><strong>技术经验</strong>：</p>
+<ul>
+<li>Hook系统是真正的扩展API</li>
+<li>可以在每次提问时自动注入additionalContext</li>
+<li>这是构建”自定义开发环境”的方式——不是写更好的prompt，而是直接改造系统本身的行为</li>
+</ul>
+<hr>
+<h2 id="7-性能优化与缓存策略"><a href="#7-性能优化与缓存策略" class="headerlink" title="7. 性能优化与缓存策略"></a>7. 性能优化与缓存策略</h2><h3 id="7-1-Cache感知设计"><a href="#7-1-Cache感知设计" class="headerlink" title="7.1 Cache感知设计"></a>7.1 Cache感知设计</h3><p>Claude Code的每个设计决策都在考虑缓存命中率：</p>
 <table>
 <thead>
 <tr>
-<th>璁捐</th>
-<th>缂撳瓨浼樺寲</th>
+<th>设计</th>
+<th>缓存优化</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>System Prompt涓ゅ眰鏋舵瀯</td>
-<td>闈欐€佸墠缂€璺ㄧ敤鎴峰叡浜?</td>
+<td>System Prompt两层架构</td>
+<td>静态前缀跨用户共享</td>
 </tr>
 <tr>
-<td>Fork瀛怉gent</td>
-<td>鐩存帴澶嶅埗鐖剁骇娓叉煋鍚庣殑瀛楄妭</td>
+<td>Fork子Agent</td>
+<td>直接复制父级渲染后的字节</td>
 </tr>
 <tr>
 <td>Cache Edits</td>
-<td>澧為噺鍒犻櫎锛屼繚鎸佺紦瀛樺懡涓?</td>
+<td>增量删除，保持缓存命中</td>
 </tr>
 <tr>
 <td>MCP Instructions</td>
-<td>浣跨敤DANGEROUS_uncachedSystemPromptSection</td>
+<td>使用DANGEROUS_uncachedSystemPromptSection</td>
 </tr>
 <tr>
 <td>Auto Compact</td>
-<td>Fork鎽樿agent澶嶇敤涓诲璇濈殑prompt cache</td>
+<td>Fork摘要agent复用主对话的prompt cache</td>
 </tr>
 </tbody></table>
-<h3 id="7-2-鍩虹璁炬柦鎰熺煡"><a href="#7-2-鍩虹璁炬柦鎰熺煡" class="headerlink" title="7.2 鍩虹璁炬柦鎰熺煡"></a>7.2 鍩虹璁炬柦鎰熺煡</h3><p>Agent鏍规嵁浠ヤ笅鍩虹璁炬柦绾︽潫璋冩暣琛屼负锛?</p>
+<h3 id="7-2-基础设施感知"><a href="#7-2-基础设施感知" class="headerlink" title="7.2 基础设施感知"></a>7.2 基础设施感知</h3><p>Agent根据以下基础设施约束调整行为：</p>
 <ul>
-<li>缂撳瓨杩囨湡鏃堕棿锛?鍒嗛挓TTL锛?- Token棰勭畻</li>
-<li>缁堢鐒︾偣鐘舵€?<br>**鎶€鏈粡楠?*锛?</li>
-<li>璁〢gent鐞嗚В鍩虹璁炬柦鐨勭害鏉燂紝鑰屼笉鏄洸鐩墽琛?- 杩欐槸宸ヤ笟绾I Agent鍜岀帺鍏稤emo鐨勫尯鍒?</li>
+<li>缓存过期时间（5分钟TTL）</li>
+<li>Token预算</li>
+<li>终端焦点状态</li>
 </ul>
-<h3 id="7-3-娴佸紡鏋舵瀯"><a href="#7-3-娴佸紡鏋舵瀯" class="headerlink" title="7.3 娴佸紡鏋舵瀯"></a>7.3 娴佸紡鏋舵瀯</h3><ul>
-<li>鏁翠釜鎵ц閾捐矾鍩轰簬async generator</li>
-<li>姣忎竴姝ラ兘浼氫互浜嬩欢娴佺殑褰㈠紡閫愭杈撳嚭</li>
-<li>鎸変笅Escape锛屽彲浠ュ共鍑€鍦颁腑鏂綋鍓嶅搷搴?- 涔嬪墠鐨勪笂涓嬫枃淇濈暀锛岃鎵撴柇鐨勮緭鍑鸿骞插噣涓㈠純</li>
+<p><strong>技术经验</strong>：</p>
+<ul>
+<li>让Agent理解基础设施的约束，而不是盲目执行</li>
+<li>这是工业级AI Agent和玩具Demo的区别</li>
+</ul>
+<h3 id="7-3-流式架构"><a href="#7-3-流式架构" class="headerlink" title="7.3 流式架构"></a>7.3 流式架构</h3><ul>
+<li>整个执行链路基于async generator</li>
+<li>每一步都会以事件流的形式逐步输出</li>
+<li>按下Escape，可以干净地中断当前响应</li>
+<li>之前的上下文保留，被打断的输出被干净丢弃</li>
 </ul>
 <hr>
-<h2 id="8-鑷富宸ヤ綔妯″紡"><a href="#8-鑷富宸ヤ綔妯″紡" class="headerlink" title="8. 鑷富宸ヤ綔妯″紡"></a>8. 鑷富宸ヤ綔妯″紡</h2><h3 id="8-1-Proactive妯″紡"><a href="#8-1-Proactive妯″紡" class="headerlink" title="8.1 Proactive妯″紡"></a>8.1 Proactive妯″紡</h3><p>褰撴縺娲籔ROACTIVE鎴朘AIROS妯″紡鏃讹紝浼氬垏鎹㈠埌涓€濂楀畬鍏ㄤ笉鍚岀殑System Prompt锛?</p>
+<h2 id="8-自主工作模式"><a href="#8-自主工作模式" class="headerlink" title="8. 自主工作模式"></a>8. 自主工作模式</h2><h3 id="8-1-Proactive模式"><a href="#8-1-Proactive模式" class="headerlink" title="8.1 Proactive模式"></a>8.1 Proactive模式</h3><p>当激活PROACTIVE或KAIROS模式时，会切换到一套完全不同的System Prompt：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">if</span> (<span class="hljs-variable constant_">PROACTIVE</span> || <span class="hljs-variable constant_">KAIROS</span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-title function_">getProactiveSystemPrompt</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p><strong>Proactive Prompt鍖呭惈</strong>锛?</p>
+<p><strong>Proactive Prompt包含</strong>：</p>
 <ul>
-<li>鑷富韬唤锛?You are an autonomous agent鈥︹€?</li>
-<li>瀹氭椂鍞ら啋锛歵ick鏈哄埗锛屼笉鐢ㄧ瓑鐢ㄦ埛杈撳叆锛岃嚜宸卞畾鏃堕啋鏉ュ共娲?- 鍚庡彴浠诲姟绠＄悊锛氬彲浠ュ湪鍚庡彴鎵ц闀挎湡浠诲姟</li>
-<li>鐒︾偣鎰熺煡锛氱煡閬撶敤鎴峰湪涓嶅湪鐪嬬粓绔紝鍔ㄦ€佽皟鏁磋涓?- 鐫＄湢璋冨害锛歋leepTool鏈哄埗锛屽悎鐞嗗畨鎺掑伐浣滃拰浼戠湢</li>
+<li>自主身份：”You are an autonomous agent……”</li>
+<li>定时唤醒：tick机制，不用等用户输入，自己定时醒来干活</li>
+<li>后台任务管理：可以在后台执行长期任务</li>
+<li>焦点感知：知道用户在不在看终端，动态调整行为</li>
+<li>睡眠调度：SleepTool机制，合理安排工作和休眠</li>
 </ul>
-<h3 id="8-2-缁堢鐒︾偣鎰熺煡"><a href="#8-2-缁堢鐒︾偣鎰熺煡" class="headerlink" title="8.2 缁堢鐒︾偣鎰熺煡"></a>8.2 缁堢鐒︾偣鎰熺煡</h3><table>
+<h3 id="8-2-终端焦点感知"><a href="#8-2-终端焦点感知" class="headerlink" title="8.2 终端焦点感知"></a>8.2 终端焦点感知</h3><table>
 <thead>
 <tr>
-<th>鐘舵€?</th>
-<th>琛屼负</th>
+<th>状态</th>
+<th>行为</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>Unfocused锛堢敤鎴风寮€锛?</td>
-<td>杩涘叆鑷富妯″紡锛屼富鍔ㄥ仛鍐冲畾锛岀洿鎺ユ彁浜や唬鐮侊紝涓嶉渶瑕佺瓑寰呯‘璁?</td>
+<td>Unfocused（用户离开）</td>
+<td>进入自主模式，主动做决定，直接提交代码，不需要等待确认</td>
 </tr>
 <tr>
-<td>Focused锛堢敤鎴峰湪鐪嬶級</td>
-<td>杩涘叆鍗忎綔妯″紡锛屽厛闂啀鍋氾紝绛夊緟鐢ㄦ埛鍙嶉锛屼繚鎸佷氦浜掑紡瀵硅瘽</td>
+<td>Focused（用户在看）</td>
+<td>进入协作模式，先问再做，等待用户反馈，保持交互式对话</td>
 </tr>
 </tbody></table>
-<h3 id="8-3-Token-Budget锛氱敤token閲忛┍鍔ㄧ殑鑷富宸ヤ綔"><a href="#8-3-Token-Budget锛氱敤token閲忛┍鍔ㄧ殑鑷富宸ヤ綔" class="headerlink" title="8.3 Token Budget锛氱敤token閲忛┍鍔ㄧ殑鑷富宸ヤ綔"></a>8.3 Token Budget锛氱敤token閲忛┍鍔ㄧ殑鑷富宸ヤ綔</h3><p><strong>闂幆鏈哄埗</strong>锛?</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ruby">鐢ㄦ埛鎸囧畾棰勭畻 鈫<span class="hljs-string">?a</span>gent鎸佺画宸ヤ綔 鈫<span class="hljs-string">?姣</span>忚疆妫€鏌ヨ繘搴?  鈫<span class="hljs-string">?鎺</span>ヨ繎<span class="hljs-number">90</span>%锛熷仠姝紝鎶ュ憡瀹屾垚<br>  鈫<span class="hljs-string">?鏀</span>剁泭閫掑噺锛熷仠姝紙杩炵画<span class="hljs-number">3</span>杞閲<span class="hljs-string">?5</span>00 token锛?  鈫<span class="hljs-string">?鏈</span>埌<span class="hljs-number">90</span>%锛熸敞鍏udge缁х画宸ヤ綔<br></code></pre></td></tr></table></figure>
+<h3 id="8-3-Token-Budget：用token量驱动的自主工作"><a href="#8-3-Token-Budget：用token量驱动的自主工作" class="headerlink" title="8.3 Token Budget：用token量驱动的自主工作"></a>8.3 Token Budget：用token量驱动的自主工作</h3><p><strong>闭环机制</strong>：</p>
+<figure class="highlight erlang-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs erlang-repl">用户指定预算 → agent持续工作 → 每轮检查进度<br>  → 接近<span class="hljs-number">90</span><span class="hljs-comment">%？停止，报告完成</span><br>  → 收益递减？停止（连续<span class="hljs-number">3</span>轮增量&lt;<span class="hljs-number">500</span> token）<br>  → 未到<span class="hljs-number">90</span><span class="hljs-comment">%？注入nudge继续工作</span><br></code></pre></td></tr></table></figure>
 
-<p><strong>鍏抽敭璁捐</strong>锛?</p>
+<p><strong>关键设计</strong>：</p>
 <ul>
-<li>System prompt涓殑token_budget section鏄紦瀛樼殑</li>
-<li>姣忚疆瀵硅瘽缁撴潫鍚庤嚜鍔ㄦ敞鍏udge娑堟伅</li>
-<li>鏀剁泭閫掑噺妫€娴嬶細杩炵画3杞互涓婏紝涓旀渶杩戜袱杞閲忛兘&lt;500 token锛岃嚜鍔ㄥ仠姝?</li>
+<li>System prompt中的token_budget section是缓存的</li>
+<li>每轮对话结束后自动注入nudge消息</li>
+<li>收益递减检测：连续3轮以上，且最近两轮增量都&lt;500 token，自动停止</li>
 </ul>
 <hr>
-<h2 id="9-閬ユ祴涓庣洃鎺т綋绯"><a href="#9-閬ユ祴涓庣洃鎺т綋绯" class="headerlink" title="9. 閬ユ祴涓庣洃鎺т綋绯?"></a>9. 閬ユ祴涓庣洃鎺т綋绯?</h2><h3 id="9-1-涓夋潯鏁版嵁閫氶亾"><a href="#9-1-涓夋潯鏁版嵁閫氶亾" class="headerlink" title="9.1 涓夋潯鏁版嵁閫氶亾"></a>9.1 涓夋潯鏁版嵁閫氶亾</h3><table>
+<h2 id="9-遥测与监控体系"><a href="#9-遥测与监控体系" class="headerlink" title="9. 遥测与监控体系"></a>9. 遥测与监控体系</h2><h3 id="9-1-三条数据通道"><a href="#9-1-三条数据通道" class="headerlink" title="9.1 三条数据通道"></a>9.1 三条数据通道</h3><table>
 <thead>
 <tr>
-<th>閫氶亾</th>
-<th>鐗圭偣</th>
-<th>鍙叧闂?</th>
+<th>通道</th>
+<th>特点</th>
+<th>可关闭</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>API Header</td>
-<td>姣忔蹇呭彂锛屽祵鍏ystem prompt</td>
-<td>闇€璁剧疆鐜鍙橀噺</td>
+<td>每次必发，嵌入system prompt</td>
+<td>需设置环境变量</td>
 </tr>
 <tr>
 <td>1P Event Logging</td>
-<td>鏈€瀹屾暣锛岀敤浜庝骇鍝佷紭鍖?</td>
-<td>鍙叧闂?</td>
+<td>最完整，用于产品优化</td>
+<td>可关闭</td>
 </tr>
 <tr>
 <td>Datadog</td>
-<td>鏈€瀹炴椂锛岀敤浜庣洃鎺у拰鎶ヨ</td>
-<td>鍙叧闂?</td>
+<td>最实时，用于监控和报警</td>
+<td>可关闭</td>
 </tr>
 </tbody></table>
-<h3 id="9-2-浜斿眰鍏冩暟鎹"><a href="#9-2-浜斿眰鍏冩暟鎹" class="headerlink" title="9.2 浜斿眰鍏冩暟鎹?"></a>9.2 浜斿眰鍏冩暟鎹?</h3><ol>
-<li><strong>Core Metadata</strong>锛歮odel銆乻essionId銆乽serType銆乪ntrypoint绛?2. <strong>Env Context</strong>锛歱latform銆乼erminal銆乸ackageManagers銆乺untimes绛?3. <strong>Process Metrics</strong>锛歶ptime銆佸唴瀛樹娇鐢ㄣ€丆PU鍗犵敤</li>
-<li><strong>User Metadata</strong>锛歞eviceId銆乪mail銆乻ubscriptionType绛?5. <strong>PII鐗规潈瀛楁</strong>锛歴kill_name銆乸lugin_name銆乵arketplace_name</li>
+<h3 id="9-2-五层元数据"><a href="#9-2-五层元数据" class="headerlink" title="9.2 五层元数据"></a>9.2 五层元数据</h3><ol>
+<li><strong>Core Metadata</strong>：model、sessionId、userType、entrypoint等</li>
+<li><strong>Env Context</strong>：platform、terminal、packageManagers、runtimes等</li>
+<li><strong>Process Metrics</strong>：uptime、内存使用、CPU占用</li>
+<li><strong>User Metadata</strong>：deviceId、email、subscriptionType等</li>
+<li><strong>PII特权字段</strong>：skill_name、plugin_name、marketplace_name</li>
 </ol>
-<h3 id="9-3-闅愮淇濇姢鏈哄埗"><a href="#9-3-闅愮淇濇姢鏈哄埗" class="headerlink" title="9.3 闅愮淇濇姢鏈哄埗"></a>9.3 闅愮淇濇姢鏈哄埗</h3><ul>
-<li>MCP宸ュ叿鍚嶅綊涓€鍖?- 妯″瀷鍚嶈劚鏁?- userId鍝堝笇鍒嗘《</li>
-<li>dev鐗堟湰鍙锋埅鏂?- 鐢ㄦ埛prompt榛樿redacted</li>
+<h3 id="9-3-隐私保护机制"><a href="#9-3-隐私保护机制" class="headerlink" title="9.3 隐私保护机制"></a>9.3 隐私保护机制</h3><ul>
+<li>MCP工具名归一化</li>
+<li>模型名脱敏</li>
+<li>userId哈希分桶</li>
+<li>dev版本号截断</li>
+<li>用户prompt默认redacted</li>
 </ul>
 <hr>
-<h2 id="10-寮€鍙戦毦鐐逛笌鏈€浣冲疄璺"><a href="#10-寮€鍙戦毦鐐逛笌鏈€浣冲疄璺" class="headerlink" title="10. 寮€鍙戦毦鐐逛笌鏈€浣冲疄璺?"></a>10. 寮€鍙戦毦鐐逛笌鏈€浣冲疄璺?</h2><h3 id="10-1-鏍稿績闅剧偣涓庤В鍐虫柟妗"><a href="#10-1-鏍稿績闅剧偣涓庤В鍐虫柟妗" class="headerlink" title="10.1 鏍稿績闅剧偣涓庤В鍐虫柟妗?"></a>10.1 鏍稿績闅剧偣涓庤В鍐虫柟妗?</h3><table>
+<h2 id="10-开发难点与最佳实践"><a href="#10-开发难点与最佳实践" class="headerlink" title="10. 开发难点与最佳实践"></a>10. 开发难点与最佳实践</h2><h3 id="10-1-核心难点与解决方案"><a href="#10-1-核心难点与解决方案" class="headerlink" title="10.1 核心难点与解决方案"></a>10.1 核心难点与解决方案</h3><table>
 <thead>
 <tr>
-<th>闅剧偣</th>
-<th>瑙ｅ喅鏂规</th>
-<th>搴旂敤鍦烘櫙</th>
+<th>难点</th>
+<th>解决方案</th>
+<th>应用场景</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>涓婁笅鏂囪啫鑳€</td>
-<td>鍥涘眰閫掕繘Compact鏋舵瀯</td>
-<td>闀垮璇濄€佸鏂囦欢缂栬緫</td>
+<td>上下文膨胀</td>
+<td>四层递进Compact架构</td>
+<td>长对话、多文件编辑</td>
 </tr>
 <tr>
-<td>缂撳瓨澶辨晥</td>
-<td>涓ゅ眰缂撳瓨+鍒嗙晫绾?</td>
-<td>澶氱敤鎴峰叡浜満鏅?</td>
+<td>缓存失效</td>
+<td>两层缓存+分界线</td>
+<td>多用户共享场景</td>
 </tr>
 <tr>
-<td>璁板繂绠＄悊</td>
-<td>鍏眰璁板繂鏋舵瀯+AutoDream</td>
-<td>璺ㄤ細璇濈煡璇嗙Н绱?</td>
+<td>记忆管理</td>
+<td>六层记忆架构+AutoDream</td>
+<td>跨会话知识积累</td>
 </tr>
 <tr>
-<td>澶欰gent鍗忎綔</td>
+<td>多Agent协作</td>
 <td>Fork&#x2F;Subagent&#x2F;Swarm</td>
-<td>骞惰浠诲姟澶勭悊</td>
+<td>并行任务处理</td>
 </tr>
 <tr>
-<td>瀹夊叏鎺у埗</td>
-<td>20+閬撴鏌ユ祦姘寸嚎</td>
-<td>浠绘剰浠ｇ爜鎵ц</td>
+<td>安全控制</td>
+<td>20+道检查流水线</td>
+<td>任意代码执行</td>
 </tr>
 <tr>
-<td>鏉冮檺绠＄悊</td>
-<td>浜斿眰鏉冮檺閰嶇疆</td>
-<td>浼佷笟绾у簲鐢?</td>
+<td>权限管理</td>
+<td>五层权限配置</td>
+<td>企业级应用</td>
 </tr>
 <tr>
-<td>鑷富宸ヤ綔</td>
-<td>Proactive妯″紡+鐒︾偣鎰熺煡</td>
-<td>鍚庡彴浠诲姟鎵ц</td>
+<td>自主工作</td>
+<td>Proactive模式+焦点感知</td>
+<td>后台任务执行</td>
 </tr>
 </tbody></table>
-<h3 id="10-2-鏈€浣冲疄璺"><a href="#10-2-鏈€浣冲疄璺" class="headerlink" title="10.2 鏈€浣冲疄璺?"></a>10.2 鏈€浣冲疄璺?</h3><h4 id="10-2-1-CLAUDE-md鐨勪娇鐢"><a href="#10-2-1-CLAUDE-md鐨勪娇鐢" class="headerlink" title="10.2.1 CLAUDE.md鐨勪娇鐢?"></a>10.2.1 CLAUDE.md鐨勪娇鐢?</h4><p><strong>閿欒鐢ㄦ硶</strong>锛?</p>
+<h3 id="10-2-最佳实践"><a href="#10-2-最佳实践" class="headerlink" title="10.2 最佳实践"></a>10.2 最佳实践</h3><h4 id="10-2-1-CLAUDE-md的使用"><a href="#10-2-1-CLAUDE-md的使用" class="headerlink" title="10.2.1 CLAUDE.md的使用"></a>10.2.1 CLAUDE.md的使用</h4><p><strong>错误用法</strong>：</p>
 <ul>
-<li>绌烘枃浠?- 鍐欐垚涓€鏈?鍦ｇ粡”</li>
+<li>空文件</li>
+<li>写成一本”圣经”</li>
 </ul>
-<p><strong>姝ｇ‘鐢ㄦ硶</strong>锛?</p>
+<p><strong>正确用法</strong>：</p>
 <ul>
-<li>鎶婃灦鏋勫喅绛栧啓杩涘幓</li>
-<li>鏂囦欢绾﹀畾鍐欒繘鍘?- 娴嬭瘯妯″紡鍐欒繘鍘?- “缁濆涓嶈杩欐牱鍋?鐨勮鍒?<br><strong>灞傜骇缁撴瀯</strong>锛?</li>
-<li><code>~/.claude/CLAUDE.md</code> 鈥?鍏ㄥ眬锛堢紪鐮侀鏍笺€佸亸濂斤級</li>
-<li><code>./CLAUDE.md</code> 鈥?椤圭洰绾э紙鏋舵瀯鍐崇瓥銆佺害瀹氾級</li>
-<li><code>.claude/rules/*.md</code> 鈥?妯″潡鍖栬鍒?- <code>CLAUDE.local.md</code> 鈥?绉佹湁绗旇锛堣git蹇界暐锛?</li>
+<li>把架构决策写进去</li>
+<li>文件约定写进去</li>
+<li>测试模式写进去</li>
+<li>“绝对不要这样做”的规则</li>
 </ul>
-<h4 id="10-2-2-瀛怉gent骞惰"><a href="#10-2-2-瀛怉gent骞惰" class="headerlink" title="10.2.2 瀛怉gent骞惰"></a>10.2.2 瀛怉gent骞惰</h4><p><strong>閿欒鐢ㄦ硶</strong>锛?</p>
+<p><strong>层级结构</strong>：</p>
 <ul>
-<li>鎶奀laude Code褰撴垚鍗曠嚎绋嬫墦宸ヤ汉</li>
-<li>鍋氫竴涓换鍔?鈫?绛?鈫?鍐嶇粰涓嬩竴涓换鍔?<br><strong>姝ｇ‘鐢ㄦ硶</strong>锛?</li>
-<li>鍚屾椂璺?涓狝gent锛氬畨鍏ㄥ璁°€侀噸鏋勮璇併€佸啓娴嬭瘯銆佹洿鏂版枃妗ｃ€佷慨bug</li>
-<li>鍏ㄩ儴骞惰鎵ц锛屽叡浜紦瀛?</li>
+<li><code>~/.claude/CLAUDE.md</code> — 全局（编码风格、偏好）</li>
+<li><code>./CLAUDE.md</code> — 项目级（架构决策、约定）</li>
+<li><code>.claude/rules/*.md</code> — 模块化规则</li>
+<li><code>CLAUDE.local.md</code> — 私有笔记（被git忽略）</li>
 </ul>
-<h4 id="10-2-3-鏉冮檺閰嶇疆"><a href="#10-2-3-鏉冮檺閰嶇疆" class="headerlink" title="10.2.3 鏉冮檺閰嶇疆"></a>10.2.3 鏉冮檺閰嶇疆</h4><p><strong>閿欒鐢ㄦ硶</strong>锛?</p>
+<h4 id="10-2-2-子Agent并行"><a href="#10-2-2-子Agent并行" class="headerlink" title="10.2.2 子Agent并行"></a>10.2.2 子Agent并行</h4><p><strong>错误用法</strong>：</p>
 <ul>
-<li>姣忔寮瑰嚭”鏄惁鍏佽杩欎釜鎿嶄綔锛?閮界偣”鏄?</li>
+<li>把Claude Code当成单线程打工人</li>
+<li>做一个任务 → 等 → 再给下一个任务</li>
 </ul>
-<p><strong>姝ｇ‘鐢ㄦ硶</strong>锛?</p>
+<p><strong>正确用法</strong>：</p>
 <ul>
-<li>鍦╜~&#x2F;.claude&#x2F;settings.json&#96;閲岄厤缃?- 鐢╣lob妯″紡瀹氫箟鍝簺鎿嶄綔榛樿鍏佽</li>
-<li>閰嶇疆涓€娆★紝灏卞埆鍐嶇偣浜?</li>
+<li>同时跑5个Agent：安全审计、重构认证、写测试、更新文档、修bug</li>
+<li>全部并行执行，共享缓存</li>
 </ul>
-<h4 id="10-2-4-浼氳瘽绠＄悊"><a href="#10-2-4-浼氳瘽绠＄悊" class="headerlink" title="10.2.4 浼氳瘽绠＄悊"></a>10.2.4 浼氳瘽绠＄悊</h4><p><strong>閿欒鐢ㄦ硶</strong>锛?</p>
+<h4 id="10-2-3-权限配置"><a href="#10-2-3-权限配置" class="headerlink" title="10.2.3 权限配置"></a>10.2.3 权限配置</h4><p><strong>错误用法</strong>：</p>
 <ul>
-<li>姣忔鎵撳紑Claude Code锛岄兘鏂板紑涓€涓猻ession</li>
+<li>每次弹出”是否允许这个操作？”都点”是”</li>
 </ul>
-<p><strong>姝ｇ‘鐢ㄦ硶</strong>锛?</p>
+<p><strong>正确用法</strong>：</p>
 <ul>
-<li>鐢╜–continue&#96;</li>
-<li>璁╀笂涓嬫枃涓嶆柇绉疮</li>
-<li>璁﹕ession memory鎸佺画娌夋穩缁忛獙</li>
-<li>鎶奰&#x2F;compact&#96;褰撴垚娓告垙閲岀殑”鎵嬪姩瀛樻。鐐?</li>
+<li>在<code>~/.claude/settings.json</code>里配置</li>
+<li>用glob模式定义哪些操作默认允许</li>
+<li>配置一次，就别再点了</li>
 </ul>
-<h3 id="10-3-娉ㄦ剰浜嬮」"><a href="#10-3-娉ㄦ剰浜嬮」" class="headerlink" title="10.3 娉ㄦ剰浜嬮」"></a>10.3 娉ㄦ剰浜嬮」</h3><ol>
-<li>**浠€涔堜笉搴旇淇濆瓨鍒拌蹇?*锛?   - 鉂?浠ｇ爜妯″紡銆佹灦鏋勩€佹枃浠惰矾寰?鈫?鍙互閫氳繃璇讳唬鐮佽幏寰?   - 鉂?Git鍘嗗彶銆佹渶杩戝彉鏇?鈫?git log&#x2F;git blame鏄潈濞佹潵婧?   - 鉂?璋冭瘯鏂规鎴栦慨澶嶉厤鏂?鈫?淇鍦ㄤ唬鐮侀噷锛宑ommit message鏈変笂涓嬫枃<ul>
-<li>鉂?CLAUDE.md涓凡璁板綍鐨勫唴瀹?鈫?涓嶈閲嶅</li>
-<li>鉂?涓存椂浠诲姟缁嗚妭 鈫?鐢═ask绯荤粺锛屼笉瑕佸啓杩涢暱鏈熻蹇?2. **Memory鏂伴矞搴︽満鍒?*锛?   - 璁板繂鏄椂闂寸偣蹇収锛屼笉鏄疄鏃剁姸鎬?   - 鐢ㄨ蹇嗗仛璧风偣锛屼絾琛屽姩鍓嶈楠岃瘉</li>
-<li>甯﹁鍙峰紩鐢ㄧ殑杩囨湡淇℃伅鍙嶈€岃閿欒鐪嬭捣鏉ユ洿鏉冨▉</li>
+<h4 id="10-2-4-会话管理"><a href="#10-2-4-会话管理" class="headerlink" title="10.2.4 会话管理"></a>10.2.4 会话管理</h4><p><strong>错误用法</strong>：</p>
+<ul>
+<li>每次打开Claude Code，都新开一个session</li>
+</ul>
+<p><strong>正确用法</strong>：</p>
+<ul>
+<li>用<code>--continue</code></li>
+<li>让上下文不断积累</li>
+<li>让session memory持续沉淀经验</li>
+<li>把<code>/compact</code>当成游戏里的”手动存档点”</li>
+</ul>
+<h3 id="10-3-注意事项"><a href="#10-3-注意事项" class="headerlink" title="10.3 注意事项"></a>10.3 注意事项</h3><ol>
+<li><strong>什么不应该保存到记忆</strong>：<ul>
+<li>❌ 代码模式、架构、文件路径 → 可以通过读代码获得</li>
+<li>❌ Git历史、最近变更 → git log&#x2F;git blame是权威来源</li>
+<li>❌ 调试方案或修复配方 → 修复在代码里，commit message有上下文</li>
+<li>❌ CLAUDE.md中已记录的内容 → 不要重复</li>
+<li>❌ 临时任务细节 → 用Task系统，不要写进长期记忆</li>
 </ul>
 </li>
-<li>**鍘嬬缉鍚庢仮澶?*锛?   - 鑷姩娉ㄥ叆鏈€杩?涓枃浠剁殑鏈€鏂板唴瀹癸紙姣忔枃浠垛墹5K token锛屾€婚绠?0K锛?   - 宸叉縺娲荤殑Skills锛堟瘡涓墹5K token锛屾€婚绠?5K锛?   - MCP Instructions Delta</li>
+<li><strong>Memory新鲜度机制</strong>：<ul>
+<li>记忆是时间点快照，不是实时状态</li>
+<li>用记忆做起点，但行动前要验证</li>
+<li>带行号引用的过期信息反而让错误看起来更权威</li>
+</ul>
+</li>
+<li><strong>压缩后恢复</strong>：<ul>
+<li>自动注入最近5个文件的最新内容（每文件≤5K token，总预算50K）</li>
+<li>已激活的Skills（每个≤5K token，总预算25K）</li>
+<li>MCP Instructions Delta</li>
+</ul>
+</li>
 </ol>
 <hr>
-<h2 id="11-鎬荤粨涓庡惎绀"><a href="#11-鎬荤粨涓庡惎绀" class="headerlink" title="11. 鎬荤粨涓庡惎绀?"></a>11. 鎬荤粨涓庡惎绀?</h2><h3 id="11-1-涓夊ぇ鏀煴"><a href="#11-1-涓夊ぇ鏀煴" class="headerlink" title="11.1 涓夊ぇ鏀煴"></a>11.1 涓夊ぇ鏀煴</h3><ol>
-<li><strong>缂撳瓨鏋舵瀯</strong> 鈥?璁╂棤闄愪笂涓嬫枃瀵硅瘽鍦ㄥ晢涓氫笂鍙<ul>
-<li>涓ゅ眰缂撳瓨锛堥潤鎬?鍔ㄦ€佸垎绂伙級</li>
-<li>鍥涘眰閫掕繘Compact鏋舵瀯</li>
-<li>鏁扮櫨涓囩敤鎴峰叡浜悓涓€浠介潤鎬乸rompt缂撳瓨</li>
+<h2 id="11-总结与启示"><a href="#11-总结与启示" class="headerlink" title="11. 总结与启示"></a>11. 总结与启示</h2><h3 id="11-1-三大支柱"><a href="#11-1-三大支柱" class="headerlink" title="11.1 三大支柱"></a>11.1 三大支柱</h3><ol>
+<li><strong>缓存架构</strong> — 让无限上下文对话在商业上可行<ul>
+<li>两层缓存（静态&#x2F;动态分离）</li>
+<li>四层递进Compact架构</li>
+<li>数百万用户共享同一份静态prompt缓存</li>
 </ul>
 </li>
-<li><strong>鑷垜杩涘寲璁板繂</strong> 鈥?浠?璁板綍瀵硅瘽”鍒?瀛︿範鐭ヨ瘑”<ul>
-<li>涓夊眰璁板繂浣撶郴锛圓uto&#x2F;Team&#x2F;Agent Memory锛?   - Auto Dream锛堥棴鐜嚜鎴戣繘鍖栵級</li>
-<li>姣?4灏忔椂+绱Н5涓細璇濆悗锛岃嚜鍔ㄥ弽鎬?3. *<em>澶氭ā寮忕紪鎺?</em> 鈥?浠?琚姩鍝嶅簲”鍒?涓诲姩鎵ц”</li>
-<li>Proactive妯″紡锛堢劍鐐规劅鐭?瀹氭椂鍞ら啋+Skill Discovery+Token Budget锛?   - 澶欰gent鍗忎綔锛團ork&#x2F;Subagent&#x2F;Swarm锛?   - 鐢╰oken閲忛┍鍔ㄧ殑鑷富宸ヤ綔</li>
+<li><strong>自我进化记忆</strong> — 从”记录对话”到”学习知识”<ul>
+<li>三层记忆体系（Auto&#x2F;Team&#x2F;Agent Memory）</li>
+<li>Auto Dream（闭环自我进化）</li>
+<li>每24小时+累积5个会话后，自动反思</li>
 </ul>
 </li>
-</ol>
-<h3 id="11-2-璁捐鍝插"><a href="#11-2-璁捐鍝插" class="headerlink" title="11.2 璁捐鍝插"></a>11.2 璁捐鍝插</h3><ol>
-<li><strong>Cache鎰熺煡</strong>锛?   - Fork鐩存帴澶嶅埗鐖剁骇娓叉煋鍚庣殑system prompt瀛楄妭<ul>
-<li>Agent鏍规嵁缂撳瓨杩囨湡鏃堕棿锛?鍒嗛挓TTL锛夊喅瀹歴leep鏃堕暱</li>
-<li>杩濧gent鐨勫垱寤烘柟寮忛兘瑕佽€冭檻缂撳瓨鍛戒腑鐜?2. <strong>鍩虹璁炬柦鎰熺煡</strong>锛?   - Agent鎰熺煡缂撳瓨TTL銆乼oken棰勭畻銆佺粓绔劍鐐圭姸鎬?   - 鎹璋冩暣琛屼负鑺傚锛岄伩鍏嶆棤鏁堝敜閱?   - 璁〢gent鐞嗚В鍩虹璁炬柦鐨勭害鏉燂紝鑰屼笉鏄洸鐩墽琛?</li>
-</ul>
-</li>
-</ol>
-<h3 id="11-3-瀵笰I-Agent寮€鍙戠殑鍚ず"><a href="#11-3-瀵笰I-Agent寮€鍙戠殑鍚ず" class="headerlink" title="11.3 瀵笰I Agent寮€鍙戠殑鍚ず"></a>11.3 瀵笰I Agent寮€鍙戠殑鍚ず</h3><ol>
-<li><strong>涓婁笅鏂囩鐞嗘槸鏍稿績</strong>锛?   - 浜旂鍘嬬缉绛栫暐鐨勫瓨鍦紝鏈韩灏辫鏄庝笂涓嬫枃鏄摱棰?   - 鑳借交閲忚В鍐崇殑涓嶇敤閲嶉噺绾ф柟妗?   - 鍘嬬缉鍚庨渶瑕佽嚜鍔ㄦ仮澶嶅叧閿笂涓嬫枃</li>
-<li><strong>骞惰鍑犱箮鏄厤璐圭殑</strong>锛?   - 瀛怉gent鍏变韩prompt缂撳瓨<ul>
-<li>5涓狝gent鎴愭湰鈮?涓?   - 杩欎釜鏋舵瀯鏈潵灏辨槸涓哄苟琛岃璁＄殑</li>
-</ul>
-</li>
-<li>**璁板繂闇€瑕佸垎灞?*锛?   - 浠庣煭鏈熷埌闀挎湡锛岃鐩栦笉鍚屾椂闂村昂搴?   - 涓嶄粎鑳?璁颁綇”锛岃繕鑳?瀛︿範”鍜?杩涘寲”<ul>
-<li>鑷姩鎻愬彇銆佹暣鍚堛€佷慨姝ｇ煡璇?4. **瀹夊叏鏄灞傛鐨?*锛?   - 20+閬撴鏌ユ祦姘寸嚎</li>
-<li>娌欑鎵ц+缁嗙矑搴︽潈闄?缃戠粶闅旂</li>
-<li>姣忎釜妫€鏌ラ兘鏈夊敮涓€ID锛岃Е鍙戞椂涓婃姤閬ユ祴</li>
-</ul>
-</li>
-<li><strong>鍙墿灞曟€ф槸鍏抽敭</strong>锛?   - 25+鐢熷懡鍛ㄦ湡Hook浜嬩欢<ul>
-<li>鍥涚Hook绫诲瀷</li>
-<li>Hook绯荤粺鏄湡姝ｇ殑鎵╁睍API</li>
+<li><strong>多模式编排</strong> — 从”被动响应”到”主动执行”<ul>
+<li>Proactive模式（焦点感知+定时唤醒+Skill Discovery+Token Budget）</li>
+<li>多Agent协作（Fork&#x2F;Subagent&#x2F;Swarm）</li>
+<li>用token量驱动的自主工作</li>
 </ul>
 </li>
 </ol>
-<h3 id="11-4-缁撹"><a href="#11-4-缁撹" class="headerlink" title="11.4 缁撹"></a>11.4 缁撹</h3><p>Claude Code鐨勬牳蹇冪珵浜夊姏涓嶆槸鍗曚釜鍔熻兘锛岃€屾槸杩欏<strong>缂撳瓨鏋舵瀯+鑷垜杩涘寲璁板繂+澶氭ā寮忕紪鎺掔殑瀹屾暣鍩虹璁炬柦</strong>銆?<br>鐗瑰埆鏄痗ache_edits鍜屽垎灞傜紦瀛橈紝鏄鏃犻檺涓婁笅鏂囧璇濆湪鍟嗕笟涓婂彲琛岀殑鍏抽敭銆傛病鏈夎繖濂楁満鍒讹紝闀垮璇濈殑鎴愭湰浼氳浜у搧鏃犳硶瑙勬ā鍖栥€?<br>杩欐墠鏄伐涓氱骇AI Agent鐨勮璁″摬瀛︺€?</p>
+<h3 id="11-2-设计哲学"><a href="#11-2-设计哲学" class="headerlink" title="11.2 设计哲学"></a>11.2 设计哲学</h3><ol>
+<li><strong>Cache感知</strong>：<ul>
+<li>Fork直接复制父级渲染后的system prompt字节</li>
+<li>Agent根据缓存过期时间（5分钟TTL）决定sleep时长</li>
+<li>连Agent的创建方式都要考虑缓存命中率</li>
+</ul>
+</li>
+<li><strong>基础设施感知</strong>：<ul>
+<li>Agent感知缓存TTL、token预算、终端焦点状态</li>
+<li>据此调整行为节奏，避免无效唤醒</li>
+<li>让Agent理解基础设施的约束，而不是盲目执行</li>
+</ul>
+</li>
+</ol>
+<h3 id="11-3-对AI-Agent开发的启示"><a href="#11-3-对AI-Agent开发的启示" class="headerlink" title="11.3 对AI Agent开发的启示"></a>11.3 对AI Agent开发的启示</h3><ol>
+<li><strong>上下文管理是核心</strong>：<ul>
+<li>五种压缩策略的存在，本身就说明上下文是瓶颈</li>
+<li>能轻量解决的不用重量级方案</li>
+<li>压缩后需要自动恢复关键上下文</li>
+</ul>
+</li>
+<li><strong>并行几乎是免费的</strong>：<ul>
+<li>子Agent共享prompt缓存</li>
+<li>5个Agent成本≈1个</li>
+<li>这个架构本来就是为并行设计的</li>
+</ul>
+</li>
+<li><strong>记忆需要分层</strong>：<ul>
+<li>从短期到长期，覆盖不同时间尺度</li>
+<li>不仅能”记住”，还能”学习”和”进化”</li>
+<li>自动提取、整合、修正知识</li>
+</ul>
+</li>
+<li><strong>安全是多层次的</strong>：<ul>
+<li>20+道检查流水线</li>
+<li>沙箱执行+细粒度权限+网络隔离</li>
+<li>每个检查都有唯一ID，触发时上报遥测</li>
+</ul>
+</li>
+<li><strong>可扩展性是关键</strong>：<ul>
+<li>25+生命周期Hook事件</li>
+<li>四种Hook类型</li>
+<li>Hook系统是真正的扩展API</li>
+</ul>
+</li>
+</ol>
+<h3 id="11-4-结语"><a href="#11-4-结语" class="headerlink" title="11.4 结语"></a>11.4 结语</h3><p>Claude Code的核心竞争力不是单个功能，而是这套<strong>缓存架构+自我进化记忆+多模式编排的完整基础设施</strong>。</p>
+<p>特别是cache_edits和分层缓存，是让无限上下文对话在商业上可行的关键。没有这套机制，长对话的成本会让产品无法规模化。</p>
+<p>这才是工业级AI Agent的设计哲学。</p>
 <hr>
-<h2 id="鍙傝€冭祫鏂"><a href="#鍙傝€冭祫鏂" class="headerlink" title="鍙傝€冭祫鏂?"></a>鍙傝€冭祫鏂?</h2><ol>
-<li>[Coding Agent鐨勫叚涓富瑕佺粍鎴愰儴鍒哴(<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/2024797422635721566">https://zhuanlan.zhihu.com/p/2024797422635721566</a>)</li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/2025143219680286054">Claude Code CLI婧愮爜鍒嗘瀽锛氫粠Prompt鏋舵瀯鍒板伐涓氱骇AI Agent</a></li>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/90pYy0xP3VSSIc4SAQqGzg">绁炰汉鎷嗚ВCC婧愮爜锛欳laude Code鏈川涓婃槸涓€涓Agent缂栨帓骞冲彴</a></li>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/-3pUgSdqrBt68-bzUyTRaQ">Claude Code婧愮爜娣卞害瑙ｆ瀽锛氳繍琛屾満鍒朵笌Memory妯″潡璇﹁В</a></li>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/2024797422635721566">Coding Agent的六个主要组成部分</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/2025143219680286054">Claude Code CLI源码分析：从Prompt架构到工业级AI Agent</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/90pYy0xP3VSSIc4SAQqGzg">神人拆解CC源码：Claude Code本质上是一个多Agent编排平台</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/-3pUgSdqrBt68-bzUyTRaQ">Claude Code源码深度解析：运行机制与Memory模块详解</a></li>
 </ol>
 <hr>
-<p>*鏈枃鍩轰簬鍥涚瘒Claude Code婧愮爜瑙ｈ鏂囩珷绯荤粺鎬у垎鏋愭暣鐞嗭紝鏃ㄥ湪涓篈I Agent寮€鍙戣€呮彁渚涘彲澶嶇敤鐨勬妧鏈粡楠屽拰鏈€浣冲疄璺点€?</p>
 
                 
               </div>
@@ -871,7 +1231,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Agent%E6%9E%B6%E6%9E%84/">#Agent架构</a>
+        <a href="/tags/%E5%BC%80%E6%BA%90/">#开源</a>
+      
+        <a href="/tags/AI%E6%9E%B6%E6%9E%84/">#AI架构</a>
       
     </div>
   
@@ -988,6 +1350,19 @@
 
   
 
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.6.1/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('mermaid' in window) {
+        mermaid.init();
+      }
+    });
+  });
+</script>
 
 
 

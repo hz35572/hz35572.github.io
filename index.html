@@ -231,7 +231,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2026/04/22/claude-code-agent-architecture-analysis/" target="_self">
         <div>
-          # Claude Code婧愮爜娣卞害瑙ｆ瀽锛欰I Agent鏋舵瀯璁捐鐨勫叧閿妧鏈粡楠屾€荤粨  鎽樿锛氭湰鏂囧熀浜庡洓绡嘋laude Code婧愮爜瑙ｈ鏂囩珷锛岀郴缁熸€у垎鏋愪簡宸ヤ笟绾I Agent鐨勬灦鏋勮璁°€佹牳蹇冨姛鑳藉疄鐜般€佺畻娉曚紭鍖栫瓑鏂归潰鐨勬妧鏈鐐癸紝褰掔撼浜嗗叡鍚屾妧鏈疄璺典笌宸紓鍖栬В鍐虫柟妗堬紝鎻愬彇浜嗕换鍔¤鍒掋€佸伐鍏疯皟鐢ㄣ€佽蹇
+          Claude Code源码深度解析：AI Agent架构设计的关键技术经验总结 摘要：本文基于四篇Claude Code源码解读文章，系统性分析了工业级AI Agent的架构设计、核心功能实现、算法优化等方面的技术要点，归纳了共同技术实践与差异化解决方案，提取了任务规划、工具调用、记忆管理、多模态交互等关键环节的可复用技术经验，并整理了开发难点与最佳实践。   目录 核心架构设计 上下文管理：AI
         </div>
       </a>
 
@@ -239,7 +239,7 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2026-04-22 00:15" pubdate>
+            <time datetime="2026-04-22 00:29" pubdate>
               2026-04-22
             </time>
           </div>
@@ -270,7 +270,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Agent%E6%9E%B6%E6%9E%84/">#Agent架构</a>
+              <a href="/tags/%E5%BC%80%E6%BA%90/">#开源</a>
+            
+              <a href="/tags/AI%E6%9E%B6%E6%9E%84/">#AI架构</a>
             
           </div>
         
@@ -331,11 +333,11 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/RAG/">#RAG</a>
-            
               <a href="/tags/%E5%BC%80%E6%BA%90/">#开源</a>
             
               <a href="/tags/AI%E6%9E%B6%E6%9E%84/">#AI架构</a>
+            
+              <a href="/tags/RAG/">#RAG</a>
             
               <a href="/tags/%E6%96%87%E6%A1%A3%E7%90%86%E8%A7%A3/">#文档理解</a>
             
@@ -671,15 +673,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81/" target="_self">
-          ffmpeg视频解码
+        <a href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81/" target="_self">
+          ffmpeg视频编码
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81/" target="_self">
         <div>
-          一、视频解码流程使用ffmpeg解码视频帧主要可分为两大步骤：初始化解码器和解码视频帧，以下代码以mjpeg为例 1. 初始化解码器初始化解码器主要有以下步骤： （1）查找解码器 1234567// 查找MJPEG解码器    pCodec = avcodec_find_decoder_by_name(videoCodecName);    if (pCodec == nullptr) &#123
+          一、视频编码流程使用ffmpeg解码视频帧主要可分为两大步骤：初始化编码器和编码视频帧，以下代码以h264为例 1. 初始化编码器初始化编码器包含以下步骤： （1）查找编码器 12345videoCodec = avcodec_find_encoder_by_name(videoCodecName);if (!videoCodec) &#123;    release();    return f
         </div>
       </a>
 
@@ -732,15 +734,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81/" target="_self">
-          ffmpeg视频编码
+        <a href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81/" target="_self">
+          ffmpeg视频解码
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/03/ffmpeg%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81/" target="_self">
         <div>
-          一、视频编码流程使用ffmpeg解码视频帧主要可分为两大步骤：初始化编码器和编码视频帧，以下代码以h264为例 1. 初始化编码器初始化编码器包含以下步骤： （1）查找编码器 12345videoCodec = avcodec_find_encoder_by_name(videoCodecName);if (!videoCodec) &#123;    release();    return f
+          一、视频解码流程使用ffmpeg解码视频帧主要可分为两大步骤：初始化解码器和解码视频帧，以下代码以mjpeg为例 1. 初始化解码器初始化解码器主要有以下步骤： （1）查找解码器 1234567// 查找MJPEG解码器    pCodec = avcodec_find_decoder_by_name(videoCodecName);    if (pCodec == nullptr) &#123
         </div>
       </a>
 
